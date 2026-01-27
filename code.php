@@ -369,7 +369,7 @@ function GenerateCode()
 
         for($i = 0; $i < strlen($word); $i++)
         {
-            $code[] = $verification->GetCharacter($word{$i});
+            $code[] = $verification->GetCharacter($word[$i]);
         }
     }
     else

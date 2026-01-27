@@ -509,7 +509,7 @@ class Compiler
                     $s->AddWhere('tlx_pages.category_id', ST_MATCHES, $attrs['category']);
                 }
             }
-            else if( $attrs['category']{0} == '$' )
+            else if( $attrs['category'][0] == '$' )
             {
                 $attrs['category'] = $this->parse_vars($attrs['category']);
                 $s->AddWhere('tlx_pages.category_id', ST_MATCHES, '%CATEGORY_ID%');
@@ -1082,7 +1082,7 @@ class Compiler
         if( $attrs['counter'] )
             $output .= "    {$attrs['counter']} = 0;" . NEWLINE;
         
-        $output .= "    foreach (\$from$fromcount as $key_part{$attrs['var']}):" . NEWLINE;
+        $output .= "    foreach (\$from$fromcount as \$key_part[{$attrs['var']}]):" . NEWLINE;
         
         if( $attrs['counter'] )
             $output .= "    {$attrs['counter']}++;" . NEWLINE;
@@ -1183,7 +1183,7 @@ class Compiler
     {
         $parsed_tag = FALSE;
         
-        if( $tag{0} == '$' )
+        if( $tag[0] == '$' )
         {
             $parsed_tag = array();
             $parsed_tag['tag'] = $tag;

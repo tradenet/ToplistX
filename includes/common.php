@@ -1587,7 +1587,7 @@ function RelativeToAbsolute($start_url, $relative_url)
     $base_url = "{$parsed['scheme']}://{$parsed['host']}" . ($parsed['port'] ? ":{$parsed['port']}" : "");
     $path = $parsed['path'];
 
-    if( $relative_url{0} == '/' )
+    if( $relative_url[0] == '/' )
     {
         return $base_url . ResolvePath($relative_url);
     }
