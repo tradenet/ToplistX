@@ -32,7 +32,7 @@ function Initialize()
     global $errors, $t, $C, $template;
         
     // Already initialized
-    if( !empty($C['db_username']) )
+    if( !empty($C['db_username'] ?? null) )
     {
         $t->assign('mode', 'done');
         echo $t->parse($template);
