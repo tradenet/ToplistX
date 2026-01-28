@@ -960,7 +960,7 @@ function ToBool($value)
 
 function IsBool($value)
 {
-    return is_bool($value) || preg_match('/^true|false$/i', $value);
+    return is_bool($value) || ($value !== null && preg_match('/^true|false$/i', $value));
 }
 
 function SafeAddSlashes(&$string)
