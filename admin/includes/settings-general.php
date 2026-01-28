@@ -2,7 +2,10 @@
 if( !defined('ToplistX') ) die("Access denied");
 
 
-global $message, $errstr;
+global $C, $message, $errstr;
+if (!isset($C) || !is_array($C)) {
+    $C = array();
+}
 if (!isset($message)) {
     $message = '';
 }
@@ -50,10 +53,8 @@ $defaults['in_url'] = "{$defaults['install_url']}/in.php";
 $defaults['banner_url'] = "{$defaults['install_url']}/banners";
 $defaults['ranking_images_url'] = "{$defaults['install_url']}/images";
 
-if( !isset($C['from_email']) )
-{
-    $C = array_merge($C, $defaults);
-}
+
+$C = array_merge($defaults, $C);
 
 include_once('includes/header.php');
 ?>
