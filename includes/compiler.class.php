@@ -130,7 +130,7 @@ class Compiler
         return $this->compile($source, $compiled);
     }
 
-    function compile_tag(&$matches)
+    function compile_tag($matches)
     {        
 
          
