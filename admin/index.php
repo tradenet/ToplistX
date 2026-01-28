@@ -32,6 +32,12 @@ require_once('includes/functions.php');
 
 SetupRequest();
 
+// Set safe defaults for common request keys to avoid undefined index notices (PHP 8.2)
+$_REQUEST['r'] = $_REQUEST['r'] ?? '';
+$_REQUEST['ref_url'] = $_REQUEST['ref_url'] ?? null;
+$_REQUEST['w'] = $_REQUEST['w'] ?? '';
+$_REQUEST['username'] = $_REQUEST['username'] ?? '';
+
 $DB = new DB($C['db_hostname'], $C['db_username'], $C['db_password'], $C['db_name']);
 $DB->Connect();
 

@@ -35,6 +35,19 @@ header("Pragma: no-cache");
 
 SetupRequest();
 
+// Set safe defaults for common request keys to avoid undefined index notices (PHP 8.2)
+$_REQUEST['r'] = $_REQUEST['r'] ?? '';
+$_REQUEST['field'] = $_REQUEST['field'] ?? '';
+$_REQUEST['search'] = $_REQUEST['search'] ?? '';
+$_REQUEST['search_type'] = $_REQUEST['search_type'] ?? '';
+$_REQUEST['order'] = $_REQUEST['order'] ?? '';
+$_REQUEST['direction'] = $_REQUEST['direction'] ?? '';
+$_REQUEST['page'] = $_REQUEST['page'] ?? 1;
+$_REQUEST['status'] = $_REQUEST['status'] ?? array();
+$_REQUEST['categories'] = $_REQUEST['categories'] ?? array();
+$_REQUEST['username'] = $_REQUEST['username'] ?? '';
+$_REQUEST['w'] = $_REQUEST['w'] ?? '';
+
 // Setup database connection
 $DB = new DB($C['db_hostname'], $C['db_username'], $C['db_password'], $C['db_name']);
 $DB->Connect();

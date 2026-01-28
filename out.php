@@ -26,6 +26,9 @@ require_once('includes/config.php');
 require_once('includes/mysql.class.php');
 require_once('includes/common.php');
 
+// Set safe defaults for common request keys to avoid undefined index notices (PHP 8.2)
+$_REQUEST['id'] = $_REQUEST['id'] ?? '';
+
 $send_to = $C['alternate_out_url'];
 
 // Only allow GET requests
