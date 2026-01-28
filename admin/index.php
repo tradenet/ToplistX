@@ -56,8 +56,9 @@ if( ($error = ValidLogin()) === TRUE )
     else
     {
         $function = Request('r', '');
-
-        if( ValidFunction($function) )
+        if ($function === '') {
+            include_once('includes/main.php');
+        } else if( ValidFunction($function) )
         {
             call_user_func($function);
         }
