@@ -869,13 +869,13 @@ class Compiler
         if( strtolower($attrs['amount']) != 'all' )
             $s->SetLimit($attrs['amount']);
         
-        if( $attrs['exclude'] )
+        if( $attrs['exclude'] ?? null )
         {
             $attrs['exclude'] = FormatCommaSeparated($attrs['exclude']);            
             $s->AddWhere('name', ST_NOT_IN, $attrs['exclude']);
         }
         
-        if( $attrs['startswith'] )
+        if( $attrs['startswith'] ?? null )
         {
             $s->AddWhere('name', ST_STARTS, $attrs['startswith']);
         }
@@ -1078,12 +1078,12 @@ class Compiler
         $output = S_PHP . " \$from$fromcount = {$attrs['from']};" . NEWLINE;
         $output .= "if( is_array(\$from$fromcount) ):" . NEWLINE;
         
-        if( $attrs['counter'] )
+        if( $attrs['counter'] ?? null )
             $output .= "    {$attrs['counter']} = 0;" . NEWLINE;
 
         $output .= "    foreach (\$from$fromcount as " . $key_part . "{$attrs['var']}):" . NEWLINE;
 
-        if( $attrs['counter'] )
+        if( $attrs['counter'] ?? null )
             $output .= "    {$attrs['counter']}++;" . NEWLINE;
             
         $output .= E_PHP;
