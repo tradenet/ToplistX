@@ -37,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     $first_click = empty($_COOKIE['tlxfirst']) ? true : false;
     $sites_sent_to = !empty($_COOKIE['tlxsent']) ? unserialize(stripslashes($_COOKIE['tlxsent'])) : [];
     $send_to_trade = true;
-    $now = time() + 3600 * $C['timezone'];
+    $now = time() + 3600 * ($C['timezone'] ?? 0);
     $today = gmdate('Y-m-d', $now);
     $this_hour = gmdate('G', $now);
     $datetime = "$today-$this_hour";

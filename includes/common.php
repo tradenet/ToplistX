@@ -503,7 +503,7 @@ function RssTimezone()
 {
     global $C;
 
-    list($hour, $half) = explode('.', $C['timezone']);
+    list($hour, $half) = explode('.', $C['timezone'] ?? 0);
 
     return sprintf('%s%02d%02d', $hour < 0 ? '-' : '+', abs($hour), $half ? 30 : 0);
 }
@@ -512,7 +512,7 @@ function strtogmtime($string)
 {
     global $C;
 
-    $timezone = $C['timezone'];
+    $timezone = $C['timezone'] ?? 0;
 
     if( date('I', $timestamp) )
     {
@@ -683,15 +683,13 @@ function TimeWithTz($timestamp = null)
 {
     global $C;
 
-    $timezone = $C['timezone'];
+    $timezone = $C['timezone'] ?? 0;
 
-    if( $timestamp == null )
-    {
+    if ($timestamp == null) {
         $timestamp = time();
     }
 
-    if( date('I', $timestamp) )
-    {
+    if (date('I', $timestamp)) {
         $timezone++;
     }
 
@@ -1359,7 +1357,7 @@ function GetNameServers($url)
 
     $nameservers = array();
 
-    if( $C['dig'] )
+    if( $C['dig'] ?? false )
     {
         $parsed_url = @parse_url($url);
 
