@@ -1,9 +1,13 @@
 <?php
 if( !defined('ToplistX') ) die("Access denied");
 
-global $message;
+
+global $message, $errstr;
 if (!isset($message)) {
     $message = '';
+}
+if (!isset($errstr)) {
+    $errstr = '';
 }
 
 $defaults = array('document_root' => $_SERVER['DOCUMENT_ROOT'],
