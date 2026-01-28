@@ -16,36 +16,32 @@
 
 class Template
 {
+    private string $template_dir;
+    private string $compile_dir;
+    private string $cache_dir;
+    private bool $force_compile = false;
+    private bool $caching = false;
+    private int $cache_lifetime = 3600;
+    private bool $cache_modified_check = false;
+    private string $compiler_file = 'compiler.class.php';
+    private array $nocache;
+    private array $codecache;
+    private array $vars = [];
 
-    var $template_dir = '';
-    var $compile_dir = '';
-    var $cache_dir = '';
-    var $force_compile = FALSE;
-    var $caching =  FALSE;
-    var $cache_lifetime =  3600;
-    var $cache_modified_check = FALSE;
-    var $compiler_file = 'compiler.class.php';
-    var $nocache;
-    var $codecache;
-
-    var $vars = array();
-
-    function Template()
+    public function __construct()
     {
-        $this->vars['CAPTURES'] = array();
-        $this->nocache = array();
-        $this->codecache = array();
+        $this->vars['CAPTURES'] = [];
+        $this->nocache = [];
+        $this->codecache = [];
         $this->vars['t_timestamp'] = time();
         $this->template_dir = realpath(dirname(__FILE__) . '/../templates');
         $this->compile_dir = $this->template_dir . '/compiled';
         $this->cache_dir = $this->template_dir . '/cache';
     }
 
-
-    function cleanup()
+    public function cleanup(): void
     {
-        foreach( $this->vars as $key => $value )
-        {
+        foreach ($this->vars as $key => $value) {
             unset($this->vars[$key]);
         }
         

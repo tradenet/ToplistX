@@ -15,81 +15,60 @@
 
 
 // Initialization
-if( !defined('E_STRICT') ) define('E_STRICT', 2048);
-error_reporting(E_ALL & ~E_NOTICE & ~E_STRICT);
+error_reporting(E_ALL & ~E_NOTICE);
 @set_time_limit(0);
-@set_magic_quotes_runtime(0);
-if( function_exists('date_default_timezone_set') )
-{
-    date_default_timezone_set('America/Chicago');
-}
+// get_magic_quotes_gpc removed in PHP 5.4, no longer needed
+date_default_timezone_set('America/Chicago');
 
-
-// Prepare request data
-if( get_magic_quotes_gpc() == 1 )
-{
-    foreach($_GET as $key => $value)
-    {
-        $_GET[$key] = stripslashes($value);
-    }
-}
 
 // Load configuration settings
 require_once('includes/config.php');
+require_once('includes/mysql.class.php');
+require_once('includes/common.php');
 
 $send_to = $C['alternate_out_url'];
 
 // Only allow GET requests
-if( $_SERVER['REQUEST_METHOD'] == 'GET' )
-{
-    $raw_out = FALSE;
-    $raw_click = FALSE;
+if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+    $raw_out = false;
+    $raw_click = false;
     $account = null;
-    $referrer_account = (!empty($_COOKIE['tlxreferrer']) ? $_COOKIE['tlxreferrer'] : null);
-    $first_click = (empty($_COOKIE['tlxfirst']) ? TRUE : FALSE);
-    $sites_sent_to = (!empty($_COOKIE['tlxsent']) ? unserialize(stripslashes($_COOKIE['tlxsent'])) : array());
-    $send_to_trade = TRUE;
+    $referrer_account = !empty($_COOKIE['tlxreferrer']) ? $_COOKIE['tlxreferrer'] : null;
+    $first_click = empty($_COOKIE['tlxfirst']) ? true : false;
+    $sites_sent_to = !empty($_COOKIE['tlxsent']) ? unserialize(stripslashes($_COOKIE['tlxsent'])) : [];
+    $send_to_trade = true;
     $now = time() + 3600 * $C['timezone'];
     $today = gmdate('Y-m-d', $now);
     $this_hour = gmdate('G', $now);
     $datetime = "$today-$this_hour";
 
     // Connect to database
-    @mysql_connect($C['db_hostname'], $C['db_username'], $C['db_password']) or die(mysql_error());
-    @mysql_select_db($C['db_name']) or die(mysql_error());
+    $DB = new DB($C['db_hostname'], $C['db_username'], $C['db_password'], $C['db_name']);
+    $DB->Connect();
 
-    if( !$C['using_cron'] )
-    {
+    if (!$C['using_cron']) {
         // Check if it is time for a page rebuild
-        $result = @mysql_query("SELECT `value` FROM `tlx_stored_values` WHERE `name`='last_rebuild'") or die(mysql_error());
-        list($last_rebuild) = mysql_fetch_row($result);
-        mysql_free_result($result);
+        $last_rebuild = $DB->Count("SELECT `value` FROM `tlx_stored_values` WHERE `name`='last_rebuild'");
 
-        if( $last_rebuild <= $now - $C['rebuild_interval'] )
-        {
+        if ($last_rebuild <= $now - $C['rebuild_interval']) {
             shell_exec("{$C['php_cli']} admin/cron.php --rebuild >/dev/null 2>&1 &");
         }
 
         // Check if it is time for a daily or hourly update
-        $result = @mysql_query("SELECT `value` FROM `tlx_stored_values` WHERE `name`='last_updates'") or die(mysql_error());
-        list($last_updates) = mysql_fetch_row($result);
-        $last_updates = unserialize($last_updates);
-        mysql_free_result($result);
+        $result = $DB->Row("SELECT `value` FROM `tlx_stored_values` WHERE `name`='last_updates'");
+        $last_updates = unserialize($result['value']);
 
-        if( $last_updates['daily'] != $today )
-        {
+        if ($last_updates['daily'] != $today) {
             shell_exec("{$C['php_cli']} admin/cron.php --daily-stats >/dev/null 2>&1 &");
         }
 
-        if( $last_updates['hourly'] != $datetime )
-        {
+        if ($last_updates['hourly'] != $datetime) {
             shell_exec("{$C['php_cli']} admin/cron.php --hourly-stats >/dev/null 2>&1 &");
         }
     }
 
     // SKIM MODE
-    if( $_GET['s'] || $_GET['f'] )
-    {
+    if ($_GET['s'] || $_GET['f']) {
         // Set the first click cookie
         setcookie('tlxfirst', '1', time()+86400, '/', $C['cookie_domain']);
 

@@ -25,29 +25,29 @@ if( !class_exists('selectbuilder') )
 
 class Compiler
 {
-    var $current_line = 1;
-    var $current_file = null;
-    var $left_delimiter = '{';
-    var $right_delimiter = '}';
-    var $tag_stack = array();
-    var $capture_stack = array();
-    var $syntax_ok = TRUE;
-    var $errors = array();
-    var $defines = array();
-    var $from_count = 0;
-    var $nocache_buffer = '';
-    var $nocache_token = '';
-    var $template_dir = '';
-    var $compile_dir = '';
-    var $flags = array();
+    private int $current_line = 1;
+    private ?string $current_file = null;
+    private string $left_delimiter = '{';
+    private string $right_delimiter = '}';
+    private array $tag_stack = [];
+    private array $capture_stack = [];
+    private bool $syntax_ok = true;
+    private array $errors = [];
+    private array $defines = [];
+    private int $from_count = 0;
+    private string $nocache_buffer = '';
+    private string $nocache_token = '';
+    private string $template_dir = '';
+    private string $compile_dir = '';
+    private array $flags = [];
 
-    function Compiler()
+    public function __construct()
     {
         $this->template_dir = realpath(dirname(__FILE__) . '/../templates');
         $this->compile_dir = $this->template_dir . '/compiled';    
     }
 
-    function compile($source, &$compiled)
+    public function compile(string $source, string &$compiled): bool
     {
         $this->current_line = 1;
 
@@ -82,11 +82,10 @@ class Compiler
         }
 
         // Check for unclosed tag(s)
-        if( count($this->tag_stack) > 0 )
-        {
+        if (count($this->tag_stack) > 0) {
             $last_tag = end($this->tag_stack);
             $this->syntax_error("unclosed tag \{{$last_tag[0]}} (opened on line {$last_tag[1]}).");
-            return;
+            return false;
         }
 
         $this->code_cleanup($compiled);

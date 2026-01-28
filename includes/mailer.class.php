@@ -16,20 +16,24 @@
 
 class Mailer
 {
-    var $to;
-    var $from;
-    var $from_name;
-    var $subject;
-    var $text_body;
-    var $html_body;
-    var $boundary;
-    var $headers = array();
-    var $type;
-    var $mailer = MT_PHP;
-    var $host;
-    var $sendmail;
+    private string $to = '';
+    private string $from = '';
+    private string $from_name = '';
+    private string $subject = '';
+    private string $text_body = '';
+    private string $html_body = '';
+    private string $boundary = '';
+    private array $headers = [];
+    private int $type = 0;
+    private int $mailer = 0; // MT_PHP
+    private string $host = '';
+    private string $sendmail = '';
 
-    function Send()
+    public function __construct()
+    {
+    }
+
+    public function Send(): bool
     {
         $this->SetMessageType();
         $body = $this->GenerateBody();

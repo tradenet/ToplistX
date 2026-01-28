@@ -25,16 +25,12 @@ $GLOBALS['DEBUG'] = FALSE;
 
 
 // Setup error reporting
-if( !defined('E_STRICT') ) define('E_STRICT', 2048);
-error_reporting(E_ALL & ~E_NOTICE & ~E_STRICT);
+error_reporting(E_ALL & ~E_NOTICE);
 @set_time_limit(0);
 @ini_set('pcre.backtrack_limit', 1000000); // PHP 5 sets limits when running regex on large strings, so increase the default
 set_error_handler('Error');
-@set_magic_quotes_runtime(0);
-if( function_exists('date_default_timezone_set') )
-{
-    date_default_timezone_set('America/Chicago');
-}
+// set_magic_quotes_runtime removed in PHP 5.4
+date_default_timezone_set('America/Chicago');
 register_shutdown_function('Shutdown');
 
 
@@ -172,11 +168,14 @@ function ProcessHourlyStats()
         else
         {
             $hours = range($this_hour-$hour_diff+1,$this_hour);
-            array_walk($hours, create_function('&$value,$key', 'if( $value < 0 ) $value += 24;'));
+            array_walk($hours, function(&$value, $key) {
+                if ($value < 0) {
+                    $value += 24;
+                }
+            });
 
-            $hour_fields = array();
-            foreach( $hours as $index )
-            {
+            $hour_fields = [];
+            foreach ($hours as $index) {
                 array_push($hour_fields, "`raw_in_$index`=0", "`unique_in_$index`=0", "`raw_out_$index`=0", "`unique_out_$index`=0", "`clicks_$index`=0");
             }
 
@@ -1127,22 +1126,16 @@ function DirTaint($dir)
 
 function SetupRequest()
 {
-    if( get_magic_quotes_gpc() == 1 )
-    {
-        ArrayStripSlashes($_POST);
-        ArrayStripSlashes($_GET);
-        ArrayStripSlashes($_COOKIE);
-    }
-
+    // get_magic_quotes_gpc() removed in PHP 5.4, always false in PHP 5.4+
+    // No need to strip slashes anymore
     $_REQUEST = array_merge($_POST, $_GET);
 }
 
-function Shutdown()
+function Shutdown(): void
 {
     global $DB;
 
-    if( @get_class($DB) == 'db' )
-    {
+    if ($DB instanceof DB) {
         $DB->Disconnect();
     }
 }
