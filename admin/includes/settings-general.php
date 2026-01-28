@@ -1,6 +1,11 @@
 <?php
 if( !defined('ToplistX') ) die("Access denied");
 
+global $message;
+if (!isset($message)) {
+    $message = '';
+}
+
 $defaults = array('document_root' => $_SERVER['DOCUMENT_ROOT'],
                   'install_url' => "http://{$_SERVER['HTTP_HOST']}" . preg_replace('~/admin/index\.php.*~', '', $_SERVER['REQUEST_URI']),
                   'forward_url' => "http://{$_SERVER['HTTP_HOST']}/",
