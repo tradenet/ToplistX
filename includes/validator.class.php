@@ -185,7 +185,7 @@ class Validator
             }
         }
 
-        if( count($this->errors) > 0 )
+        if( is_array($this->errors) && count($this->errors) > 0 )
         {
             return FALSE;
         }
