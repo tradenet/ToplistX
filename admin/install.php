@@ -200,7 +200,7 @@ function CreateTables()
 
     foreach( $tables as $name => $create )
     {
-        $DB->Update("CREATE TABLE IF NOT EXISTS $name ( $create ) TYPE=MyISAM");
+        $DB->Update("CREATE TABLE IF NOT EXISTS $name ( $create ) ENGINE=MyISAM");
     }
     
     $password = RandomPassword();
