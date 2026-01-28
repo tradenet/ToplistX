@@ -32,9 +32,10 @@ $t->assign_by_ref('config', $C);
 $DB = new DB($C['db_hostname'], $C['db_username'], $C['db_password'], $C['db_name']);
 $DB->Connect();
 
-if( isset($functions[$_REQUEST['r']]) && function_exists($functions[$_REQUEST['r']]) )
+$r = Request('r', '');
+if( isset($functions[$r]) && function_exists($functions[$r]) )
 {
-    call_user_func($functions[$_REQUEST['r']]);
+    call_user_func($functions[$r]);
 }
 else
 {
@@ -47,7 +48,7 @@ function tlxShAccountComment($errors = null)
 {
     global $C, $DB, $L, $t;
 
-    $account = $DB->Row('SELECT * FROM `tlx_accounts` WHERE `username`=?', array($_REQUEST['id']));
+    $account = $DB->Row('SELECT * FROM `tlx_accounts` WHERE `username`=?', array(Request('id', '')));
 
     if( $account )
     {

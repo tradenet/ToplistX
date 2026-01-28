@@ -1208,7 +1208,7 @@ function VerifyCaptcha(&$v, $cookie = 'toplistxcaptcha')
     {
         $captcha = $DB->Row('SELECT * FROM `tlx_captcha` WHERE `session`=?', array($_COOKIE[$cookie]));
 
-        if( strtoupper($captcha['code']) != strtoupper($_REQUEST['captcha']) )
+        if( strtoupper($captcha['code']) != strtoupper(Request('captcha', '')) )
         {
             $v->SetError($L['INVALID_CODE']);
         }
@@ -1274,6 +1274,15 @@ function PrepareCategoriesBuild()
     $DB->Free($result);
 }
 
+// Safe request accessor to avoid undefined array key notices on PHP 8.2+
+function Request(string $key, $default = null)
+{
+    if( isset($_REQUEST[$key]) )
+        return $_REQUEST[$key];
+
+    return $default;
+}
+
 function ValidAccountLogin()
 {
     global $DB, $C, $L;
@@ -1282,7 +1291,7 @@ function ValidAccountLogin()
 
     if( isset($_REQUEST['login_username']) && isset($_REQUEST['login_password']) )
     {
-        $account = $DB->Row('SELECT * FROM `tlx_accounts` WHERE `username`=? AND `password`=?', array($_REQUEST['login_username'], sha1($_REQUEST['login_password'])));
+        $account = $DB->Row('SELECT * FROM `tlx_accounts` WHERE `username`=? AND `password`=?', array(Request('login_username', ''), sha1(Request('login_password', ''))));
 
         if( $account )
         {
@@ -1290,8 +1299,8 @@ function ValidAccountLogin()
             if( $account['status'] == STATUS_ACTIVE )
             {
                 // Setup the session
-                $session = sha1(uniqid(rand(), true) . $_REQUEST['login_password']);
-                setcookie('toplistxaccount', 'username=' . urlencode($_REQUEST['login_username']) . '&session=' . $session, time() + 86400, '/', $C['cookie_domain']);
+                $session = sha1(uniqid(rand(), true) . Request('login_password', ''));
+                setcookie('toplistxaccount', 'username=' . urlencode(Request('login_username', '')) . '&session=' . $session, time() + 86400, '/', $C['cookie_domain']);
                 $DB->Update('DELETE FROM `tlx_account_logins` WHERE `username`=?', array($account['username']));
                 $DB->Update('INSERT INTO `tlx_account_logins` VALUES (?,?,?)',
                             array($account['username'],
