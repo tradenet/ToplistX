@@ -29,6 +29,12 @@ require_once("{$GLOBALS['BASE_DIR']}/admin/includes/functions.php");
 
 SetupRequest();
 
+// Set safe defaults for common request keys to avoid undefined index notices (PHP 8.2)
+$_REQUEST['db_hostname'] = $_REQUEST['db_hostname'] ?? 'localhost';
+$_REQUEST['db_username'] = $_REQUEST['db_username'] ?? '';
+$_REQUEST['db_password'] = $_REQUEST['db_password'] ?? '';
+$_REQUEST['db_name'] = $_REQUEST['db_name'] ?? '';
+
 $t = new Template();
 $errors = array();
 

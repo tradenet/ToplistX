@@ -87,6 +87,10 @@ require_once("{$GLOBALS['BASE_DIR']}/admin/includes/functions.php");
 
 SetupRequest();
 
+// Set safe defaults for common request keys to avoid undefined index notices (PHP 8.2)
+$_REQUEST['r'] = $_REQUEST['r'] ?? '';
+$_REQUEST['directory'] = $_REQUEST['directory'] ?? '';
+
 $DB = new DB($C['db_hostname'], $C['db_username'], $C['db_password'], $C['db_name']);
 $DB->Connect();
 
