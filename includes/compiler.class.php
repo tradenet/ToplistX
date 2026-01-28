@@ -1238,7 +1238,7 @@ class Compiler
     function parse_vars_callback($matches)
     {
         $variable = $matches[1];
-        $modifiers = substr($matches[2], 1);
+        $modifiers = substr($matches[2] ?? '', 1);
         $dot = strpos($variable, '.');
         $parsed_var = '';
 
