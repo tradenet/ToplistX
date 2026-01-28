@@ -882,7 +882,7 @@ class Compiler
         
         $s->SetOrderString($attrs['order'], $DB->GetColumns('tlx_categories_build'));
         
-        $query = $DB->Prepare($s->Generate(), $s->binds);
+        $query = $s->Generate();
         
         $attrs['var'] = $this->parse_vars($attrs['var']);
         
