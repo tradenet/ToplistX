@@ -1088,10 +1088,10 @@ function &GenericSearch($table, $files, $select_callback = null, $item_callback 
     $select = new SelectBuilder('*', $table);
     $override = FALSE;
     
-    if( function_exists($select_callback) )
+    if ($select_callback !== null && function_exists($select_callback))
     {
         $override = $select_callback($select);
-    }    
+    }
     
     if( !$override )
     {    
