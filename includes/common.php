@@ -1626,7 +1626,7 @@ class SelectBuilder
         {
             $placeholders[] = '#';
 
-            if( count($part) > 1 )
+            if( count($part) > 2 && isset($part[2]) )
             {
                 $placeholders[] = $part[2];
             }
