@@ -92,6 +92,9 @@ function Initialize()
             else
             {
                 $_REQUEST['db_hostname'] = 'localhost';
+                $_REQUEST['db_username'] = $_REQUEST['db_username'] ?? '';
+                $_REQUEST['db_password'] = $_REQUEST['db_password'] ?? '';
+                $_REQUEST['db_name']     = $_REQUEST['db_name'] ?? '';
                 $t->assign_by_ref('request', $_REQUEST);
                 $t->assign_by_ref('errors', $errors);
                 $t->assign('mode', 'getdb');
