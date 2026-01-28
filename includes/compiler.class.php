@@ -1059,7 +1059,7 @@ class Compiler
 
         $attrs['from'] = $this->parse_vars($attrs['from']);
         $attrs['var'] = $this->parse_vars($attrs['var']);
-        $attrs['counter'] = $this->parse_vars($attrs['counter']);
+        $attrs['counter'] = $this->parse_vars($attrs['counter'] ?? '');
 
         $key = null;
         $key_part = '';
@@ -1080,9 +1080,9 @@ class Compiler
         
         if( $attrs['counter'] )
             $output .= "    {$attrs['counter']} = 0;" . NEWLINE;
-        
-        $output .= "    foreach (\$from$fromcount as \$key_part[{$attrs['var']}]):" . NEWLINE;
-        
+
+        $output .= "    foreach (\$from$fromcount as " . $key_part . "{$attrs['var']}):" . NEWLINE;
+
         if( $attrs['counter'] )
             $output .= "    {$attrs['counter']}++;" . NEWLINE;
             
