@@ -26,6 +26,12 @@ require_once("{$GLOBALS['BASE_DIR']}/includes/validator.class.php");
 
 SetupRequest();
 
+$_REQUEST['id'] = $_REQUEST['id'] ?? '';
+$_REQUEST['rating'] = $_REQUEST['rating'] ?? ceil($C['max_rating']/2);
+$_REQUEST['name'] = $_REQUEST['name'] ?? '';
+$_REQUEST['email'] = $_REQUEST['email'] ?? '';
+$_REQUEST['comment'] = $_REQUEST['comment'] ?? '';
+
 $t = new Template();
 $t->assign_by_ref('config', $C);
 
