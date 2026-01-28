@@ -2489,7 +2489,10 @@ function tlxShGeneralSettings()
     CheckAccessList();
     ArrayHSC($C);
 
-    $C = array_merge($C, ($GLOBALS['_server_'] == null ? GetServerCapabilities() : $GLOBALS['_server_']));
+    if (!isset($GLOBALS['_server_']) || $GLOBALS['_server_'] == null) {
+        $GLOBALS['_server_'] = GetServerCapabilities();
+    }
+    $C = array_merge($C, $GLOBALS['_server_']);
 
     include_once('includes/settings-general.php');
 }
