@@ -41,7 +41,7 @@ $DB->Connect();
 
 if( ($error = ValidLogin()) === TRUE )
 {
-    $function = $_REQUEST['r'];
+    $function = Request('r', '');
     
     if( ValidFunction($function) )
     {
@@ -71,23 +71,23 @@ function tlxAccountSearchAndReplace()
     $user_columns = $DB->GetColumns('tlx_account_fields');
     $update = 'UPDATE `tlx_accounts`';
     
-    if( in_array($_REQUEST['field'], $user_columns) )
+    if( in_array(Request('field',''), $user_columns) )
     {
         $update = 'UPDATE `tlx_accounts` JOIN `tlx_account_fields` USING (`username`)';
     }
     
-    if( $_REQUEST['search'] == 'NULL' )
+    if( Request('search','') == 'NULL' )
     {
         $replacements = $DB->Update($update.' SET #=? WHERE #=? OR # IS NULL', 
-                                    array($_REQUEST['field'], 
-                                          $_REQUEST['replace'],
-                                          $_REQUEST['field'], 
+                                    array(Request('field',''), 
+                                          Request('replace',''),
+                                          Request('field',''), 
                                           '', 
-                                          $_REQUEST['field']));
+                                          Request('field','')));
     }
     else
     {
-        $replacements = $DB->Update($update.' SET #=REPLACE(#, ?, ?)', array($_REQUEST['field'], $_REQUEST['field'], $_REQUEST['search'], $_REQUEST['replace']));
+        $replacements = $DB->Update($update.' SET #=REPLACE(#, ?, ?)', array(Request('field',''), Request('field',''), Request('search',''), Request('replace','')));
     }
     
     echo $json->encode(array('status' => JSON_SUCCESS, 'message' => "$replacements replacements have been made"));
@@ -100,31 +100,31 @@ function tlxAccountSearchAndSet()
     VerifyPrivileges(P_ACCOUNT_MODIFY, TRUE);
 
     $user_columns = $DB->GetColumns('tlx_account_fields');
-    $search_type = ($_REQUEST['search'] == 'NULL' ? ST_EMPTY : ST_CONTAINS);
+    $search_type = (Request('search','') == 'NULL' ? ST_EMPTY : ST_CONTAINS);
     $u = new UpdateBuilder('tlx_accounts');
     
-    if( in_array($_REQUEST['field'], $user_columns) || in_array($_REQUEST['set_field'], $user_columns) )
+    if( in_array(Request('field',''), $user_columns) || in_array(Request('set_field',''), $user_columns) )
     {
         $u->AddJoin('tlx_accounts', 'tlx_account_fields', '', 'username');
     }
     
-    if( $_REQUEST['replace'] == 'NULL' )
+    if( Request('replace','') == 'NULL' )
     {
         $_REQUEST['replace'] = null;
     }
 
-    if( $_REQUEST['field'] == 'return_percent' )
+    if( Request('field','') == 'return_percent' )
     {
-        $_REQUEST['search'] = $_REQUEST['search']/100;
+        $_REQUEST['search'] = Request('search','')/100;
     }
     
-    if( $_REQUEST['set_field'] == 'return_percent' )
+    if( Request('set_field','') == 'return_percent' )
     {
-        $_REQUEST['replace'] = $_REQUEST['replace']/100;
+        $_REQUEST['replace'] = Request('replace','')/100;
     }
     
-    $u->AddSet($_REQUEST['set_field'], $_REQUEST['replace']);
-    $u->AddWhere($_REQUEST['field'], $search_type, $_REQUEST['search']);
+    $u->AddSet(Request('set_field',''), $_REQUEST['replace']);
+    $u->AddWhere(Request('field',''), $search_type, $_REQUEST['search']);
     
     $replacements = $DB->Update($u->Generate(), $u->binds);
     
@@ -162,9 +162,10 @@ function tlxCommentsSearch()
 
 function tlxCommentsSearchCallback(&$select)
 {
-    if( count($_REQUEST['status']) == 1 )
+    $status = Request('status', array());
+    if( count($status) == 1 )
     {
-        $select->AddWhere('status', ST_MATCHES, $_REQUEST['status'][0]);
+        $select->AddWhere('status', ST_MATCHES, $status[0]);
     }
     
     if( $_REQUEST['field'] == 'comment' && $_REQUEST['search_type'] != ST_EMPTY )
@@ -181,13 +182,13 @@ function tlxCommentDelete()
     global $json, $DB;
     
     VerifyPrivileges(P_COMMENT_REMOVE, TRUE);
-
-    if( !is_array($_REQUEST['comment_id']) )
+    $comment_ids = Request('comment_id', null);
+    if( !is_array($comment_ids) )
     {
-        $_REQUEST['comment_id'] = array($_REQUEST['comment_id']);
+        $comment_ids = array($comment_ids);
     }
-    
-    foreach($_REQUEST['comment_id'] as $comment_id)
+
+    foreach($comment_ids as $comment_id)
     {       
         $DB->Update('DELETE FROM `tlx_account_comments` WHERE `comment_id`=?', array($comment_id));
     }
@@ -200,13 +201,13 @@ function tlxCommentApprove()
     global $json, $DB;
     
     VerifyPrivileges(P_COMMENT_ADD, TRUE);
-
-    if( !is_array($_REQUEST['comment_id']) )
+    $comment_ids = Request('comment_id', null);
+    if( !is_array($comment_ids) )
     {
-        $_REQUEST['comment_id'] = array($_REQUEST['comment_id']);
+        $comment_ids = array($comment_ids);
     }
-    
-    foreach($_REQUEST['comment_id'] as $comment_id)
+
+    foreach($comment_ids as $comment_id)
     {
         $comment = $DB->Row('SELECT * FROM `tlx_account_comments` WHERE `comment_id`=?', array($comment_id));
         
@@ -224,13 +225,13 @@ function tlxCommentReject()
     global $json, $DB;
     
     VerifyPrivileges(P_COMMENT_REMOVE, TRUE);
-
-    if( !is_array($_REQUEST['comment_id']) )
+    $comment_ids = Request('comment_id', null);
+    if( !is_array($comment_ids) )
     {
-        $_REQUEST['comment_id'] = array($_REQUEST['comment_id']);
+        $comment_ids = array($comment_ids);
     }
-    
-    foreach($_REQUEST['comment_id'] as $comment_id)
+
+    foreach($comment_ids as $comment_id)
     {       
         $comment = $DB->Row('SELECT * FROM `tlx_account_comments` WHERE `comment_id`=?', array($comment_id));
         
@@ -257,7 +258,7 @@ function tlxScannerHistorySearch()
 
 function tlxScannerHistorySelect(&$select)
 {
-    $select->AddWhere('config_id', ST_MATCHES, $_REQUEST['config_id']);
+    $select->AddWhere('config_id', ST_MATCHES, Request('config_id',''));
     return FALSE;
 }
 
@@ -267,7 +268,7 @@ function tlxScannerHistoryClear()
     
     VerifyAdministrator(TRUE);
 
-    $DB->Update('DELETE FROM `tlx_scanner_history` WHERE `config_id`=?', array($_REQUEST['config_id']));
+    $DB->Update('DELETE FROM `tlx_scanner_history` WHERE `config_id`=?', array(Request('config_id','')));
         
     echo $json->encode(array('status' => JSON_SUCCESS, 'message' => 'The account scanner history for this configuration has been cleared'));
 }
@@ -283,7 +284,7 @@ function tlxScannerResultsSearch()
 
 function tlxScannerResultsSelect(&$select)
 {
-    $select->AddWhere('config_id', ST_MATCHES, $_REQUEST['config_id']);
+    $select->AddWhere('config_id', ST_MATCHES, Request('config_id',''));
     return FALSE;
 }
 
@@ -304,13 +305,13 @@ function tlxScannerConfigDelete()
     global $json, $DB;
     
     VerifyAdministrator(TRUE);
-
-    if( !is_array($_REQUEST['config_id']) )
+    $config_ids = Request('config_id', null);
+    if( !is_array($config_ids) )
     {
-        $_REQUEST['config_id'] = array($_REQUEST['config_id']);
+        $config_ids = array($config_ids);
     }
-    
-    foreach($_REQUEST['config_id'] as $config_id)
+
+    foreach($config_ids as $config_id)
     {
         $scanner = $DB->Row('SELECT * FROM `tlx_scanner_configs` WHERE `config_id`=?', array($config_id));
         
@@ -334,7 +335,7 @@ function tlxScannerStart()
     VerifyAdministrator(TRUE);
     CheckAccessList(TRUE);
        
-    shell_exec("{$C['php_cli']} scanner.php " . escapeshellarg($_REQUEST['config_id']) . " >/dev/null 2>&1 &");
+    shell_exec("{$C['php_cli']} scanner.php " . escapeshellarg(Request('config_id','')) . " >/dev/null 2>&1 &");
     
     echo $json->encode(array('status' => JSON_SUCCESS, 'message' => 'Your request to start the account scanner has been processed'));
 }
@@ -345,7 +346,7 @@ function tlxScannerStop()
     
     VerifyAdministrator(TRUE);
     
-    $DB->Update('UPDATE `tlx_scanner_configs` SET `pid`=0,`current_status`=? WHERE `config_id`=?', array('Not Running', $_REQUEST['config_id']));
+    $DB->Update('UPDATE `tlx_scanner_configs` SET `pid`=0,`current_status`=? WHERE `config_id`=?', array('Not Running', Request('config_id','')));
     
     echo $json->encode(array('status' => JSON_SUCCESS, 'message' => 'Your request to stop the account scanner has been processed'));
 }
