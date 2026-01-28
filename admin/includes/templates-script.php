@@ -37,7 +37,7 @@ function checkForm()
         <?php
         $templates =& DirRead("{$GLOBALS['BASE_DIR']}/templates", '^(?!email)[^\.]+(\.tpl$|\.css$)');
         asort($templates);
-        echo OptionTags($templates, $_REQUEST['loaded_template'], TRUE);
+        echo OptionTags($templates, $_REQUEST['loaded_template'] ?? '', TRUE);
         ?>
       </select>
       &nbsp;
@@ -46,7 +46,7 @@ function checkForm()
 
     <input type="hidden" id="r" name="r" value="">
 
-    <?php if( $_REQUEST['loaded_template'] ): ?>
+    <?php if( !empty($_REQUEST['loaded_template']) ): ?>
     <br />
 
     <div class="heading">
