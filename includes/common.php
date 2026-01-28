@@ -714,7 +714,7 @@ function ArrayHSC(&$array)
         }
         else
         {
-            $array[$key] = htmlspecialchars($array[$key], ENT_QUOTES);
+            $array[$key] = htmlspecialchars((string)$array[$key], ENT_QUOTES);
         }
     }
 }
