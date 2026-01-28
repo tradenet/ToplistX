@@ -1204,7 +1204,7 @@ class Compiler
                 $parsed_tag = array();
                 $parsed_tag['tag'] = $matches[1];
                 $parsed_tag['modifiers'] = '';
-                $parsed_tag['attributes'] = $matches[3];
+                $parsed_tag['attributes'] = $matches[3] ?? '';
             }
         }
 
