@@ -256,31 +256,34 @@ function TestDBConnection()
 
     restore_error_handler();
 
-    $handle = @mysql_connect($_REQUEST['db_hostname'], $_REQUEST['db_username'], $_REQUEST['db_password']);
+    $connection = new mysqli($_REQUEST['db_hostname'], $_REQUEST['db_username'], $_REQUEST['db_password'], $_REQUEST['db_name']);
 
-    if( !$handle )
+    if( $connection->connect_error )
     {
-        $errors[] = mysql_error();
+        $errors[] = $connection->connect_error;
     }
     else
     {
-        if( !mysql_select_db($_REQUEST['db_name'], $handle) )
+        $result = $connection->query("SELECT VERSION()");
+        
+        if( !$result )
         {
-            $errors[] = mysql_error($handle);
+            $errors[] = $connection->error;
+        }
+        else
+        {
+            $row = $result->fetch_row();
+            $result->free();
+            
+            $version = explode('.', $row[0]);
+
+            if( $version[0] < 4 )
+            {
+                $errors[] = "This software requires MySQL version 4.0.0 or newer\nYour server has version {$row[0]} installed.";
+            }
         }
 
-        $result = mysql_query("SELECT VERSION()", $handle);
-        $row = mysql_fetch_row($result);
-        mysql_free_result($result);
-       
-        $version = explode('.', $row[0]);
-
-        if( $version[0] < 4 )
-        {
-            $errors[] = "This software requires MySQL version 4.0.0 or newer\nYour server has version {$row[0]} installed.";
-        }        
-
-        mysql_close($handle);
+        $connection->close();
     }
 
     set_error_handler('Error');
