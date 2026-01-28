@@ -37,19 +37,19 @@ $DB->Connect();
 
 if( ($error = ValidLogin()) === TRUE )
 {
-    if( isset($_REQUEST['ref_url']) )
+    if( Request('ref_url', null) !== null )
     {
-        header("Location: http://{$_SERVER['HTTP_HOST']}{$_REQUEST['ref_url']}");
+        header("Location: http://{$_SERVER['HTTP_HOST']}" . Request('ref_url',''));
         exit;
     }
 
-    if( !isset($_REQUEST['r']) )
+    if( Request('r', null) === null )
     {
         include_once('includes/main.php');
     }
     else
     {
-        $function = $_REQUEST['r'];
+        $function = Request('r', '');
 
         if( ValidFunction($function) )
         {
@@ -63,10 +63,10 @@ if( ($error = ValidLogin()) === TRUE )
 }
 else
 {
-    if( isset($_REQUEST['ref_url']) )
+    if( Request('ref_url', null) !== null )
     {
         $_SERVER['QUERY_STRING'] = TRUE;
-        $_SERVER['REQUEST_URI'] = $_REQUEST['ref_url'];
+        $_SERVER['REQUEST_URI'] = Request('ref_url','');
     }
 
     include_once('includes/login.php');
@@ -94,7 +94,7 @@ function tlxShCommentEdit()
 
     VerifyPrivileges(P_COMMENT_MODIFY);
 
-    $_REQUEST = $DB->Row('SELECT * FROM `tlx_account_comments` WHERE `comment_id`=?', array($_REQUEST['comment_id']));
+    $_REQUEST = $DB->Row('SELECT * FROM `tlx_account_comments` WHERE `comment_id`=?', array(Request('comment_id','')));
 
     ArrayHSC($_REQUEST);
 
@@ -108,8 +108,8 @@ function tlxCommentEdit()
     VerifyPrivileges(P_COMMENT_MODIFY);
 
     $v = new Validator();
-    $v->Register($_REQUEST['date_submitted'], V_DATETIME, 'The Date Submitted field must be in YYYY-MM-DD HH:MM:SS format');
-    $v->Register($_REQUEST['comment'], V_EMPTY, 'The Comment field must be filled in');
+    $v->Register(Request('date_submitted',''), V_DATETIME, 'The Date Submitted field must be in YYYY-MM-DD HH:MM:SS format');
+    $v->Register(Request('comment',''), V_EMPTY, 'The Comment field must be filled in');
 
     if( !$v->Validate() )
     {
@@ -124,13 +124,13 @@ function tlxCommentEdit()
                 '`status`=?, ' .
                 '`comment`=? ' .
                 'WHERE `comment_id`=?',
-                array($_REQUEST['date_submitted'],
-                      $_REQUEST['ip_address'],
-                      $_REQUEST['name'],
-                      $_REQUEST['email'],
-                      $_REQUEST['status'],
-                      $_REQUEST['comment'],
-                      $_REQUEST['comment_id']));
+                    array(Request('date_submitted',''),
+                        Request('ip_address',''),
+                        Request('name',''),
+                        Request('email',''),
+                        Request('status',''),
+                        Request('comment',''),
+                        Request('comment_id','')));
 
     $GLOBALS['edited'] = TRUE;
     $GLOBALS['message'] = 'Comment successfully updated';
@@ -152,10 +152,11 @@ function tlxShAccountMail()
 
     VerifyAdministrator(P_ACCOUNT);
 
-    if( is_array($_REQUEST['username']) )
+    $usernames = Request('username', null);
+    if( is_array($usernames) )
     {
-        $_REQUEST['to'] = $DB->Count('SELECT `email` FROM `tlx_accounts` WHERE `username`=?', array($_REQUEST['username'][0]));
-        $_REQUEST['to_list'] = $_REQUEST['username'][0];
+        $_REQUEST['to'] = $DB->Count('SELECT `email` FROM `tlx_accounts` WHERE `username`=?', array($usernames[0]));
+        $_REQUEST['to_list'] = $usernames[0];
     }
 
     ArrayHSC($_REQUEST);
