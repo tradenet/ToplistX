@@ -15,6 +15,8 @@
 
 if( !defined('ToplistX') ) die("Access denied");
 
+require_once("{$GLOBALS['BASE_DIR']}/includes/validator.class.php");
+
 define('SESSION_LENGTH', 600);
 define('ACCOUNT_EDITOR', 'editor');
 define('ACCOUNT_ADMINISTRATOR', 'administrator');
