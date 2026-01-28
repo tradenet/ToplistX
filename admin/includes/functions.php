@@ -1060,6 +1060,7 @@ function WriteConfig(&$settings)
         }
         else
         {
+            $value = $value === null ? '' : $value;
             fwrite($fd, "\$C['$setting'] = '" . addslashes($value) . "';\n");
         }
     }
