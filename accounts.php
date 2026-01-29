@@ -28,8 +28,6 @@ $functions = array('accountadd' => 'tlxAccountAdd',
                    'doedit' => 'tlxAccountEdit',
                    'links' => 'tlxShAccountLinks');
 
-if( !isset($_REQUEST['r']) ) $_REQUEST['r'] = '';
-
 require_once('includes/common.php');
 require_once("{$GLOBALS['BASE_DIR']}/includes/template.class.php");
 require_once("{$GLOBALS['BASE_DIR']}/includes/mysql.class.php");
@@ -37,6 +35,8 @@ require_once("{$GLOBALS['BASE_DIR']}/includes/http.class.php");
 require_once("{$GLOBALS['BASE_DIR']}/includes/validator.class.php");
 
 SetupRequest();
+
+if( !isset($_REQUEST['r']) ) $_REQUEST['r'] = '';
 
 $t = new Template();
 $t->assign_by_ref('config', $C);
