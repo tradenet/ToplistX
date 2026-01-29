@@ -39,7 +39,7 @@ function checkForm()
         <?php
         $templates =& DirRead("{$GLOBALS['BASE_DIR']}/templates", '^email[^\.]+\.tpl$');
         asort($templates);
-        echo OptionTags($templates, $_REQUEST['loaded_template'], TRUE);
+        echo OptionTags($templates, $_REQUEST['loaded_template'] ?? '', TRUE);
         ?>
       </select>
       &nbsp;
@@ -48,16 +48,16 @@ function checkForm()
 
     <input type="hidden" id="r" name="r" value="">
 
-    <?php if( $_REQUEST['loaded_template'] ): ?>
+    <?php if( !empty($_REQUEST['loaded_template']) ): ?>
     <br />
 
     <div class="heading">
-      Editing Template <?php echo $_REQUEST['loaded_template']; ?>
+      Editing Template <?php echo htmlspecialchars($_REQUEST['loaded_template'] ?? ''); ?>
     </div>
 
-    <?php if( !is_writable("{$GLOBALS['BASE_DIR']}/templates/{$_REQUEST['loaded_template']}") ): ?>
+    <?php if( !empty($_REQUEST['loaded_template']) && !is_writable("{$GLOBALS['BASE_DIR']}/templates/{$_REQUEST['loaded_template']}") ): ?>
     <div class="alert margin-top">
-      The template file <?php echo $_REQUEST['loaded_template']; ?> is not writeable and needs to have it's permissions changed to 666.
+      The template file <?php echo htmlspecialchars($_REQUEST['loaded_template']); ?> is not writeable and needs to have it's permissions changed to 666.
     </div>
     <?php endif; ?>
 
@@ -67,7 +67,7 @@ function checkForm()
     </div>
     <?php endif; ?>
 
-    <?php if( $GLOBALS['message'] ): ?>
+    <?php if( !empty($GLOBALS['message']) ): ?>
     <div class="notice margin-top">
       <?php echo $GLOBALS['message']; ?>
     </div>
@@ -75,7 +75,7 @@ function checkForm()
 
     <div class="centered margin-top" style="font-weight: bold">
     <button type="submit" onclick="$('#r').val('tlxEmailTemplateSave')">Save Template</button>
-    <input type="hidden" name="loaded_template" value="<?PHP echo $_REQUEST['loaded_template']; ?>" />
+    <input type="hidden" name="loaded_template" value="<?PHP echo htmlspecialchars($_REQUEST['loaded_template'] ?? ''); ?>" />
     </div>
 
     <br />

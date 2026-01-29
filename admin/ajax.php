@@ -1102,7 +1102,7 @@ function &GenericSearch($table, $files, $select_callback = null, $item_callback 
 
     if( !empty($_REQUEST['order_next']) )
     {
-        $select->AddOrder($_REQUEST['order_next'], $_REQUEST['direction_next']);
+        $select->AddOrder($_REQUEST['order_next'], $_REQUEST['direction_next'] ?? 'ASC');
     }
     
     $result = $DB->QueryWithPagination($select->Generate(), $select->binds, $page, $per_page);

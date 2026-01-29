@@ -721,7 +721,7 @@ function tlxShPages()
 
 function tlxShPageAddBulk()
 {
-    global $DB, $C;
+    global $DB, $C, $added;
 
     VerifyAdministrator();
     CheckAccessList();
@@ -732,7 +732,7 @@ function tlxShPageAddBulk()
 
 function tlxShPageAdd()
 {
-    global $DB, $C;
+    global $DB, $C, $added;
 
     VerifyAdministrator();
     CheckAccessList();
@@ -1342,6 +1342,7 @@ function tlxShCategoryAdd()
     VerifyPrivileges(P_CATEGORY_ADD);
     ArrayHSC($_REQUEST);
 
+    $editing = false;
     include_once('includes/categories-add.php');
 }
 
@@ -1793,7 +1794,7 @@ function tlxShIcons()
 
 function tlxShIconAdd()
 {
-    global $C, $DB;
+    global $C, $DB, $added;
 
     VerifyAdministrator();
     ArrayHSC($_REQUEST);
@@ -2010,7 +2011,7 @@ function tlxShRejectionTemplates()
 
 function tlxShRejectionTemplateAdd()
 {
-    global $C, $DB;
+    global $C, $DB, $added;
 
     VerifyAdministrator();
     ArrayHSC($_REQUEST);
@@ -2178,7 +2179,7 @@ function tlxShBlacklist()
 
 function tlxShBlacklistAdd()
 {
-    global $DB, $C, $BLIST_TYPES;
+    global $DB, $C, $BLIST_TYPES, $added;
 
     VerifyAdministrator();
     ArrayHSC($_REQUEST);
@@ -2427,7 +2428,7 @@ function tlxShAdministratorEdit()
 
 function tlxShAdministratorAdd()
 {
-    global $DB, $C;
+    global $DB, $C, $added;
 
     VerifyAdministrator();
     ArrayHSC($_REQUEST);

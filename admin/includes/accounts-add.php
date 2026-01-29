@@ -62,19 +62,19 @@ if( typeof window.parent.Search == 'object' )
       <?php endif; ?>
     </div>
 
-    <?php if( $GLOBALS['message'] ): ?>
+    <?php if( !empty($GLOBALS['message']) ): ?>
     <div class="notice margin-bottom">
       <?php echo $GLOBALS['message']; ?>
     </div>
     <?php endif; ?>
 
-    <?php if( $GLOBALS['errstr'] ): ?>
+    <?php if( !empty($GLOBALS['errstr']) ): ?>
     <div class="alert margin-bottom">
       <?php echo $GLOBALS['errstr']; ?>
     </div>
     <?php endif; ?>
 
-    <?php if( is_array($GLOBALS['warn']) ): ?>
+    <?php if( !empty($GLOBALS['warn']) && is_array($GLOBALS['warn']) ): ?>
     <div class="warn margin-bottom">
       <?php echo join('<br />', $GLOBALS['warn']); ?>
     </div>
