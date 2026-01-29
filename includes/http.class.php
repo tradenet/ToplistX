@@ -230,7 +230,7 @@ class Http
         }
         else
         {           
-            if( $redirection && $this->response_headers['location'] )
+            if( $redirection && isset($this->response_headers['location']) && $this->response_headers['location'] )
             {                   
                 // Get the new URL to access
                 $new_url = RelativeToAbsolute($url, $this->response_headers['location']);
@@ -354,7 +354,7 @@ class Http
                 $this->request_info['size_download'] = strlen($this->body);
                 $this->request_info['speed_download'] = sprintf('%.2f', $this->request_info['size_download'] / ($end_time - $start_time) / 1024);
                 
-                if( $redirection && $this->response_headers['location'] )
+                if( $redirection && isset($this->response_headers['location']) && $this->response_headers['location'] )
                 {                   
                     // Get the new URL to access
                     $new_url = RelativeToAbsolute($url, $this->response_headers['location']);
