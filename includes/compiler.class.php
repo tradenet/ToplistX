@@ -629,9 +629,10 @@ class Compiler
         $s->AddOrder('RAND()');
         
         // Generate the SQL query to pull accounts from the database
-        $query = $DB->Prepare($s->Generate(), $s->binds);
+        $query = $s->Generate();
+        $binds = var_export($s->binds, true);
 
-        return S_PHP . " {$attrs['var']} = \$GLOBALS['DB']->Row(\"$query\");\n" .
+        return S_PHP . " {$attrs['var']} = \$GLOBALS['DB']->Row(\"$query\", $binds);\n" .
                "if( {$attrs['var']} )\n{\n".
                "PopulateAccountInfo({$attrs['var']}, \$empty);\n} " . E_PHP;
     }
