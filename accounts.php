@@ -177,6 +177,11 @@ function tlxAccountEdit()
         return;
     }
 
+    // Initialize form fields
+    if( !isset($_REQUEST['keywords']) ) $_REQUEST['keywords'] = '';
+    if( !isset($_REQUEST['banner_url']) ) $_REQUEST['banner_url'] = '';
+    if( !isset($_REQUEST['confirm_password']) ) $_REQUEST['confirm_password'] = '';
+
     unset($_REQUEST['banner_url_local']);
 
     // Get domain
@@ -487,6 +492,11 @@ function tlxAccountAdd()
 {
     global $C, $DB, $L, $IMAGE_EXTENSIONS, $t;
 
+    // Initialize form fields
+    if( !isset($_REQUEST['keywords']) ) $_REQUEST['keywords'] = '';
+    if( !isset($_REQUEST['banner_url']) ) $_REQUEST['banner_url'] = '';
+    if( !isset($_REQUEST['confirm_password']) ) $_REQUEST['confirm_password'] = '';
+
     unset($_REQUEST['banner_url_local']);
 
     // Get domain
@@ -786,6 +796,9 @@ function tlxShConfirm()
 {
     global $C, $DB, $L, $t;
 
+    // Initialize form fields
+    if( !isset($_REQUEST['id']) ) $_REQUEST['id'] = '';
+
     // Delete old confirmations
     $DB->Update('DELETE FROM `tlx_account_confirms` WHERE `date_sent` < DATE_ADD(?, INTERVAL -1 DAY)', array(MYSQL_NOW));
 
@@ -855,6 +868,9 @@ function tlxPasswordReset($errors = null)
 {
     global $C, $DB, $L, $t;
 
+    // Initialize form fields
+    if( !isset($_REQUEST['email']) ) $_REQUEST['email'] = '';
+
     $v = new Validator();
 
     $v->Register($_REQUEST['email'], V_EMAIL, $L['INVALID_EMAIL']);
@@ -904,6 +920,9 @@ function tlxPasswordReset($errors = null)
 function tlxPasswordResetConfirmed($errors = null)
 {
     global $C, $DB, $L, $t;
+
+    // Initialize form fields
+    if( !isset($_REQUEST['id']) ) $_REQUEST['id'] = '';
 
     // Delete old confirmations
     $DB->Update('DELETE FROM `tlx_account_confirms` WHERE `date_sent` < DATE_ADD(?, INTERVAL -1 DAY)', array(MYSQL_NOW));
