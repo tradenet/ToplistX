@@ -99,13 +99,14 @@ class DB
         $result = [];
         
         // Get total number of results using subquery wrapper
-        // Remove ORDER BY from the query before wrapping (ORDER BY causes subquery syntax error)
-        // Use case-insensitive, dotall mode and match everything after ORDER BY
-        $query_for_count = preg_replace('~\s+ORDER\s+BY\s+.+$~is', '', $query);
-        // Additional safety: if still has ORDER BY, try stripping it again
+        // Remove ORDER BY and LIMIT from the query before wrapping
+        $query_for_count = preg_replace('~\s+ORDER\s+BY\s+.+?(?=\s+LIMIT|\s*$)~is', '', $query);
+        $query_for_count = preg_replace('~\s+LIMIT\s+.+$~is', '', $query_for_count);
+        // Additional safety: ensure ORDER BY is completely gone
         if (stripos($query_for_count, 'ORDER BY') !== false) {
-            $query_for_count = preg_replace('~ORDER\s+BY\s+.+~i', '', $query_for_count);
+            $query_for_count = preg_replace('~\s*ORDER\s+BY\s+.+~i', '', $query_for_count);
         }
+        
         $count_query = "SELECT COUNT(*) FROM ($query_for_count) AS count_wrapper";
         
         if (stristr($query, 'GROUP BY')) {
