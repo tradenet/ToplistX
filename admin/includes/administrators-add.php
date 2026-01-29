@@ -16,6 +16,9 @@ if( !isset($_REQUEST['p_cat_r']) ) $_REQUEST['p_cat_r'] = 0;
 if( !isset($_REQUEST['p_account_a']) ) $_REQUEST['p_account_a'] = 0;
 if( !isset($_REQUEST['p_account_m']) ) $_REQUEST['p_account_m'] = 0;
 if( !isset($_REQUEST['p_account_r']) ) $_REQUEST['p_account_r'] = 0;
+if( !isset($_REQUEST['notifications']) ) $_REQUEST['notifications'] = 0;
+if( !isset($_REQUEST['e_account_added']) ) $_REQUEST['e_account_added'] = 0;
+if( !isset($_REQUEST['e_account_edited']) ) $_REQUEST['e_account_edited'] = 0;
 
 $type_options = array(ACCOUNT_ADMINISTRATOR => 'Administrator',
                       ACCOUNT_EDITOR => 'Editor');
