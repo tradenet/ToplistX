@@ -99,11 +99,14 @@ class DB
         $result = [];
         
         // Get total number of results
-        $count_query = preg_replace(
-            ['~SELECT (.*?) FROM~i', '~ ORDER BY (.*?)$~i'],
-            ['SELECT COUNT(*) FROM', ''],
-            $query
-        );
+        // First remove ORDER BY clause, then replace SELECT clause with COUNT(*)
+        $count_query = preg_replace('~ ORDER BY .*$~is', '', $query);
+        $count_query = preg_replace('~^SELECT .*? FROM~is', 'SELECT COUNT(*) FROM', $count_query);
+        
+        // Ensure query is not empty
+        if (empty(trim($count_query))) {
+            $count_query = "SELECT COUNT(*) FROM ($query) as counter";
+        }
         
         if (stristr($count_query, 'GROUP BY')) {
             $temp_result = $this->Query($count_query, $binds);
