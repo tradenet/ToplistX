@@ -8,18 +8,18 @@
 
 <div class="header">Fatal Error</div>
 <div class="bold">Error:</div>
-<div id="error" style="padding-left: 20px;">{$error}</div>
+<div id="error" style="padding-left: 20px;">{$error|htmlspecialchars}</div>
 
 <br />
 
 {if $trace}
 <div class="bold">Trace:</div>
-<div style="padding-left: 20px;">{$trace}</div>
+<div style="padding-left: 20px;">{$trace|htmlspecialchars}</div>
 {else}
 <div class="bold">File:</div>
-<div style="padding-left: 20px;">{$file}</div>
+<div style="padding-left: 20px;">{$file|htmlspecialchars}</div>
 <div class="bold">Line:</div>
-<div style="padding-left: 20px;">{$line}</div>
+<div style="padding-left: 20px;">{$line|htmlspecialchars}</div>
 {/if}
 
 </body>
