@@ -8,6 +8,7 @@ if( !isset($_REQUEST['username']) ) $_REQUEST['username'] = '';
 if( !isset($_REQUEST['password']) ) $_REQUEST['password'] = '';
 if( !isset($_REQUEST['name']) ) $_REQUEST['name'] = '';
 if( !isset($_REQUEST['email']) ) $_REQUEST['email'] = '';
+if( !isset($_REQUEST['type']) ) $_REQUEST['type'] = ACCOUNT_ADMINISTRATOR;
 
 $type_options = array(ACCOUNT_ADMINISTRATOR => 'Administrator',
                       ACCOUNT_EDITOR => 'Editor');
