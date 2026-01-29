@@ -28,7 +28,7 @@ $(function()
                                      });
   });
 
-<?PHP if( $GLOBALS['added'] ): ?>
+<?PHP if( isset($GLOBALS['added']) && $GLOBALS['added'] ): ?>
 if( typeof window.parent.Search == 'object' )
     window.parent.Search.search(false);
 <?PHP endif; ?>
@@ -40,20 +40,20 @@ if( typeof window.parent.Search == 'object' )
       <div style="float: right;">
         <a href="docs/accounts-scanner.html" target="_blank"><img src="images/help.png" border="0" alt="Help" title="Help"></a>
       </div>
-      <?php if( $editing ): ?>
+      <?php if( isset($editing) && $editing ): ?>
       Update this scanner configuration by making changes to the information below
       <?php else: ?>
       Add a scanner configuration by filling out the information below
       <?php endif; ?>
     </div>
        
-        <?php if( $GLOBALS['message'] ): ?>
+        <?php if( isset($GLOBALS['message']) && $GLOBALS['message'] ): ?>
         <div class="notice margin-bottom">
           <?php echo $GLOBALS['message']; ?>
         </div>        
         <?php endif; ?>
         
-        <?php if( $GLOBALS['errstr'] ): ?>
+        <?php if( isset($GLOBALS['errstr']) && $GLOBALS['errstr'] ): ?>
         <div class="alert margin-bottom">
           <?php echo $GLOBALS['errstr']; ?>
         </div>        
@@ -206,10 +206,10 @@ if( typeof window.parent.Search == 'object' )
       <button type="submit"><?php echo ($editing ? 'Update' : 'Add'); ?> Scanner Configuration</button>
     </div>
 
-    <input type="hidden" name="r" value="<?php echo ($editing ? 'tlxScannerConfigEdit' : 'tlxScannerConfigAdd'); ?>">
+    <input type="hidden" name="r" value="<?php echo (isset($editing) && $editing ? 'tlxScannerConfigEdit' : 'tlxScannerConfigAdd'); ?>">
     
-    <?php if( $editing ): ?>
-    <input type="hidden" name="config_id" value="<?php echo $_REQUEST['config_id']; ?>">
+    <?php if( isset($editing) && $editing ): ?>
+    <input type="hidden" name="config_id" value="<?php echo $_REQUEST['config_id'] ?? ''; ?>">
     <input type="hidden" name="editing" value="1">
     <?PHP endif; ?>
     </form>
