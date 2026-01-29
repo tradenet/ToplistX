@@ -5,7 +5,12 @@ $defaults = array('status' => 'active',
                   'date_added' => gmdate(DF_DATETIME, TimeWithTz()),
                   'ratings' => 0,
                   'ratings_total' => 0,
-                  'return_percent' => $C['return_percent']);
+                  'return_percent' => $C['return_percent'],
+                  'title' => '',
+                  'description' => '',
+                  'keywords' => '',
+                  'site_url' => '',
+                  'banner_url' => '');
 
 if( !isset($editing) ) $editing = false;
 if( !$editing )
