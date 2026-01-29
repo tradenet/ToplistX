@@ -1615,10 +1615,6 @@ class SelectBuilder
     function __construct($items, $table)
     {
         $this->query = "SELECT $items FROM `$table`";
-        if (empty(trim($items)) || empty(trim($table))) {
-            file_put_contents('/tmp/selectbuilder_debug.log', date('Y-m-d H:i:s') . " WARNING: SelectBuilder called with empty items or table - items: '$items', table: '$table'\n", FILE_APPEND);
-        }
-        file_put_contents('/tmp/selectbuilder_debug.log', date('Y-m-d H:i:s') . " SelectBuilder constructed - query: {$this->query}\n", FILE_APPEND);
     }
 
     function ProcessFieldName($field)
@@ -1875,15 +1871,6 @@ class SelectBuilder
     function Generate()
     {
         $select = $this->query;
-        
-        file_put_contents('/tmp/selectbuilder_debug.log', date('Y-m-d H:i:s') . " Generate() called - query: '$select'\n", FILE_APPEND);
-        file_put_contents('/tmp/selectbuilder_debug.log', date('Y-m-d H:i:s') . " DEBUG: class=" . get_class($this) . ", query=" . var_export($this->query, true) . "\n", FILE_APPEND);
-        
-        if ($select === null || $select === '') {
-            file_put_contents('/tmp/selectbuilder_debug.log', date('Y-m-d H:i:s') . " ERROR: SelectBuilder.Generate() - query is null or empty!\n", FILE_APPEND);
-            file_put_contents('/tmp/selectbuilder_debug.log', date('Y-m-d H:i:s') . " DEBUG: joins count: " . count($this->joins) . "\n", FILE_APPEND);
-            file_put_contents('/tmp/selectbuilder_debug.log', date('Y-m-d H:i:s') . " DEBUG: backtrace: " . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 5)) . "\n", FILE_APPEND);
-        }
 
         if( count($this->joins) )
         {
@@ -1919,8 +1906,6 @@ class SelectBuilder
             $select .= " LIMIT {$this->limit}";
         }
 
-        file_put_contents('/tmp/selectbuilder_debug.log', date('Y-m-d H:i:s') . " Generate() returning: " . substr($select, 0, 200) . "\n", FILE_APPEND);
-        
         return $select;
     }
 }
