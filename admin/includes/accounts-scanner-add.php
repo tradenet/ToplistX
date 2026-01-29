@@ -3,7 +3,10 @@ if( !defined('ToplistX') ) die("Access denied");
 
 if( !isset($GLOBALS['message']) ) $GLOBALS['message'] = '';
 if( !isset($GLOBALS['errstr']) ) $GLOBALS['errstr'] = '';
-if( !isset($editing) ) $editing = false;               
+if( !isset($editing) ) $editing = false;
+
+// Initialize form fields
+if( !isset($_REQUEST['categories']) ) $_REQUEST['categories'] = array('');
 
 $categories =& $DB->FetchAll('SELECT * FROM `tlx_categories` ORDER BY `name`');
 array_unshift($categories, array('category_id' => '', 'name' => 'ALL CATEGORIES'));
