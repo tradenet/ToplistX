@@ -103,12 +103,12 @@ if( typeof window.parent.Search == 'object' )
 
         <div class="fieldgroup">
             <label for="email">E-mail Address:</label>
-            <input type="text" name="email" id="email" size="45" value="<?php echo $_REQUEST['email']; ?>" />
+            <input type="text" name="email" id="email" size="45" value="<?php echo $_REQUEST['email'] ?? ''; ?>" />
         </div>
 
         <div class="fieldgroup">
             <label for="site_url">Site URL:</label>
-            <input type="text" name="site_url" id="site_url" size="90" value="<?php echo $_REQUEST['site_url']; ?>" />
+            <input type="text" name="site_url" id="site_url" size="90" value="<?php echo $_REQUEST['site_url'] ?? ''; ?>" />
         </div>
 
         <div class="fieldgroup">

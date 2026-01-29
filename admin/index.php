@@ -614,6 +614,7 @@ function tlxShScannerConfigAdd()
     VerifyAdministrator();
     ArrayHSC($_REQUEST);
 
+    $editing = false;
     include_once('includes/accounts-scanner-add.php');
 }
 
@@ -1337,7 +1338,7 @@ function tlxShCategoryEdit()
 
 function tlxShCategoryAdd()
 {
-    global $C, $DB;
+    global $C, $DB, $added;
 
     VerifyPrivileges(P_CATEGORY_ADD);
     ArrayHSC($_REQUEST);
@@ -1799,6 +1800,7 @@ function tlxShIconAdd()
     VerifyAdministrator();
     ArrayHSC($_REQUEST);
 
+    $editing = false;
     include_once('includes/icons-add.php');
 }
 
@@ -2016,6 +2018,7 @@ function tlxShRejectionTemplateAdd()
     VerifyAdministrator();
     ArrayHSC($_REQUEST);
 
+    $editing = false;
     include_once('includes/rejections-add.php');
 }
 
@@ -2184,6 +2187,7 @@ function tlxShBlacklistAdd()
     VerifyAdministrator();
     ArrayHSC($_REQUEST);
 
+    $editing = false;
     include_once('includes/blacklist-add.php');
 }
 
@@ -2433,6 +2437,7 @@ function tlxShAdministratorAdd()
     VerifyAdministrator();
     ArrayHSC($_REQUEST);
 
+    $editing = false;
     include_once('includes/administrators-add.php');
 }
 
