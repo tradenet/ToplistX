@@ -2412,7 +2412,7 @@ function tlxAdministratorEdit()
 
 function tlxShAdministratorEdit()
 {
-    global $DB, $C;
+    global $DB, $C, $added;
 
     VerifyAdministrator();
 
