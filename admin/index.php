@@ -1361,7 +1361,15 @@ function tlxCategoryAdd()
     if( !isset($_REQUEST['banner_max_width']) ) $_REQUEST['banner_max_width'] = '';
     if( !isset($_REQUEST['banner_max_height']) ) $_REQUEST['banner_max_height'] = '';
     if( !isset($_REQUEST['banner_max_bytes']) ) $_REQUEST['banner_max_bytes'] = '';
+    if( !isset($_REQUEST['banner_force_size']) ) $_REQUEST['banner_force_size'] = 0;
+    if( !isset($_REQUEST['download_banners']) ) $_REQUEST['download_banners'] = 0;
+    if( !isset($_REQUEST['host_banners']) ) $_REQUEST['host_banners'] = 0;
     if( !isset($_REQUEST['allow_redirect']) ) $_REQUEST['allow_redirect'] = 0;
+    if( !isset($_REQUEST['title_min_length']) ) $_REQUEST['title_min_length'] = '';
+    if( !isset($_REQUEST['title_max_length']) ) $_REQUEST['title_max_length'] = '';
+    if( !isset($_REQUEST['desc_min_length']) ) $_REQUEST['desc_min_length'] = '';
+    if( !isset($_REQUEST['desc_max_length']) ) $_REQUEST['desc_max_length'] = '';
+    if( !isset($_REQUEST['recip_required']) ) $_REQUEST['recip_required'] = 0;
     
     UnixFormat($_REQUEST['name']);
     $v =& ValidateCategoryInput(TRUE);
@@ -1423,7 +1431,15 @@ function tlxCategoryEdit()
     if( !isset($_REQUEST['banner_max_width']) ) $_REQUEST['banner_max_width'] = '';
     if( !isset($_REQUEST['banner_max_height']) ) $_REQUEST['banner_max_height'] = '';
     if( !isset($_REQUEST['banner_max_bytes']) ) $_REQUEST['banner_max_bytes'] = '';
+    if( !isset($_REQUEST['banner_force_size']) ) $_REQUEST['banner_force_size'] = 0;
+    if( !isset($_REQUEST['download_banners']) ) $_REQUEST['download_banners'] = 0;
+    if( !isset($_REQUEST['host_banners']) ) $_REQUEST['host_banners'] = 0;
     if( !isset($_REQUEST['allow_redirect']) ) $_REQUEST['allow_redirect'] = 0;
+    if( !isset($_REQUEST['title_min_length']) ) $_REQUEST['title_min_length'] = '';
+    if( !isset($_REQUEST['title_max_length']) ) $_REQUEST['title_max_length'] = '';
+    if( !isset($_REQUEST['desc_min_length']) ) $_REQUEST['desc_min_length'] = '';
+    if( !isset($_REQUEST['desc_max_length']) ) $_REQUEST['desc_max_length'] = '';
+    if( !isset($_REQUEST['recip_required']) ) $_REQUEST['recip_required'] = 0;
     
     $v =& ValidateCategoryInput();
 
