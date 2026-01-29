@@ -63,7 +63,7 @@ class Http
     var $proxy;
     var $proxy_username;
     var $proxy_password;
-    var $raw_response_headers;
+    var $raw_response_headers = '';
     var $body;
     var $username;
     var $password;
