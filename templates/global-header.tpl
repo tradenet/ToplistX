@@ -5,6 +5,7 @@
   <script type="text/javascript" src="{$config.install_url}/includes/jquery.js"></script>
   <script type="text/javascript" src="{$config.install_url}/includes/interface.js"></script>
   <link rel="stylesheet" type="text/css" href="{$config.install_url}/templates/style.css" />
+  {* head_items is application-controlled HTML injection point - do not escape *}
   {$head_items}
   <title>Toplist - {$page_title|htmlspecialchars}</title>
   <script language="JavaScript" type="text/javascript">
