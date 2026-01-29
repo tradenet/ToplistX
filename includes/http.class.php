@@ -158,12 +158,14 @@ class Http
         
         return $result;
     }
-
     function GetCurl($url, $redirection)
     {
         global $HTTP_ERROR;
         
         $result = TRUE;
+        
+        // Initialize raw_response_headers for this request
+        $this->raw_response_headers = '';
 
         $ch = curl_init();
         
