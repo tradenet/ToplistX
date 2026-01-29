@@ -98,20 +98,11 @@ class DB
         
         $result = [];
         
-        // Get total number of results
-        // Build a count query more carefully to handle complex queries with JOINs
-        $count_query = preg_replace('~ ORDER BY [^;]*$~is', '', $query);
+        // Get total number of results using subquery wrapper - most reliable method
+        // This avoids complex regex manipulation and works with any query structure
+        $count_query = "SELECT COUNT(*) FROM ($query) AS count_wrapper";
         
-        // Replace the SELECT clause with COUNT(*) - use a more robust pattern
-        // Match from start of string, "SELECT", anything (greedy), up to last occurrence of "FROM"
-        $count_query = preg_replace('~^SELECT\s+.*\s+FROM~is', 'SELECT COUNT(*) FROM', $count_query);
-        
-        // Final fallback: if the count query is empty or doesn't have SELECT, wrap it as a subquery
-        if (empty(trim($count_query)) || !preg_match('~SELECT~i', $count_query)) {
-            $count_query = "SELECT COUNT(*) FROM ($query) AS counter_table";
-        }
-        
-        if (stristr($count_query, 'GROUP BY')) {
+        if (stristr($query, 'GROUP BY')) {
             $temp_result = $this->Query($count_query, $binds);
             $result['total'] = $temp_result->num_rows;
         } else {
