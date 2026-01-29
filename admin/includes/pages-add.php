@@ -112,13 +112,13 @@ function checkFilename()
         </fieldset>
 
     <div class="centered margin-top">
-      <button type="submit"><?php echo ($editing ? 'Update' : 'Add'); ?> Ranking Page</button>
+      <button type="submit"><?php echo (isset($editing) && $editing ? 'Update' : 'Add'); ?> Ranking Page</button>
     </div>
 
-    <input type="hidden" name="page_id" value="<?php echo $_REQUEST['page_id']; ?>" />
-    <input type="hidden" name="r" value="<?php echo ($editing ? 'tlxPageEdit' : 'tlxPageAdd'); ?>">
+    <input type="hidden" name="page_id" value="<?php echo $_REQUEST['page_id'] ?? ''; ?>" />
+    <input type="hidden" name="r" value="<?php echo (isset($editing) && $editing ? 'tlxPageEdit' : 'tlxPageAdd'); ?>">
 
-    <?php if( $editing ): ?>
+    <?php if( isset($editing) && $editing ): ?>
     <input type="hidden" name="editing" value="1">
     <?PHP endif; ?>
     </form>
