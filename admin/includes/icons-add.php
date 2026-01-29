@@ -4,6 +4,8 @@ if( !defined('ToplistX') ) die("Access denied");
 if( !isset($GLOBALS['message']) ) $GLOBALS['message'] = '';
 if( !isset($GLOBALS['errstr']) ) $GLOBALS['errstr'] = '';
 if( !isset($editing) ) $editing = false;
+if( !isset($_REQUEST['identifier']) ) $_REQUEST['identifier'] = '';
+if( !isset($_REQUEST['icon_html']) ) $_REQUEST['icon_html'] = '';
 
 include_once('includes/header.php');
 ?>
