@@ -1,6 +1,10 @@
 <?php
 if( !defined('ToplistX') ) die("Access denied");
 
+if( !isset($GLOBALS['message']) ) $GLOBALS['message'] = '';
+if( !isset($GLOBALS['errstr']) ) $GLOBALS['errstr'] = '';
+if( !isset($editing) ) $editing = false;
+
 $defaults = array('forward_url' => 'http://' . $_SERVER['HTTP_HOST'] . '/',
                   'title_min_length' => 10,
                   'title_max_length' => 100,

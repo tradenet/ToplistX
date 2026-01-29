@@ -1,6 +1,10 @@
 <?php
 if( !defined('ToplistX') ) die("Access denied");
 
+if( !isset($GLOBALS['message']) ) $GLOBALS['message'] = '';
+if( !isset($GLOBALS['errstr']) ) $GLOBALS['errstr'] = '';
+if( !isset($GLOBALS['added']) ) $GLOBALS['added'] = false;
+
 $categories =& $DB->FetchAll('SELECT `name`,`category_id` FROM `tlx_categories` ORDER BY `name`');
 
 if( !isset($_REQUEST['build_order']) )

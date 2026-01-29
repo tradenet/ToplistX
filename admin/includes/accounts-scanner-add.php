@@ -1,5 +1,9 @@
 <?php
-if( !defined('ToplistX') ) die("Access denied");               
+if( !defined('ToplistX') ) die("Access denied");
+
+if( !isset($GLOBALS['message']) ) $GLOBALS['message'] = '';
+if( !isset($GLOBALS['errstr']) ) $GLOBALS['errstr'] = '';
+if( !isset($editing) ) $editing = false;               
 
 $categories =& $DB->FetchAll('SELECT * FROM `tlx_categories` ORDER BY `name`');
 array_unshift($categories, array('category_id' => '', 'name' => 'ALL CATEGORIES'));

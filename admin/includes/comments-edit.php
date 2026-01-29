@@ -1,6 +1,9 @@
 <?php
 if( !defined('ToplistX') ) die("Access denied");
 
+if( !isset($GLOBALS['message']) ) $GLOBALS['message'] = '';
+if( !isset($GLOBALS['errstr']) ) $GLOBALS['errstr'] = '';
+
 $jscripts = array('includes/calendar.js');
 $csses = array('includes/calendar.css');
 

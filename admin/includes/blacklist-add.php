@@ -1,6 +1,10 @@
 <?php
 if( !defined('ToplistX') ) die("Access denied");
 
+if( !isset($GLOBALS['message']) ) $GLOBALS['message'] = '';
+if( !isset($GLOBALS['errstr']) ) $GLOBALS['errstr'] = '';
+if( !isset($editing) ) $editing = false;
+
 include_once('includes/header.php');
 ?>
 

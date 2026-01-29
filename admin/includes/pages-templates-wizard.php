@@ -1,6 +1,9 @@
 <?php
 if( !defined('ToplistX') ) die("Access denied");
 
+if( !isset($GLOBALS['message']) ) $GLOBALS['message'] = '';
+if( !isset($GLOBALS['errstr']) ) $GLOBALS['errstr'] = '';
+
 $categories =& $DB->FetchAll('SELECT * FROM `tlx_categories` ORDER BY `name`');
 
 include_once('includes/header.php');
