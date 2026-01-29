@@ -529,13 +529,20 @@ function AccountSearchSelect(&$s, $request = null)
     if (empty($_REQUEST['order']) || !isset($sorters[$_REQUEST['order']])) {
         $_REQUEST['order'] = 'username';
     }
+    
+    // Ensure the sorter value exists and is not empty
+    $sorter_field = $sorters[$_REQUEST['order']] ?? '`username`';
+    if (empty($sorter_field)) {
+        $sorter_field = '`username`';
+    }
                                                          
     if( preg_match('~(.*?)_days_(\d+)~', $_REQUEST['order'], $matches) )
     {
         $sorters[$_REQUEST['order']] = "SUM(`{$matches[1]}`)";
+        $sorter_field = $sorters[$_REQUEST['order']];
     }
     
-    $s = new SelectBuilder('*,' . $sorters[$_REQUEST['order']] . ' AS `sorter`', 'tlx_accounts');
+    $s = new SelectBuilder('*,' . $sorter_field . ' AS `sorter`', 'tlx_accounts');
     
     $fulltext = array('title,description,keywords');
     $user = $DB->GetColumns('tlx_account_fields');
