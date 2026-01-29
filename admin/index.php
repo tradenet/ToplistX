@@ -1323,6 +1323,9 @@ function tlxShCategoryEdit()
 
     VerifyPrivileges(P_CATEGORY_MODIFY);
 
+    // Initialize editing field
+    if( !isset($_REQUEST['editing']) ) $_REQUEST['editing'] = '';
+
     // First time or update, use database information
     if( !$_REQUEST['editing'] || $GLOBALS['added'] )
     {
