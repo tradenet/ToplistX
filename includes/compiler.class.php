@@ -997,10 +997,34 @@ class Compiler
         if( !preg_match('~^global-~', $attrs['filename']) )
             return $this->syntax_error("include: only global templates can be included");
             
-        if( !file_exists($this->compile_dir . '/' . $attrs['filename']) )
-            return $this->syntax_error("include: compiled template '".$this->compile_dir . '/' . $attrs['filename']."' does not exist");
+        // Check if source template exists
+        if( !file_exists($this->template_dir . '/' . $attrs['filename']) )
+            return $this->syntax_error("include: template '".$this->template_dir . '/' . $attrs['filename']."' does not exist");
+            
+        // If compiled version doesn't exist or is outdated, compile it first
+        $compiled_path = $this->compile_dir . '/' . $attrs['filename'];
+        $source_path = $this->template_dir . '/' . $attrs['filename'];
+        
+        if( !file_exists($compiled_path) || filemtime($source_path) > filemtime($compiled_path) )
+        {
+            // Compile the included template
+            $source = file_get_contents($source_path);
+            $compiled = '';
+            if( !$this->compile($source, $compiled) )
+                return $this->syntax_error("include: failed to compile '".$attrs['filename']."'");
+                
+            // Write compiled template
+            $fd = @fopen($compiled_path, 'w');
+            if( $fd )
+            {
+                flock($fd, LOCK_EX);
+                fwrite($fd, $compiled);
+                flock($fd, LOCK_UN);
+                fclose($fd);
+            }
+        }
 
-        return file_get_contents($this->compile_dir . '/' . $attrs['filename']);
+        return file_get_contents($compiled_path);
     }
 
     function compile_if_tag($tag_args, $elseif = false)

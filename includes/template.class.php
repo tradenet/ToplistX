@@ -250,13 +250,17 @@ class Template
 
     function write_template($template, &$code)
     {
-        $fd = fopen($template, 'w');
+        $fd = @fopen($template, 'w');
         if( $fd  )
         {
             flock($fd, LOCK_EX);
             fwrite($fd, $code);
             flock($fd, LOCK_UN);
             fclose($fd);
+        }
+        else
+        {
+            trigger_error("Cannot write compiled template '$template': " . error_get_last()['message'], E_USER_ERROR);
         }
     }
 }
