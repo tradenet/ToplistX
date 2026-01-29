@@ -9,6 +9,13 @@ if( !isset($_REQUEST['password']) ) $_REQUEST['password'] = '';
 if( !isset($_REQUEST['name']) ) $_REQUEST['name'] = '';
 if( !isset($_REQUEST['email']) ) $_REQUEST['email'] = '';
 if( !isset($_REQUEST['type']) ) $_REQUEST['type'] = ACCOUNT_ADMINISTRATOR;
+if( !isset($_REQUEST['rights']) ) $_REQUEST['rights'] = 0;
+if( !isset($_REQUEST['p_cat_a']) ) $_REQUEST['p_cat_a'] = 0;
+if( !isset($_REQUEST['p_cat_m']) ) $_REQUEST['p_cat_m'] = 0;
+if( !isset($_REQUEST['p_cat_r']) ) $_REQUEST['p_cat_r'] = 0;
+if( !isset($_REQUEST['p_account_a']) ) $_REQUEST['p_account_a'] = 0;
+if( !isset($_REQUEST['p_account_m']) ) $_REQUEST['p_account_m'] = 0;
+if( !isset($_REQUEST['p_account_r']) ) $_REQUEST['p_account_r'] = 0;
 
 $type_options = array(ACCOUNT_ADMINISTRATOR => 'Administrator',
                       ACCOUNT_EDITOR => 'Editor');
