@@ -147,9 +147,9 @@ class Http
         // Handle compressed pages
         if( HAVE_ZLIB )
         {
-            if( $this->response_headers['content-encoding'] == 'gzip' && substr($this->body, 0, 8) == "\x1f\x8b\x08\x00\x00\x00\x00\x00" )
+            if( isset($this->response_headers['content-encoding']) && $this->response_headers['content-encoding'] == 'gzip' && substr($this->body, 0, 8) == "\x1f\x8b\x08\x00\x00\x00\x00\x00" )
                 $this->body = gzinflate(substr($this->body, 10));
-            else if( $this->response_headers['content-encoding'] == 'deflate' )
+            else if( isset($this->response_headers['content-encoding']) && $this->response_headers['content-encoding'] == 'deflate' )
                 $this->body = gzinflate($this->body);
         }
         
