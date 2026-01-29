@@ -567,7 +567,7 @@ class Compiler
 
         $attrs['category'] = FormatCommaSeparated($attrs['category']);
         
-        if( $this->flags['category_id'] )
+        if( isset($this->flags['category_id']) && $this->flags['category_id'] )
         {                
             $s->AddWhere('category_id', ST_MATCHES, $this->flags['category_id'], TRUE);
         }
