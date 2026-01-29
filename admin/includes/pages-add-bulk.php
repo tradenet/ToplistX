@@ -16,7 +16,7 @@ include_once('includes/header.php');
 ?>
 
 <script language="JavaScript">
-<?PHP if( $GLOBALS['added'] ): ?>
+<?PHP if( isset($GLOBALS['added']) && $GLOBALS['added'] ): ?>
 if( typeof window.parent.Search == 'object' )
     window.parent.Search.search(false);
 <?PHP endif; ?>
@@ -65,13 +65,13 @@ function categoryChange()
       Add ranking pages in bulk by filling out the information below
     </div>
 
-        <?php if( $GLOBALS['message'] ): ?>
+        <?php if( isset($GLOBALS['message']) && $GLOBALS['message'] ): ?>
         <div class="notice margin-bottom">
           <?php echo $GLOBALS['message']; ?>
         </div>
         <?php endif; ?>
 
-        <?php if( $GLOBALS['errstr'] ): ?>
+        <?php if( isset($GLOBALS['errstr']) && $GLOBALS['errstr'] ): ?>
         <div class="alert margin-bottom">
           <?php echo $GLOBALS['errstr']; ?>
         </div>
