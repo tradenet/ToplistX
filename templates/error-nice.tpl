@@ -19,7 +19,7 @@
 
 <div class="content-section">
 <div class="error">
-{$error}
+{$error|htmlspecialchars}
 </div>
 </div>
 
