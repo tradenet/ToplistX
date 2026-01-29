@@ -357,14 +357,14 @@ function BuildPage($page)
     $t->cleanup();
 }
 
-function &LoadAccounts($query, $ranks, &$fillranks, $storeranks = FALSE, $storecatranks = FALSE, $stats = '')
+function &LoadAccounts($query, $binds, $ranks, &$fillranks, $storeranks = FALSE, $storecatranks = FALSE, $stats = '')
 {
     global $DB, $L, $C;
 
     $accounts = array();
 
     list($rank, $end) = explode('-', $ranks);
-    $result = $DB->Query($query);
+    $result = $DB->Query($query, $binds);
     while( $account = $DB->NextRow($result) )
     {
         $account['rank'] = $rank++;

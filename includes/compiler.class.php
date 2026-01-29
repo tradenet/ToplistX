@@ -832,7 +832,8 @@ class Compiler
         $s->SetLimit(($start-1).','.($end-$start+1));
         
         // Generate the SQL query to pull accounts from the database
-        $query = $DB->Prepare($s->Generate(), $s->binds);
+        $query = $s->Generate();
+        $binds = var_export($s->binds, true);
         
         // Query replacements
         $replacements = array('%SORTER%' => $sorter,
@@ -848,7 +849,7 @@ class Compiler
             $attrs['stats'] = FormatCommaSeparated($attrs['stats']);
         }
 
-        return S_PHP . " {$attrs['var']} =& LoadAccounts(\"$query\", '{$attrs['ranks']}', \$this->vars['fillranks'], " . 
+        return S_PHP . " {$attrs['var']} =& LoadAccounts(\"$query\", $binds, '{$attrs['ranks']}', \$this->vars['fillranks'], " . 
                ($attrs['storeranks'] === TRUE ? 'TRUE' : 'FALSE') . ", " . ($attrs['storecatranks'] === TRUE ? 'TRUE' : 'FALSE') . ", '{$attrs['stats']}'); " . E_PHP;
     }
 
