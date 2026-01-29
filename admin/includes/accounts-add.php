@@ -10,7 +10,18 @@ $defaults = array('status' => 'active',
                   'description' => '',
                   'keywords' => '',
                   'site_url' => '',
-                  'banner_url' => '');
+                  'banner_url' => '',
+                  'banner_url_local' => '',
+                  'banner_height' => '',
+                  'banner_width' => '',
+                  'admin_comments' => '',
+                  'domain' => '',
+                  'category_id' => '',
+                  'locked' => 0,
+                  'disabled' => 0,
+                  'password' => '',
+                  'email' => '',
+                  'username' => '');
 
 if( !isset($editing) ) $editing = false;
 if( !$editing )
@@ -139,7 +150,7 @@ if( typeof window.parent.Search == 'object' )
             <label for="category_id">Category:</label>
             <select name="category_id">
             <?php
-            echo OptionTagsAdv($categories, $_REQUEST['category_id'], 'category_id', 'name', 50);
+            echo OptionTagsAdv($categories, $_REQUEST['category_id'] ?? '', 'category_id', 'name', 50);
             ?>
             </select>
         </div>
@@ -147,30 +158,30 @@ if( typeof window.parent.Search == 'object' )
 
         <div class="fieldgroup">
             <label for="banner_url">Banner URL:</label>
-            <input type="text" name="banner_url" id="banner_url" size="90" value="<?php echo $_REQUEST['banner_url']; ?>" />
+            <input type="text" name="banner_url" id="banner_url" size="90" value="<?php echo $_REQUEST['banner_url'] ?? ''; ?>" />
             <input type="checkbox" name="download_banner" id="download_banner" value="1" class="checkbox" /> <label for="download_banner" class="cblabel inline">Download</label>
         </div>
 
         <div class="fieldgroup">
             <label for="banner_width">Banner Size:</label>
-            <input type="text" name="banner_width" id="banner_width" size="4" value="<?php echo $_REQUEST['banner_width']; ?>" />
+            <input type="text" name="banner_width" id="banner_width" size="4" value="<?php echo $_REQUEST['banner_width'] ?? ''; ?>" />
             x
-            <input type="text" name="banner_height" id="banner_height" size="4" value="<?php echo $_REQUEST['banner_height']; ?>" />
+            <input type="text" name="banner_height" id="banner_height" size="4" value="<?php echo $_REQUEST['banner_height'] ?? ''; ?>" />
             &nbsp;
             WIDTH x HEIGHT
         </div>
 
         <div class="fieldgroup">
             <label for="ratings">Ratings/Total:</label>
-            <input type="text" name="ratings" id="ratings" size="10" value="<?php echo $_REQUEST['ratings']; ?>" onkeyup="updateRating()" />
+            <input type="text" name="ratings" id="ratings" size="10" value="<?php echo $_REQUEST['ratings'] ?? ''; ?>" onkeyup="updateRating()" />
             /
-            <input type="text" name="ratings_total" id="ratings_total" size="10" value="<?php echo $_REQUEST['ratings_total']; ?>" onkeyup="updateRating()" /> &nbsp;
+            <input type="text" name="ratings_total" id="ratings_total" size="10" value="<?php echo $_REQUEST['ratings_total'] ?? ''; ?>" onkeyup="updateRating()" /> &nbsp;
             Average Rating: <span id="rating_avg"></span>
         </div>
 
         <div class="fieldgroup">
             <label for="date_added">Date Added:</label>
-            <input type="text" name="date_added" id="date_added" size="20" value="<?php echo $_REQUEST['date_added']; ?>" class="calendarSelectDate" />
+            <input type="text" name="date_added" id="date_added" size="20" value="<?php echo $_REQUEST['date_added'] ?? ''; ?>" class="calendarSelectDate" />
         </div>
 
         <div class="fieldgroup">
@@ -180,14 +191,14 @@ if( typeof window.parent.Search == 'object' )
             $statuses = array('pending' => 'Pending',
                               'active' => 'Active');
 
-            echo OptionTags($statuses, $_REQUEST['status']);
+            echo OptionTags($statuses, $_REQUEST['status'] ?? 'active');
             ?>
             </select>
         </div>
 
         <div class="fieldgroup">
             <label for="admin_comments">Admin Comments:</label>
-            <textarea name="admin_comments" id="admin_comments" rows="3" cols="90"><?php echo $_REQUEST['admin_comments']; ?></textarea>
+            <textarea name="admin_comments" id="admin_comments" rows="3" cols="90"><?php echo $_REQUEST['admin_comments'] ?? ''; ?></textarea>
         </div>
 
         <div class="fieldgroup">
@@ -217,7 +228,7 @@ if( typeof window.parent.Search == 'object' )
 
         <div class="fieldgroup">
             <label for="return_percent">Return Percent:</label>
-            <input type="text" name="return_percent" id="return_percent" size="10" value="<?php echo ($_REQUEST['return_percent'] * 100); ?>" />
+            <input type="text" name="return_percent" id="return_percent" size="10" value="<?php echo (($_REQUEST['return_percent'] ?? 0) * 100); ?>" />
         </div>
 
         <hr />
@@ -355,10 +366,10 @@ if( typeof window.parent.Search == 'object' )
     </div>
 
     <input type="hidden" name="r" value="<?php echo ($editing ? 'tlxAccountEdit' : 'tlxAccountAdd'); ?>">
-    <input type="hidden" name="nosearch" value="<?php echo $_REQUEST['nosearch']; ?>">
+    <input type="hidden" name="nosearch" value="<?php echo $_REQUEST['nosearch'] ?? ''; ?>">
 
     <?php if( $editing ): ?>
-    <input type="hidden" name="username" value="<?php echo $_REQUEST['username']; ?>">
+    <input type="hidden" name="username" value="<?php echo $_REQUEST['username'] ?? ''; ?>">
     <input type="hidden" name="editing" value="1">
     <?PHP endif; ?>
     </form>
