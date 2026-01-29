@@ -543,6 +543,7 @@ function AccountSearchSelect(&$s, $request = null)
     }
     
     $s = new SelectBuilder('*,' . $sorter_field . ' AS `sorter`', 'tlx_accounts');
+    file_put_contents('/tmp/selectbuilder_debug.log', date('Y-m-d H:i:s') . " AccountSearchSelect: Created new SelectBuilder, query=" . $s->query . "\n", FILE_APPEND);
     
     $fulltext = array('title,description,keywords');
     $user = $DB->GetColumns('tlx_account_fields');
@@ -1098,11 +1099,14 @@ function &GenericSearch($table, $files, $select_callback = null, $item_callback 
     $per_page = isset($_REQUEST['per_page']) && $_REQUEST['per_page'] > 0 ? $_REQUEST['per_page'] : 20;
     $page = isset($_REQUEST['page']) ? $_REQUEST['page'] : 1;       
     $select = new SelectBuilder('*', $table);
+    file_put_contents('/tmp/selectbuilder_debug.log', date('Y-m-d H:i:s') . " GenericSearch: Created initial SelectBuilder, query=" . $select->query . "\n", FILE_APPEND);
     $override = FALSE;
     
     if ($select_callback !== null && function_exists($select_callback))
     {
+        file_put_contents('/tmp/selectbuilder_debug.log', date('Y-m-d H:i:s') . " GenericSearch: Before callback, query=" . $select->query . "\n", FILE_APPEND);
         $override = $select_callback($select);
+        file_put_contents('/tmp/selectbuilder_debug.log', date('Y-m-d H:i:s') . " GenericSearch: After callback, override=$override, query=" . (isset($select->query) ? $select->query : 'UNDEFINED') . "\n", FILE_APPEND);
     }
     
     if( !$override )
