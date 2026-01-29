@@ -73,7 +73,7 @@
         if( $value != $item[$name] ):
             if( $name == 'category_id' ) $value = $GLOBALS['_categories_'][$value]['name'];
             echo "<div class=\"fieldgroup\"><label class=\"lesspad\">" . (isset($GLOBALS['_fields_'][$name]) ? $GLOBALS['_fields_'][$name] : ucwords(str_replace('_', ' ', $name))) . ":</label> " .
-                 (preg_match('~^http://~', $value) ? '<a href="'.$value.'" target="_blank">'.$value.'</a>' : $value) . "</div>\n";
+                 (preg_match('~^http://~', $value) ? '<a href="'.htmlspecialchars($value, ENT_QUOTES, 'UTF-8').'" target="_blank">'.htmlspecialchars($value, ENT_QUOTES, 'UTF-8').'</a>' : htmlspecialchars($value, ENT_QUOTES, 'UTF-8')) . "</div>\n";
     ?>
     <?php 
         endif;
@@ -88,7 +88,7 @@
     if( $item['banner_url'] ): 
         $item['banner_url'] = $item['banner_url_local'] ? $item['banner_url_local'] : $item['banner_url'];
     ?>
-    <img src="images/banner.png" width="11" height="12" alt="Banner" title="Click to view banner" class="function click" onclick="showBanner(this,'<?php echo $item['banner_url']; ?>','<?php echo "{$item['banner_width']}x{$item['banner_height']}"; ?>')">
+    <img src="images/banner.png" width="11" height="12" alt="Banner" title="Click to view banner" class="function click" onclick="showBanner(this,<?php echo json_encode($item['banner_url']); ?>,<?php echo json_encode("{$item['banner_width']}x{$item['banner_height']}"); ?>)">
     <?php endif; ?>
     
     <?php if( $item['comments'] ): ?>
