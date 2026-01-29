@@ -39,13 +39,13 @@ require_once('includes/common.php');
 require_once('includes/mysql.class.php');
 
 // See if we are running in test mode
-if( stristr($_SERVER['QUERY_STRING'], '.ttf') )
+if( isset($_SERVER['QUERY_STRING']) && stristr($_SERVER['QUERY_STRING'], '.ttf') )
 {
     DisplayTest();
 }
 
 
-switch($_GET['c'])
+switch($_GET['c'] ?? '')
 {
     default:
         $cookie = 'toplistxcaptcha';
