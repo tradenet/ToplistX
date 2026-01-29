@@ -4,6 +4,11 @@ if( !defined('ToplistX') ) die("Access denied");
 if( !isset($GLOBALS['message']) ) $GLOBALS['message'] = '';
 if( !isset($GLOBALS['errstr']) ) $GLOBALS['errstr'] = '';
 if( !isset($editing) ) $editing = false;
+if( !isset($_REQUEST['value']) ) $_REQUEST['value'] = '';
+if( !isset($_REQUEST['regex']) ) $_REQUEST['regex'] = 0;
+if( !isset($_REQUEST['type']) ) $_REQUEST['type'] = '';
+if( !isset($_REQUEST['reason']) ) $_REQUEST['reason'] = '';
+if( !isset($_REQUEST['blacklist_id']) ) $_REQUEST['blacklist_id'] = '';
 
 include_once('includes/header.php');
 ?>
