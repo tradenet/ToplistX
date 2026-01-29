@@ -185,8 +185,6 @@ function tlxAccountEdit()
     if( !isset($_REQUEST['headers']) ) $_REQUEST['headers'] = '';
     if( !isset($_REQUEST['banner_url_local']) ) $_REQUEST['banner_url_local'] = '';
 
-    unset($_REQUEST['banner_url_local']);
-
     // Get domain
     $parsed_url = parse_url($_REQUEST['site_url']);
     $_REQUEST['domain'] = preg_replace('~^www\.~', '', $parsed_url['host']);
@@ -490,7 +488,6 @@ function tlxShAccountAdd($errors = null)
 
     $t->display('accounts-add.tpl');
 }
-
 function tlxAccountAdd()
 {
     global $C, $DB, $L, $IMAGE_EXTENSIONS, $t;
@@ -502,8 +499,6 @@ function tlxAccountAdd()
     if( !isset($_REQUEST['html']) ) $_REQUEST['html'] = '';
     if( !isset($_REQUEST['headers']) ) $_REQUEST['headers'] = '';
     if( !isset($_REQUEST['banner_url_local']) ) $_REQUEST['banner_url_local'] = '';
-
-    unset($_REQUEST['banner_url_local']);
 
     // Get domain
     $parsed_url = parse_url($_REQUEST['site_url']);
