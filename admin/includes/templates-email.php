@@ -82,19 +82,19 @@ function checkForm()
 
     <div class="fieldgroup">
       <label for="subject">Subject:</label>
-      <input type="text" name="subject" id="subject" size="110" value="<?php echo $_REQUEST['subject']; ?>" />
+      <input type="text" name="subject" id="subject" size="110" value="<?php echo $_REQUEST['subject'] ?? ''; ?>" />
     </div>
 
     <div class="fieldgroup">
       <label for="plain">Text Body:<br />
       <img src="images/html.png" border="0" width="16" height="16" alt="To HTML" onclick="return textToHtml('#plain', '#html')" style="cursor: pointer; margin-top: 5px;">
       </label>
-      <textarea name="plain" id="plain" rows="15" cols="130" wrap="off"><?php echo $_REQUEST['plain']; ?></textarea>
+      <textarea name="plain" id="plain" rows="15" cols="130" wrap="off"><?php echo $_REQUEST['plain'] ?? ''; ?></textarea>
     </div>
 
     <div class="fieldgroup">
       <label for="html">HTML Body:</label>
-      <textarea name="html" id="html" rows="15" cols="130" wrap="off"><?php echo $_REQUEST['html']; ?></textarea>
+      <textarea name="html" id="html" rows="15" cols="130" wrap="off"><?php echo $_REQUEST['html'] ?? ''; ?></textarea>
     </div>
 
     <?php endif; ?>
