@@ -5,6 +5,14 @@ if( !isset($GLOBALS['message']) ) $GLOBALS['message'] = '';
 if( !isset($GLOBALS['errstr']) ) $GLOBALS['errstr'] = '';
 if( !isset($GLOBALS['warn']) ) $GLOBALS['warn'] = array();
 if( !isset($GLOBALS['added']) ) $GLOBALS['added'] = false;
+if( !isset($_REQUEST['base_url']) ) $_REQUEST['base_url'] = '';
+if( !isset($_REQUEST['category_id']) ) $_REQUEST['category_id'] = '';
+if( !isset($_REQUEST['prefix']) ) $_REQUEST['prefix'] = '';
+if( !isset($_REQUEST['ext']) ) $_REQUEST['ext'] = '';
+if( !isset($_REQUEST['tags']) ) $_REQUEST['tags'] = '';
+if( !isset($_REQUEST['num_pages']) ) $_REQUEST['num_pages'] = '';
+if( !isset($_REQUEST['characters']) ) $_REQUEST['characters'] = '';
+if( !isset($_REQUEST['case']) ) $_REQUEST['case'] = '';
 
 $categories =& $DB->FetchAll('SELECT `name`,`category_id` FROM `tlx_categories` ORDER BY `name`');
 
