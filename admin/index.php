@@ -1319,7 +1319,7 @@ function tlxShCategories()
 
 function tlxShCategoryEdit()
 {
-    global $C, $DB;
+    global $C, $DB, $added;
 
     VerifyPrivileges(P_CATEGORY_MODIFY);
 
