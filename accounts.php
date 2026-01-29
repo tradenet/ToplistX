@@ -464,10 +464,21 @@ function tlxShAccountAdd($errors = null)
     $categories =& $DB->FetchAll('SELECT * FROM `tlx_categories` WHERE `hidden`=0 ORDER BY `name`');
     $fields =& GetUserAccountFields();
 
+    $account = array_merge(array('email' => '',
+                                 'category_id' => '',
+                                 'site_url' => '',
+                                 'title' => '',
+                                 'description' => '',
+                                 'keywords' => '',
+                                 'banner_url' => '',
+                                 'banner_width' => '',
+                                 'banner_height' => '',
+                                 'username' => ''), $_REQUEST);
+
     $t->assign_by_ref('errors', $errors);
     $t->assign_by_ref('categories', $categories);
     $t->assign_by_ref('user_fields', $fields);
-    $t->assign_by_ref('account', $_REQUEST);
+    $t->assign_by_ref('account', $account);
 
     $t->display('accounts-add.tpl');
 }
