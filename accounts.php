@@ -28,6 +28,8 @@ $functions = array('accountadd' => 'tlxAccountAdd',
                    'doedit' => 'tlxAccountEdit',
                    'links' => 'tlxShAccountLinks');
 
+if( !isset($_REQUEST['r']) ) $_REQUEST['r'] = '';
+
 require_once('includes/common.php');
 require_once("{$GLOBALS['BASE_DIR']}/includes/template.class.php");
 require_once("{$GLOBALS['BASE_DIR']}/includes/mysql.class.php");
