@@ -189,7 +189,7 @@ function bannerLoaded(img, xpos)
       </td>
       <td colspan="2">
       <input type="checkbox" class="checkbox" name="status[]" value="unconfirmed" id="s_unconfirmed"> <label for="s_unconfirmed" class="plain-label lite">Unconfirmed</label>
-      <input type="checkbox" class="checkbox" name="status[]" value="pending" id="s_pending" style="margin-left: 12px;"<?php if( $_REQUEST['new'] ) echo ' checked="checked"'; ?>> <label for="s_pending" class="plain-label lite">Pending</label>
+      <input type="checkbox" class="checkbox" name="status[]" value="pending" id="s_pending" style="margin-left: 12px;"<?php if( !empty($_REQUEST['new']) ) echo ' checked="checked"'; ?>> <label for="s_pending" class="plain-label lite">Pending</label>
       <input type="checkbox" class="checkbox" name="status[]" value="active" id="s_approved" style="margin-left: 12px;"> <label for="s_approved" class="plain-label lite">Active</label>
       </td>
       </tr>
@@ -200,7 +200,7 @@ function bannerLoaded(img, xpos)
       <td colspan="2">
       <input type="checkbox" class="checkbox" name="locked" value="1" id="c_locked"> <label for="c_locked" class="plain-label lite">Only locked accounts</label>
       <input type="checkbox" class="checkbox" name="disabled" value="1" id="c_disabled" style="margin-left: 41px;"> <label for="c_disabled" class="plain-label lite">Only disabled accounts</label>
-      <input type="checkbox" class="checkbox" name="edited" value="1" id="c_edited" style="margin-left: 41px;"<?php if( $_REQUEST['edited'] ) echo ' checked="checked"'; ?>> <label for="c_edited" class="plain-label lite">Only edited accounts</label>
+      <input type="checkbox" class="checkbox" name="edited" value="1" id="c_edited" style="margin-left: 41px;"<?php if( !empty($_REQUEST['edited']) ) echo ' checked="checked"'; ?>> <label for="c_edited" class="plain-label lite">Only edited accounts</label>
       </td>
       </tr>
       <?php

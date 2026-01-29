@@ -82,7 +82,7 @@ function rejectSelected(id)
       <b>Status:</b>
       </td>
       <td colspan="2">
-      <input type="checkbox" class="checkbox" name="status[]" value="pending" id="s_pending"<?php if( $_REQUEST['pending'] ) echo ' checked="checked"'; ?>> <label for="s_pending" class="plain-label lite">Pending</label>
+      <input type="checkbox" class="checkbox" name="status[]" value="pending" id="s_pending"<?php if( !empty($_REQUEST['pending']) ) echo ' checked="checked"'; ?>> <label for="s_pending" class="plain-label lite">Pending</label>
       <input type="checkbox" class="checkbox" name="status[]" value="approved" id="s_approved" style="margin-left: 12px;"> <label for="s_approved" class="plain-label lite">Approved</label>
       </td>
       </tr>
@@ -135,7 +135,7 @@ function rejectSelected(id)
       </tr>
     </table>
 
-    <input type="hidden" name="config_id" value="<?php echo htmlspecialchars($_REQUEST['config_id']); ?>">
+    <input type="hidden" name="config_id" value="<?php echo htmlspecialchars($_REQUEST['config_id'] ?? ''); ?>">
     <input type="hidden" name="r" value="tlxCommentsSearch">
     <input type="hidden" name="page" id="page" value="1">
     </form>

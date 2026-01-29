@@ -4,7 +4,7 @@ if( !defined('ToplistX') ) die("Access denied");
 include_once('includes/header.php');
 ?>
 
-<?php if( $_REQUEST['which'] ): ?>
+<?php if( !empty($_REQUEST['which']) ): ?>
 <script language="JavaScript">
 $(function()
   {
@@ -38,7 +38,7 @@ $(function()
 
       <div class="fieldgroup">
         <label>To:</label>
-        <?php if( $_REQUEST['which'] ): ?>
+        <?php if( !empty($_REQUEST['which']) ): ?>
         <div style="padding: 3px 0px 0px 0px; margin: 0;" id="to"></div>
         <?php else: ?>
         <div style="padding: 3px 0px 0px 0px; margin: 0;"><?php echo $_REQUEST['to']; ?></div>

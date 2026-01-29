@@ -224,6 +224,7 @@ function tlxShAccountAdd()
     VerifyPrivileges(P_ACCOUNT_ADD);
     ArrayHSC($_REQUEST);
 
+    $editing = false;
     include_once('includes/accounts-add.php');
 }
 
