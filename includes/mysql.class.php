@@ -98,9 +98,10 @@ class DB
         
         $result = [];
         
-        // Get total number of results using subquery wrapper - most reliable method
-        // This avoids complex regex manipulation and works with any query structure
-        $count_query = "SELECT COUNT(*) FROM ($query) AS count_wrapper";
+        // Get total number of results using subquery wrapper
+        // Remove ORDER BY from the query before wrapping (ORDER BY causes subquery syntax error)
+        $query_for_count = preg_replace('~\s+ORDER\s+BY\s+.*$~is', '', $query);
+        $count_query = "SELECT COUNT(*) FROM ($query_for_count) AS count_wrapper";
         
         if (stristr($query, 'GROUP BY')) {
             $temp_result = $this->Query($count_query, $binds);
