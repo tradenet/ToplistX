@@ -1100,7 +1100,7 @@ function &GenericSearch($table, $files, $select_callback = null, $item_callback 
     
     $select->AddOrder($_REQUEST['order'], $_REQUEST['direction']);
 
-    if( !empty($_REQUEST['order_next']) )
+    if( !empty($_REQUEST['order_next'] ?? null) )
     {
         $select->AddOrder($_REQUEST['order_next'], $_REQUEST['direction_next'] ?? 'ASC');
     }
