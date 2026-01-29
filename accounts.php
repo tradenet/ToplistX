@@ -449,6 +449,18 @@ function tlxShAccountAdd($errors = null)
 {
     global $C, $DB, $L, $t;
 
+    // Initialize account form fields
+    if( !isset($_REQUEST['email']) ) $_REQUEST['email'] = '';
+    if( !isset($_REQUEST['category_id']) ) $_REQUEST['category_id'] = '';
+    if( !isset($_REQUEST['site_url']) ) $_REQUEST['site_url'] = '';
+    if( !isset($_REQUEST['title']) ) $_REQUEST['title'] = '';
+    if( !isset($_REQUEST['description']) ) $_REQUEST['description'] = '';
+    if( !isset($_REQUEST['keywords']) ) $_REQUEST['keywords'] = '';
+    if( !isset($_REQUEST['banner_url']) ) $_REQUEST['banner_url'] = '';
+    if( !isset($_REQUEST['banner_width']) ) $_REQUEST['banner_width'] = '';
+    if( !isset($_REQUEST['banner_height']) ) $_REQUEST['banner_height'] = '';
+    if( !isset($_REQUEST['username']) ) $_REQUEST['username'] = '';
+
     $categories =& $DB->FetchAll('SELECT * FROM `tlx_categories` WHERE `hidden`=0 ORDER BY `name`');
     $fields =& GetUserAccountFields();
 
