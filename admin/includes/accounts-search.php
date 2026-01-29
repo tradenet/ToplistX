@@ -3,6 +3,9 @@ if( !defined('ToplistX') ) die("Access denied");
 
 include_once('includes/header.php');
 include_once('includes/menu.php');
+
+// Initialize form fields
+if( !isset($_REQUEST['category_id']) ) $_REQUEST['category_id'] = '';
 ?>
 
 <style>
