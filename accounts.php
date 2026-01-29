@@ -40,6 +40,8 @@ if( !isset($_REQUEST['r']) ) $_REQUEST['r'] = '';
 
 $t = new Template();
 $t->assign_by_ref('config', $C);
+$t->assign('head_items', '');
+$t->assign('page_title', 'Member Accounts');
 
 $DB = new DB($C['db_hostname'], $C['db_username'], $C['db_password'], $C['db_name']);
 $DB->Connect();
