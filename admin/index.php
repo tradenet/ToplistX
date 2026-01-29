@@ -2416,6 +2416,7 @@ function tlxShAdministratorEdit()
 
     VerifyAdministrator();
 
+    if( !isset($_REQUEST['editing']) ) $_REQUEST['editing'] = false;
     $editing = TRUE;
 
     // First time, use database information
