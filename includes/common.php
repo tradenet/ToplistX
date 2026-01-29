@@ -1160,6 +1160,7 @@ function Error($code, $string, $file, $line)
     $file = basename($file);
 
     // Generate stack trace
+    $trace = '';
     $backtrace = debug_backtrace();
     for( $i = 1; $i < count($backtrace); $i++ )
     {
@@ -1852,7 +1853,8 @@ class SelectBuilder
 
     function AddJoin($left_table, $right_table, $join, $field)
     {
-        $this->joins[] = "$join JOIN `$right_table` ON `$right_table`.`$field`=`$left_table`.`$field`";
+        $join_type = empty($join) ? 'INNER' : $join;
+        $this->joins[] = "$join_type JOIN `$right_table` ON `$right_table`.`$field`=`$left_table`.`$field`";
     }
 
     function AddGroup($field)

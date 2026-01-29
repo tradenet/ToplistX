@@ -524,6 +524,11 @@ function AccountSearchSelect(&$s, $request = null)
                                  'raw_out_this_hr' => '`raw_out_'.$this_hour.'`',
                                  'unique_out_this_hr' => '`unique_out_'.$this_hour.'`',
                                  'clicks_this_hr' => '`clicks_'.$this_hour.'`'));
+    
+    // Ensure order field has a default value if not in sorters array
+    if (empty($_REQUEST['order']) || !isset($sorters[$_REQUEST['order']])) {
+        $_REQUEST['order'] = 'username';
+    }
                                                          
     if( preg_match('~(.*?)_days_(\d+)~', $_REQUEST['order'], $matches) )
     {
