@@ -144,6 +144,7 @@ function tlxShAccountEdit($errors = null)
     }
 
     $categories =& $DB->FetchAll('SELECT * FROM `tlx_categories` WHERE `hidden`=0 ORDER BY `name`');
+    if( !is_array($categories) ) $categories = array();
     $fields =& GetUserAccountFields($account);
 
     $account['banner_width'] = ($account['banner_width'] ? $account['banner_width'] : '');
@@ -468,6 +469,7 @@ function tlxShAccountAdd($errors = null)
     if( !isset($_REQUEST['username']) ) $_REQUEST['username'] = '';
 
     $categories =& $DB->FetchAll('SELECT * FROM `tlx_categories` WHERE `hidden`=0 ORDER BY `name`');
+    if( !is_array($categories) ) $categories = array();
     $fields =& GetUserAccountFields();
 
     $account = array_merge(array('email' => '',
