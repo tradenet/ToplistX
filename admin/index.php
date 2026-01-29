@@ -609,7 +609,7 @@ function tlxShAccountScanner()
 
 function tlxShScannerConfigAdd()
 {
-    global $DB, $C;
+    global $DB, $C, $added;
 
     VerifyAdministrator();
     ArrayHSC($_REQUEST);

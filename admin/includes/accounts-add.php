@@ -97,7 +97,7 @@ if( typeof window.parent.Search == 'object' )
 
         <div class="fieldgroup">
             <label for="password">Password:</label>
-            <input type="text" name="password" id="password" size="30" value="<?php echo $_REQUEST['password']; ?>" />
+            <input type="text" name="password" id="password" size="30" value="<?php echo $_REQUEST['password'] ?? ''; ?>" />
             <?php if( $editing ): ?>Only fill this in if you want to change the account password<?php endif; ?>
         </div>
 
