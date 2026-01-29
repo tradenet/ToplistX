@@ -87,8 +87,12 @@
     <?php 
     if( $item['banner_url'] ): 
         $item['banner_url'] = $item['banner_url_local'] ? $item['banner_url_local'] : $item['banner_url'];
+        // Escape the banner URL for use in onclick attribute - convert quotes for onclick string literal
+        $escaped_url = str_replace("'", "\\'", $item['banner_url']);
+        $size_str = "{$item['banner_width']}x{$item['banner_height']}";
+        $escaped_size = str_replace("'", "\\'", $size_str);
     ?>
-    <img src="images/banner.png" width="11" height="12" alt="Banner" title="Click to view banner" class="function click" onclick="showBanner(this,<?php echo json_encode($item['banner_url']); ?>,<?php echo json_encode("{$item['banner_width']}x{$item['banner_height']}"); ?>)">
+    <img src="images/banner.png" width="11" height="12" alt="Banner" title="Click to view banner" class="function click" onclick="showBanner(this,'<?php echo $escaped_url; ?>','<?php echo $escaped_size; ?>')">
     <?php endif; ?>
     
     <?php if( $item['comments'] ): ?>
