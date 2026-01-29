@@ -35,7 +35,6 @@ register_shutdown_function('Shutdown');
 
 
 // Load the language file
-$L = array();
 if( file_exists("{$GLOBALS['BASE_DIR']}/includes/language.php") )
 {
     require_once("{$GLOBALS['BASE_DIR']}/includes/language.php");
