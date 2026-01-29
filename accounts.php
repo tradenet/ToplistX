@@ -499,6 +499,13 @@ function tlxAccountAdd()
     if( !isset($_REQUEST['html']) ) $_REQUEST['html'] = '';
     if( !isset($_REQUEST['headers']) ) $_REQUEST['headers'] = '';
     if( !isset($_REQUEST['banner_url_local']) ) $_REQUEST['banner_url_local'] = '';
+    if( !isset($_REQUEST['category_id']) ) $_REQUEST['category_id'] = '';
+    if( !isset($_REQUEST['username']) ) $_REQUEST['username'] = '';
+    if( !isset($_REQUEST['password']) ) $_REQUEST['password'] = '';
+    if( !isset($_REQUEST['email']) ) $_REQUEST['email'] = '';
+    if( !isset($_REQUEST['site_url']) ) $_REQUEST['site_url'] = '';
+    if( !isset($_REQUEST['title']) ) $_REQUEST['title'] = '';
+    if( !isset($_REQUEST['description']) ) $_REQUEST['description'] = '';
 
     // Get domain
     $parsed_url = parse_url($_REQUEST['site_url']);
