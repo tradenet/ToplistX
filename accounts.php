@@ -181,6 +181,8 @@ function tlxAccountEdit()
     if( !isset($_REQUEST['keywords']) ) $_REQUEST['keywords'] = '';
     if( !isset($_REQUEST['banner_url']) ) $_REQUEST['banner_url'] = '';
     if( !isset($_REQUEST['confirm_password']) ) $_REQUEST['confirm_password'] = '';
+    if( !isset($_REQUEST['html']) ) $_REQUEST['html'] = '';
+    if( !isset($_REQUEST['headers']) ) $_REQUEST['headers'] = '';
 
     unset($_REQUEST['banner_url_local']);
 
@@ -496,6 +498,8 @@ function tlxAccountAdd()
     if( !isset($_REQUEST['keywords']) ) $_REQUEST['keywords'] = '';
     if( !isset($_REQUEST['banner_url']) ) $_REQUEST['banner_url'] = '';
     if( !isset($_REQUEST['confirm_password']) ) $_REQUEST['confirm_password'] = '';
+    if( !isset($_REQUEST['html']) ) $_REQUEST['html'] = '';
+    if( !isset($_REQUEST['headers']) ) $_REQUEST['headers'] = '';
 
     unset($_REQUEST['banner_url_local']);
 

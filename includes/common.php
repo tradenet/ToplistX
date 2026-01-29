@@ -1417,6 +1417,10 @@ function CheckBlacklistRating(&$rating, $full_check = FALSE)
 
 function CheckBlacklistAccount(&$account, $full_check = FALSE)
 {
+    // Initialize gallery_url if not set (defaults to site_url)
+    if( !isset($account['gallery_url']) )
+        $account['gallery_url'] = isset($account['site_url']) ? $account['site_url'] : '';
+    
     $checks = array('email' => array($account['email']),
                     'url' => array($account['site_url']),
                     'domain_ip' => array(GetIpFromUrl($account['gallery_url'])),
