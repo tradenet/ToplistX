@@ -77,6 +77,11 @@ class DB
 
     public function Count(string $query, array $binds = []): int
     {
+        // Debug: Log queries that look suspicious
+        if (stripos($query, 'SELECT COUNT') === false) {
+            error_log("WARNING: Count() called with non-COUNT query: " . substr($query, 0, 100));
+        }
+        
         $stmt = $this->ExecuteQuery($query, $binds);
         $result = $stmt->get_result();
         $row = $result->fetch_row();
@@ -104,7 +109,18 @@ class DB
         $query_for_count = preg_replace('~\s+LIMIT\s+.+$~is', '', $query_for_count);
         // Additional safety: ensure ORDER BY is completely gone
         if (stripos($query_for_count, 'ORDER BY') !== false) {
-            $query_for_count = preg_replace('~\s*ORDER\s+BY\s+.+~i', '', $query_for_count);
+            // Use non-greedy match and stop at line end
+            $query_for_count = preg_replace('~\s+ORDER\s+BY\s+.*~i', '', $query_for_count);
+        }
+        
+        // If the query looks completely broken, log it and use original
+        if (empty(trim($query_for_count)) || !preg_match('~SELECT~i', $query_for_count)) {
+            error_log("BROKEN COUNT QUERY DETECTED: " . substr($query_for_count, 0, 200));
+            error_log("ORIGINAL QUERY: " . substr($query, 0, 200));
+            // Use the original query without modifications as last resort
+            $query_for_count = $query;
+            $query_for_count = preg_replace('~\s+ORDER\s+BY\s+.*~i', '', $query_for_count);
+            $query_for_count = preg_replace('~\s+LIMIT\s+.*$~i', '', $query_for_count);
         }
         
         $count_query = "SELECT COUNT(*) FROM ($query_for_count) AS count_wrapper";
