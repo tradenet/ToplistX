@@ -3,6 +3,7 @@ if( !defined('ToplistX') ) die("Access denied");
 
 if( !isset($GLOBALS['message']) ) $GLOBALS['message'] = '';
 if( !isset($GLOBALS['errstr']) ) $GLOBALS['errstr'] = '';
+if( !isset($GLOBALS['warn']) ) $GLOBALS['warn'] = array();
 if( !isset($editing) ) $editing = false;
 
 $categories =& $DB->FetchAll('SELECT `name`,`category_id` FROM `tlx_categories` ORDER BY `name`');
