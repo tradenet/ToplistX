@@ -48,7 +48,7 @@ function checkFilename()
       <div style="float: right;">
         <a href="docs/pages-manage.html#add" target="_blank"><img src="images/help.png" border="0" alt="Help" title="Help"></a>
       </div>
-      <?php if( $editing ): ?>
+      <?php if( isset($editing) && $editing ): ?>
       Update this ranking page by making changes to the information below
       <?php else: ?>
       Add a new ranking page by filling out the information below

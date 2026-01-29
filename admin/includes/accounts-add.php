@@ -7,6 +7,7 @@ $defaults = array('status' => 'active',
                   'ratings_total' => 0,
                   'return_percent' => $C['return_percent']);
 
+if( !isset($editing) ) $editing = false;
 if( !$editing )
 {
     $_REQUEST = array_merge($defaults, $_REQUEST);
@@ -113,19 +114,19 @@ if( typeof window.parent.Search == 'object' )
 
         <div class="fieldgroup">
             <label for="title">Site Title:</label>
-            <input type="text" name="title" id="title" size="100" value="<?php echo $_REQUEST['title']; ?>" />
+            <input type="text" name="title" id="title" size="100" value="<?php echo $_REQUEST['title'] ?? ''; ?>" />
             <span id="title_charcount" style="padding-left: 5px;">0</span>
         </div>
 
         <div class="fieldgroup">
             <label for="description">Description:</label>
-            <input type="text" name="description" id="description" size="100" value="<?php echo $_REQUEST['description']; ?>" />
+            <input type="text" name="description" id="description" size="100" value="<?php echo $_REQUEST['description'] ?? ''; ?>" />
             <span id="description_charcount" style="padding-left: 5px;">0</span>
         </div>
 
         <div class="fieldgroup">
             <label for="keywords">Keywords:</label>
-            <input type="text" name="keywords" id="keywords" size="80" value="<?php echo $_REQUEST['keywords']; ?>" />
+            <input type="text" name="keywords" id="keywords" size="80" value="<?php echo $_REQUEST['keywords'] ?? ''; ?>" />
         </div>
 
         <?php if( count($categories) ): ?>

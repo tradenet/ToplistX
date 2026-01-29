@@ -30,7 +30,7 @@ if( typeof window.parent.Search == 'object' )
       <div style="float: right;">
         <a href="docs/administrators.html" target="_blank"><img src="images/help.png" border="0" alt="Help" title="Help"></a>
       </div>
-      <?php if( $editing ): ?>
+      <?php if( isset($editing) && $editing ): ?>
       Update this administrator account by making changes to the information below
       <?php else: ?>
       Add a new administrator account by filling out the information below
