@@ -164,8 +164,9 @@ class Http
         
         $result = TRUE;
         
-        // Initialize raw_response_headers for this request
+        // Initialize headers and response data for this request
         $this->raw_response_headers = '';
+        $this->response_headers = array();
 
         $ch = curl_init();
         
@@ -249,7 +250,7 @@ class Http
                 
                 return $this->GetCurl($new_url, $redirection);
             }
-            else if( $this->response_headers['status_code'] >= 300 )
+            else if( isset($this->response_headers['status_code']) && $this->response_headers['status_code'] >= 300 )
             {
                 $result = FALSE;
                 $this->errstr = sprintf($HTTP_ERROR[CURLE_HTTP_RETURNED_ERROR],  $this->response_headers['status']);
@@ -373,7 +374,7 @@ class Http
                     
                     return $this->GetStandard($new_url, $redirection);
                 }
-                else if( $this->response_headers['status_code'] >= 300 )
+                else if( isset($this->response_headers['status_code']) && $this->response_headers['status_code'] >= 300 )
                 {
                     $this->errstr = sprintf($HTTP_ERROR[CURLE_HTTP_RETURNED_ERROR], $this->response_headers['status']);
                     return FALSE;
