@@ -614,7 +614,7 @@ function SendMail($to, $template, &$t, $is_file = TRUE)
 
 function IsEmptyString(&$string)
 {
-    if( preg_match("/^\s*$/s", $string) )
+    if( $string === null || preg_match("/^\s*$/s", $string) )
     {
         return TRUE;
     }
@@ -1166,7 +1166,7 @@ function Error($code, $string, $file, $line)
     {
         $tracefile = $backtrace[$i];
 
-        if( !$tracefile['line'] )
+        if( !isset($tracefile['line']) || !$tracefile['line'] )
             continue;
 
         $trace .= "{$tracefile['function']} in " . basename($tracefile['file']) . " on line {$tracefile['line']}<br />";
