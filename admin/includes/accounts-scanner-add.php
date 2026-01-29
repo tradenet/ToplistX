@@ -64,7 +64,7 @@ if( typeof window.parent.Search == 'object' )
           
         <div class="fieldgroup">
             <label for="identifier">Identifier:</label>
-            <input type="text" name="identifier" id="identifier" size="60" value="<?php echo $_REQUEST['identifier']; ?>" />
+            <input type="text" name="identifier" id="identifier" size="60" value="<?php echo $_REQUEST['identifier'] ?? ''; ?>" />
         </div>
                 
         </fieldset>
@@ -75,22 +75,22 @@ if( typeof window.parent.Search == 'object' )
           <div class="fieldgroup">
             <label>Status:</label>
             <div style="padding-top: 3px">
-            <?php echo CheckBox('status[unconfirmed]', 'checkbox', 1, $_REQUEST['status']['unconfirmed']); ?> <label class="cblabel inline" for="status[unconfirmed]">Unconfirmed</label> &nbsp;
-            <?php echo CheckBox('status[pending]', 'checkbox', 1, $_REQUEST['status']['pending']); ?> <label class="cblabel inline" for="status[pending]">Pending</label> &nbsp;
-            <?php echo CheckBox('status[active]', 'checkbox', 1, $_REQUEST['status']['active']); ?> <label class="cblabel inline" for="status[active]">Active</label>
+            <?php echo CheckBox('status[unconfirmed]', 'checkbox', 1, (isset($_REQUEST['status']) ? ($_REQUEST['status']['unconfirmed'] ?? null) : null)); ?> <label class="cblabel inline" for="status[unconfirmed]">Unconfirmed</label> &nbsp;
+            <?php echo CheckBox('status[pending]', 'checkbox', 1, (isset($_REQUEST['status']) ? ($_REQUEST['status']['pending'] ?? null) : null)); ?> <label class="cblabel inline" for="status[pending]">Pending</label> &nbsp;
+            <?php echo CheckBox('status[active]', 'checkbox', 1, (isset($_REQUEST['status']) ? ($_REQUEST['status']['active'] ?? null) : null)); ?> <label class="cblabel inline" for="status[active]">Active</label>
             </div>
           </div>
           
           <div class="fieldgroup">
             <label for="date_added_start">Date Added Range:</label>
-            <input type="text" name="date_added_start" id="date_added_start" size="20" value="<?php echo $_REQUEST['date_added_start']; ?>" class="calendarSelectDate" /> through
-            <input type="text" name="date_added_end" id="date_added_end" size="20" value="<?php echo $_REQUEST['date_added_end']; ?>" class="calendarSelectDate" />
+            <input type="text" name="date_added_start" id="date_added_start" size="20" value="<?php echo $_REQUEST['date_added_start'] ?? ''; ?>" class="calendarSelectDate" /> through
+            <input type="text" name="date_added_end" id="date_added_end" size="20" value="<?php echo $_REQUEST['date_added_end'] ?? ''; ?>" class="calendarSelectDate" />
           </div>
           
           <div class="fieldgroup">
             <label for="date_scanned_start">Date Scanned Range:</label>
-            <input type="text" name="date_scanned_start" id="date_scanned_start" size="20" value="<?php echo $_REQUEST['date_scanned_start']; ?>" class="calendarSelectDate" /> through
-            <input type="text" name="date_scanned_end" id="date_scanned_end" size="20" value="<?php echo $_REQUEST['date_scanned_end']; ?>" class="calendarSelectDate" />
+            <input type="text" name="date_scanned_start" id="date_scanned_start" size="20" value="<?php echo $_REQUEST['date_scanned_start'] ?? ''; ?>" class="calendarSelectDate" /> through
+            <input type="text" name="date_scanned_end" id="date_scanned_end" size="20" value="<?php echo $_REQUEST['date_scanned_end'] ?? ''; ?>" class="calendarSelectDate" />
           </div>
           
           <div class="fieldgroup">
@@ -138,19 +138,19 @@ if( typeof window.parent.Search == 'object' )
           <div class="fieldgroup">
             <label class="lesspad"></label>
             <label for="enable_disabled" class="cblabel inline">
-            <?php echo CheckBox('enable_disabled', 'checkbox', 1, $_REQUEST['enable_disabled']); ?> Re-enable suspended accounts that no longer have exceptions</label>
+            <?php echo CheckBox('enable_disabled', 'checkbox', 1, $_REQUEST['enable_disabled'] ?? null); ?> Re-enable suspended accounts that no longer have exceptions</label>
           </div>
           
           <div class="fieldgroup">
             <label class="lesspad"></label>
             <label for="process_rebuild" class="cblabel inline">
-            <?php echo CheckBox('process_rebuild', 'checkbox', 1, $_REQUEST['process_rebuild']); ?> Rebuild the ranking pages when the scanner is completed</label>
+            <?php echo CheckBox('process_rebuild', 'checkbox', 1, $_REQUEST['process_rebuild'] ?? null); ?> Rebuild the ranking pages when the scanner is completed</label>
           </div>
           
           <div class="fieldgroup">
             <label class="lesspad"></label>
             <label for="process_emailadmin" class="cblabel inline">
-            <?php echo CheckBox('process_emailadmin', 'checkbox', 1, $_REQUEST['process_emailadmin']); ?> Send an e-mail to administrators when the scanner is completed</label>
+            <?php echo CheckBox('process_emailadmin', 'checkbox', 1, $_REQUEST['process_emailadmin'] ?? null); ?> Send an e-mail to administrators when the scanner is completed</label>
           </div>
             
         </fieldset>  
@@ -168,7 +168,7 @@ if( typeof window.parent.Search == 'object' )
                            '0x00000004' => 'Delete account from database',
                            '0x00000008' => 'Delete account and blacklist');
                            
-          echo OptionTags($actions, $_REQUEST['action_connect']);
+          echo OptionTags($actions, $_REQUEST['action_connect'] ?? '');
           ?>
           </select>
           </div>       
@@ -177,7 +177,7 @@ if( typeof window.parent.Search == 'object' )
           <label style="width: 250px;">Broken URLs:</label>
           <select name="action_broken">
           <?php
-            echo OptionTags($actions, $_REQUEST['action_broken']);
+            echo OptionTags($actions, $_REQUEST['action_broken'] ?? '');
           ?>
           </select>
           </div>  
@@ -186,7 +186,7 @@ if( typeof window.parent.Search == 'object' )
           <label style="width: 250px;">Forwarding URLs:</label>
           <select name="action_forward">
           <?php
-            echo OptionTags($actions, $_REQUEST['action_forward']);
+            echo OptionTags($actions, $_REQUEST['action_forward'] ?? '');
           ?>
           </select>
           </div>
@@ -195,7 +195,7 @@ if( typeof window.parent.Search == 'object' )
           <label style="width: 250px;">Blacklisted data:</label>
           <select name="action_blacklist">
           <?php
-            echo OptionTags($actions, $_REQUEST['action_blacklist']);
+            echo OptionTags($actions, $_REQUEST['action_blacklist'] ?? '');
           ?>
           </select>
           </div>
