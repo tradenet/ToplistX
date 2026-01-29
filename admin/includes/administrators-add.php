@@ -4,6 +4,10 @@ if( !defined('ToplistX') ) die("Access denied");
 if( !isset($GLOBALS['message']) ) $GLOBALS['message'] = '';
 if( !isset($GLOBALS['errstr']) ) $GLOBALS['errstr'] = '';
 if( !isset($editing) ) $editing = false;
+if( !isset($_REQUEST['username']) ) $_REQUEST['username'] = '';
+if( !isset($_REQUEST['password']) ) $_REQUEST['password'] = '';
+if( !isset($_REQUEST['name']) ) $_REQUEST['name'] = '';
+if( !isset($_REQUEST['email']) ) $_REQUEST['email'] = '';
 
 $type_options = array(ACCOUNT_ADMINISTRATOR => 'Administrator',
                       ACCOUNT_EDITOR => 'Editor');

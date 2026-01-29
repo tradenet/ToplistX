@@ -1139,7 +1139,7 @@ function &GenericSearch($table, $files, $select_callback = null, $item_callback 
         {
             ArrayHSC($item);
             
-            if( function_exists($item_callback) )
+            if( $item_callback !== null && function_exists($item_callback) )
             {
                 $item_callback($item);
             }
