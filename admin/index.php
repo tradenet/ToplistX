@@ -1352,6 +1352,17 @@ function tlxCategoryAdd()
     global $C, $DB;
 
     VerifyPrivileges(P_CATEGORY_ADD);
+    
+    // Initialize form fields
+    if( !isset($_REQUEST['hidden']) ) $_REQUEST['hidden'] = 0;
+    if( !isset($_REQUEST['name']) ) $_REQUEST['name'] = '';
+    if( !isset($_REQUEST['forward_url']) ) $_REQUEST['forward_url'] = '';
+    if( !isset($_REQUEST['page_url']) ) $_REQUEST['page_url'] = '';
+    if( !isset($_REQUEST['banner_max_width']) ) $_REQUEST['banner_max_width'] = '';
+    if( !isset($_REQUEST['banner_max_height']) ) $_REQUEST['banner_max_height'] = '';
+    if( !isset($_REQUEST['banner_max_bytes']) ) $_REQUEST['banner_max_bytes'] = '';
+    if( !isset($_REQUEST['allow_redirect']) ) $_REQUEST['allow_redirect'] = 0;
+    
     UnixFormat($_REQUEST['name']);
     $v =& ValidateCategoryInput(TRUE);
 
@@ -1404,6 +1415,16 @@ function tlxCategoryEdit()
     global $C, $DB;
 
     VerifyPrivileges(P_CATEGORY_MODIFY);
+    
+    // Initialize form fields
+    if( !isset($_REQUEST['hidden']) ) $_REQUEST['hidden'] = 0;
+    if( !isset($_REQUEST['forward_url']) ) $_REQUEST['forward_url'] = '';
+    if( !isset($_REQUEST['page_url']) ) $_REQUEST['page_url'] = '';
+    if( !isset($_REQUEST['banner_max_width']) ) $_REQUEST['banner_max_width'] = '';
+    if( !isset($_REQUEST['banner_max_height']) ) $_REQUEST['banner_max_height'] = '';
+    if( !isset($_REQUEST['banner_max_bytes']) ) $_REQUEST['banner_max_bytes'] = '';
+    if( !isset($_REQUEST['allow_redirect']) ) $_REQUEST['allow_redirect'] = 0;
+    
     $v =& ValidateCategoryInput();
 
     if( !$v->Validate() )
