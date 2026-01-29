@@ -1,4 +1,5 @@
 <?PHP
+$L = array();
 $L['CURLE_UNSUPPORTED_PROTOCOL'] = 'The URL protocol is not supported';
 $L['CURLE_URL_MALFORMAT'] = 'The URL is not properly formatted';
 $L['CURLE_COULDNT_RESOLVE_PROXY'] = 'Could not resolve proxy server hostname';
