@@ -1,6 +1,9 @@
 <?php
 if( !defined('ToplistX') ) die("Access denied");
 
+if( !isset($GLOBALS['message']) ) $GLOBALS['message'] = '';
+if( !isset($GLOBALS['errstr']) ) $GLOBALS['errstr'] = '';
+
 $pages =& $DB->FetchAll('SELECT `page_id`,`filename`,CONCAT(?, `filename`) AS `page_url` FROM `tlx_pages` ORDER BY `filename`', array("http://{$_SERVER['HTTP_HOST']}/"));
 
 include_once('includes/header.php');
