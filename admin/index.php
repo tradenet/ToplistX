@@ -219,7 +219,7 @@ function tlxShAccountStats()
 
 function tlxShAccountAdd()
 {
-    global $C, $DB;
+    global $C, $DB, $added;
 
     VerifyPrivileges(P_ACCOUNT_ADD);
     ArrayHSC($_REQUEST);

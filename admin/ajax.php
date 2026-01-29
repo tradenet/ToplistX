@@ -481,8 +481,8 @@ function tlxAccountSearch()
                                  'email' => 'E-mail',
                                  'category_id' => 'Category');
     
-    $GLOBALS['_categories_'] =& $DB->FetchAll('SELECT * FROM `tlx_categories`', null, 'category_id');
-    $GLOBALS['_rejects_'] =& $DB->FetchAll('SELECT * FROM `tlx_rejections` ORDER BY `identifier`', null, 'email_id');
+    $GLOBALS['_categories_'] =& $DB->FetchAll('SELECT * FROM `tlx_categories`', [], 'category_id');
+    $GLOBALS['_rejects_'] =& $DB->FetchAll('SELECT * FROM `tlx_rejections` ORDER BY `identifier`', [], 'email_id');
     $out =& GenericSearch('tlx_accounts', 'accounts-search-tr.php', 'AccountSearchSelect', 'AccountItemCallback');
     
     if( extension_loaded('zlib') && !ini_get('zlib.output_compression') )

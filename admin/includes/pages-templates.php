@@ -105,7 +105,7 @@ $(function()
           }
       }
 
-<?PHP if( !$_REQUEST['page_id'] ): ?>
+<?PHP if( empty($_REQUEST['page_id']) ): ?>
       var position = $.iUtil.getPositionLite($$('load'));
       $('#load_select').css({top: position.y + 25, left: position.x}).show();
 <?php endif; ?>
@@ -144,7 +144,7 @@ $(function()
 
     <div class="margin-top" style="padding-left: 5px;">
     <img id="load" src="images/template-load.png" border="0" width="22" height="22" alt="Load Template" title="Load Template" class="click-image" style="margin-right: 30px;">
-    <?php if( $_REQUEST['page_id'] ): ?>
+    <?php if( !empty($_REQUEST['page_id']) ): ?>
     <img id="refresh" src="images/refresh.png" border="0" width="22" height="22" alt="Refresh" title="Refresh" class="click-image" style="margin-right: 30px;">
     <img id="save" src="images/template-save.png" border="0" width="22" height="22" alt="Save Template" title="Save Template" class="click-image" style="margin-right: 30px;">
     <img id="save_options" src="images/template-save-options.png" border="0" width="22" height="22" alt="Save Template With Options" title="Save Template With Options" class="click-image" style="margin-right: 30px;">
@@ -155,7 +155,7 @@ $(function()
 
     <form action="index.php" method="POST" id="form">
 
-    <?php if( $_REQUEST['page_id'] ): ?>
+    <?php if( !empty($_REQUEST['page_id']) ): ?>
     <br />
 
     <?php if( !empty($GLOBALS['warnstr']) ): ?>
@@ -188,10 +188,10 @@ $(function()
 
     <input type="hidden" id="r" name="r" value="">
     <input type="hidden" id="build" name="build" value="0">
-    <input type="hidden" name="page_id" id="page_id" value="<?PHP echo $_REQUEST['page_id']; ?>" />
+    <input type="hidden" name="page_id" id="page_id" value="<?PHP echo $_REQUEST['page_id'] ?? ''; ?>" />
     </form>
 
-    <?php if( $_REQUEST['page_id'] ): ?>
+    <?php if( !empty($_REQUEST['page_id']) ): ?>
     <div class="page-end"></div>
     <?php endif; ?>
   </div>
@@ -208,7 +208,7 @@ $(function()
   </div>
   <select id="load_template" size="30" style="min-width: 300px;">
     <?php
-    echo OptionTagsAdv($pages, $_REQUEST['page_id'], 'page_id', 'page_url');
+    echo OptionTagsAdv($pages, $_REQUEST['page_id'] ?? '', 'page_id', 'page_url');
     ?>
   </select>
 </div>
@@ -225,7 +225,7 @@ $(function()
   </div>
   <select name="save_template[]" id="save_template" size="30" style="min-width: 300px;" multiple="multiple">
     <?php
-    echo OptionTagsAdv($pages, $_REQUEST['page_id'], 'page_id', 'page_url');
+    echo OptionTagsAdv($pages, $_REQUEST['page_id'] ?? '', 'page_id', 'page_url');
     ?>
   </select>
 </div>

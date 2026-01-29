@@ -71,7 +71,7 @@ function checkForm()
     </div>
     <?php endif; ?>
 
-    <?php if( $GLOBALS['message'] ): ?>
+    <?php if( !empty($GLOBALS['message']) ): ?>
     <div class="notice margin-top">
       <?php echo $GLOBALS['message']; ?>
     </div>
