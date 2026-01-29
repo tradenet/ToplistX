@@ -23,6 +23,16 @@ $defaults = array('status' => 'active',
                   'email' => '',
                   'username' => '');
 
+// Initialize hourly statistics (0-23 hours)
+for( $i = 0; $i < 24; $i++ )
+{
+    $defaults["raw_in_$i"] = 0;
+    $defaults["unique_in_$i"] = 0;
+    $defaults["raw_out_$i"] = 0;
+    $defaults["unique_out_$i"] = 0;
+    $defaults["clicks_$i"] = 0;
+}
+
 if( !isset($editing) ) $editing = false;
 if( !$editing )
 {
