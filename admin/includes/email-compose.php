@@ -23,13 +23,13 @@ $(function()
       Send an e-mail message to the selected recipients by filling out the information below
     </div>
 
-    <?php if( $GLOBALS['message'] ): ?>
+    <?php if( isset($GLOBALS['message']) && $GLOBALS['message'] ): ?>
     <div class="notice margin-bottom">
       <?php echo $GLOBALS['message']; ?>
     </div>
     <?php endif; ?>
 
-    <?php if( $GLOBALS['errstr'] ): ?>
+    <?php if( isset($GLOBALS['errstr']) && $GLOBALS['errstr'] ): ?>
     <div class="alert margin-bottom">
       <?php echo $GLOBALS['errstr']; ?>
     </div>
