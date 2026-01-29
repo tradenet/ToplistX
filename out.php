@@ -86,10 +86,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
         else
         {
             // Check ratio of trades to links
-            $result = @mysql_query('SELECT (`sent_trades`/`sent_total`)*100 AS `trade_percent` FROM `tlx_skim_ratio`') or die(mysql_error());
+            $result = $DB->FetchRow('SELECT (`sent_trades`/`sent_total`)*100 AS `trade_percent` FROM `tlx_skim_ratio`');
             if( $result )
             {
-                list($trade_percent) = @mysql_fetch_row($result) or die(mysql_error());
+                $trade_percent = $result[0];
             }
 
             // Determine - based on ratio - if we should send to a trade

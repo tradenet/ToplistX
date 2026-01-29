@@ -268,7 +268,7 @@ function ProcessAccount(&$account, &$exception)
         if( ($exception & $value) && ($configuration['action_'.$key] >= $penalty) )
         {
             $message = $reasons[$key];
-            $penalty = intval($configuration['action_'.$key], 16);
+            $penalty = hexdec($configuration['action_'.$key]);
         }
     }
 
