@@ -97,6 +97,7 @@ body, html {
                    'unique_out' => array(),
                    'clicks' => array());
 
+    $hour = null;
     for( $i = $_REQUEST['hour_end']; $hour != $_REQUEST['hour_start']; $i-- )
     {
         $hour = ($i % 24 < 0 ?  24 - abs($i % 24) : $i % 24);
