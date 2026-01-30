@@ -345,7 +345,7 @@ function BuildPage($page)
     // Handle null category_id for MIXED category pages
     $page_category = isset($page['category_id']) && isset($GLOBALS['CATEGORY_CACHE'][$page['category_id']]) 
                      ? $GLOBALS['CATEGORY_CACHE'][$page['category_id']] 
-                     : null;
+                     : array(); // Use empty array instead of null to avoid undefined key errors
     $t->assign_by_ref('page_category', $page_category);
     $t->assign('total_accounts', $GLOBALS['_total_accounts']);
 
