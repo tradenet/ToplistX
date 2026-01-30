@@ -14,14 +14,15 @@ $categories =& $DB->FetchAll('SELECT `name`,`category_id` FROM `tlx_categories` 
 
 if( !isset($_REQUEST['build_order']) )
 {
-    $_REQUEST['build_order'] = $DB->Count('SELECT MAX(build_order) FROM `tlx_pages`') + 1;
+    $max_order = $DB->Row('SELECT MAX(build_order) AS max_order FROM `tlx_pages`');
+    $_REQUEST['build_order'] = ($max_order['max_order'] ?? 0) + 1;
 }
 
 include_once('includes/header.php');
 ?>
 
 <script language="JavaScript">
-<?PHP if( $GLOBALS['added'] ): ?>
+<?PHP if( !empty($GLOBALS['added']) ): ?>
 if( typeof window.parent.Search == 'object' )
     window.parent.Search.search(false);
 <?PHP endif; ?>

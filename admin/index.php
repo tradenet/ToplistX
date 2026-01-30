@@ -794,11 +794,20 @@ function tlxPageAddBulk()
 
     $v->Register($_REQUEST['base_url'], V_CONTAINS, 'For security purposes the Base URL may not contain the .. character sequence', '..');
 
-    $base_dir = ResolvePath($C['document_root'] . '/' . $_REQUEST['base_url']);
-
-    if( !is_dir($base_dir) )
+    // Normalize and resolve the path
+    $base_url_path = trim($_REQUEST['base_url'], '/');
+    $base_dir = $C['document_root'];
+    
+    if (!empty($base_url_path)) {
+        $base_dir = ResolvePath($C['document_root'] . '/' . $base_url_path);
+    }
+    
+    // Use realpath to resolve the actual directory path
+    $real_base_dir = realpath($base_dir);
+    
+    if (!$real_base_dir || !is_dir($real_base_dir))
     {
-        $v->SetError('The Base URL value must point to an already existing directory');
+        $v->SetError('The Base URL value must point to an already existing directory (Looking for: ' . $base_dir . ')');
     }
 
     if( !$v->Validate() )
@@ -901,7 +910,8 @@ function tlxPageAdd()
     // Generate build order if not supplied
     if( !is_numeric($_REQUEST['build_order']) )
     {
-        $_REQUEST['build_order'] = $DB->Count('SELECT MAX(`build_order`) FROM `tlx_pages`') + 1;
+        $max_order = $DB->Row('SELECT MAX(`build_order`) AS max_order FROM `tlx_pages`');
+        $_REQUEST['build_order'] = ($max_order['max_order'] ?? 0) + 1;
     }
 
     // Update build orders greater than or equal to the new page's value
