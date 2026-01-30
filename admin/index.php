@@ -794,12 +794,12 @@ function tlxPageAddBulk()
 
     $v->Register($_REQUEST['base_url'], V_CONTAINS, 'For security purposes the Base URL may not contain the .. character sequence', '..');
 
-    // Normalize and resolve the path
+    // Normalize and resolve the path - base_url should be relative to ToplistX installation
     $base_url_path = trim($_REQUEST['base_url'], '/');
-    $base_dir = $C['document_root'];
+    $base_dir = $GLOBALS['BASE_DIR'];
     
     if (!empty($base_url_path)) {
-        $base_dir = ResolvePath($C['document_root'] . '/' . $base_url_path);
+        $base_dir = ResolvePath($GLOBALS['BASE_DIR'] . '/' . $base_url_path);
     }
     
     // Use realpath to resolve the actual directory path
