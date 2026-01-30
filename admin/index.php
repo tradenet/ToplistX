@@ -831,6 +831,7 @@ function tlxPageAddBulk()
 
     $pages =& GetBulkAddPages($_REQUEST['base_url']);
     $buffering = @ini_get('output_buffering');
+    $added_pages = array();
 
     foreach( $pages as $page )
     {
@@ -857,7 +858,20 @@ function tlxPageAddBulk()
                               $_REQUEST['tags'],
                               $template,
                               $compiled));
+            
+            // Store page info for building
+            $page['page_id'] = $DB->InsertID();
+            $page['tags'] = $_REQUEST['tags'];
+            $page['template'] = $template;
+            $page['compiled'] = $compiled;
+            $added_pages[] = $page;
         }
+    }
+
+    // Build the actual page files
+    foreach ($added_pages as $page)
+    {
+        BuildPage($page);
     }
 
     $GLOBALS['message'] = 'New ranking pages successfully added';
