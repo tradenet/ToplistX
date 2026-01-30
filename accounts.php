@@ -93,6 +93,11 @@ function tlxShAccountLogin($errors = null)
 {
     global $C, $DB, $L, $t;
 
+    if( !isset($t->vars['logged_out']) )
+    {
+        $t->assign('logged_out', FALSE);
+    }
+    
     $t->assign_by_ref('errors', $errors);
     $t->assign_by_ref('login', $_REQUEST);
 
