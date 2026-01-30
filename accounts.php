@@ -45,6 +45,7 @@ $t->assign('page_title', 'Member Accounts');
 $t->assign('search_term', '');
 $t->assign('page', '');
 $t->assign('per_page', '');
+$t->assign('categories', array());
 
 $DB = new DB($C['db_hostname'], $C['db_username'], $C['db_password'], $C['db_name']);
 $DB->Connect();
