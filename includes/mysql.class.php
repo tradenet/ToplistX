@@ -34,7 +34,22 @@ class DB
     public function Connect(): void
     {
         if (!$this->connected) {
-            $this->handle = new mysqli($this->hostname, $this->username, $this->password, $this->database);
+            // If hostname is 'localhost', use 127.0.0.1 to force TCP connection
+            // instead of Unix socket, or specify port explicitly
+            $hostname = $this->hostname;
+            $port = null;
+            $socket = null;
+            
+            // Check if hostname contains a port
+            if (strpos($hostname, ':') !== false) {
+                list($hostname, $port) = explode(':', $hostname, 2);
+                $port = (int)$port;
+            } else if ($hostname === 'localhost') {
+                // Use 127.0.0.1 to force TCP connection instead of socket
+                $hostname = '127.0.0.1';
+            }
+            
+            $this->handle = new mysqli($hostname, $this->username, $this->password, $this->database, $port, $socket);
             
             if ($this->handle->connect_error) {
                 trigger_error('Database connection failed: ' . $this->handle->connect_error, E_USER_ERROR);
