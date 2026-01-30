@@ -1137,7 +1137,11 @@ function &GenericSearch($table, $files, $select_callback = null, $item_callback 
         
         while( $item = $DB->NextRow($result['result']) )
         {
-            ArrayHSC($item);
+            // Only call ArrayHSC for non-account searches; accounts template handles escaping per-context
+            if( $table !== 'tlx_accounts' )
+            {
+                ArrayHSC($item);
+            }
             
             if( $item_callback !== null && function_exists($item_callback) )
             {
