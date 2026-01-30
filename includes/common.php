@@ -369,7 +369,17 @@ function BuildPage($page)
     fwrite($fd, trim($generated));
     flock($fd, LOCK_UN);
     fclose($fd);
-    @chmod($file_path, $C['page_permissions']);
+    
+    // Set file permissions - default to 0666 if not configured
+    $permissions = 0666; // Default: read/write for everyone
+    if (!empty($C['page_permissions'])) {
+        if (is_numeric($C['page_permissions'])) {
+            $permissions = octdec('0' . $C['page_permissions']);
+        } else {
+            $permissions = $C['page_permissions'];
+        }
+    }
+    @chmod($file_path, $permissions);
 
     $t->cleanup();
 }
