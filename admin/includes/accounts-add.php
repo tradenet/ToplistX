@@ -70,7 +70,7 @@ function updateRating()
         $('#rating_avg').html('0');
 }
 
-<?PHP if( $GLOBALS['added'] && empty($_REQUEST['nosearch']) ): ?>
+<?PHP if( !empty($GLOBALS['added']) && empty($_REQUEST['nosearch']) ): ?>
 if( typeof window.parent.Search == 'object' )
     window.parent.Search.search(false);
 <?PHP endif; ?>
