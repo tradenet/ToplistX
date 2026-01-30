@@ -344,7 +344,19 @@ function BuildPage($page)
     $t->assign_by_ref('page_category', $GLOBALS['CATEGORY_CACHE'][$page['category_id']]);
     $t->assign('total_accounts', $GLOBALS['_total_accounts']);
 
-    $fd = fopen("{$C['document_root']}/{$page['filename']}", 'w');
+    // Use $_SERVER['DOCUMENT_ROOT'] if available, otherwise fall back to configured document_root
+    $doc_root = !empty($_SERVER['DOCUMENT_ROOT']) ? $_SERVER['DOCUMENT_ROOT'] : 
+                (!empty($C['document_root']) ? $C['document_root'] : $GLOBALS['BASE_DIR']);
+    
+    $file_path = "{$doc_root}/{$page['filename']}";
+    
+    // Ensure the directory exists
+    $dir = dirname($file_path);
+    if (!is_dir($dir)) {
+        mkdir($dir, 0755, true);
+    }
+    
+    $fd = fopen($file_path, 'w');
     flock($fd, LOCK_EX);
 
     // Parse the template
@@ -352,7 +364,7 @@ function BuildPage($page)
     fwrite($fd, trim($generated));
     flock($fd, LOCK_UN);
     fclose($fd);
-    @chmod("{$C['document_root']}/{$page['filename']}", $C['page_permissions']);
+    @chmod($file_path, $C['page_permissions']);
 
     $t->cleanup();
 }
