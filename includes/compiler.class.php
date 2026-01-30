@@ -970,12 +970,12 @@ class Compiler
 
         if( empty($attrs['var']) )
         {
-            return S_PHP . " \$tmp_cycle = (\$tmp_cycle == '$first') ? '$second' : '$first'; echo \$tmp_cycle; " . E_PHP;
+            return S_PHP . " if (!isset(\$tmp_cycle)) \$tmp_cycle = '$first'; \$tmp_cycle = (\$tmp_cycle == '$first') ? '$second' : '$first'; echo \$tmp_cycle; " . E_PHP;
         }
         else
         {
             $var = $this->parse_vars($attrs['var']);
-            return S_PHP . " $var = ($var == '$first') ? '$second' : '$first'; " . E_PHP;
+            return S_PHP . " if (!isset($var)) $var = '$first'; $var = ($var == '$first') ? '$second' : '$first'; " . E_PHP;
         }
     }
 
