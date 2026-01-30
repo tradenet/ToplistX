@@ -118,6 +118,7 @@ function tlxShAccountOverview()
         return;
     }
 
+    $t->assign('updated', !empty($GLOBALS['updated']));
     $t->assign('tracking_url', ($C['tracking_mode'] == 'unique_link' ? "{$C['in_url']}?id={$account['username']}" : $C['in_url']));
     $t->assign_by_ref('account', $account);
     $t->assign_by_ref('stats', $DB->Row('SELECT * FROM `tlx_account_hourly_stats` WHERE `username`=?', array($account['username'])));
