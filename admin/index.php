@@ -408,6 +408,7 @@ function tlxAccountEdit()
     // Initialize checkbox fields that may not be in POST data
     if( !isset($_REQUEST['locked']) ) $_REQUEST['locked'] = 0;
     if( !isset($_REQUEST['disabled']) ) $_REQUEST['disabled'] = 0;
+    if( !isset($_REQUEST['icons']) ) $_REQUEST['icons'] = array();
 
     $_REQUEST['return_percent'] /= 100;
 
