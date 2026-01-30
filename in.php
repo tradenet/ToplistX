@@ -52,16 +52,18 @@ if( $_SERVER['REQUEST_METHOD'] == 'GET' )
 
 
     // Connect to database
-    @mysql_connect($C['db_hostname'], $C['db_username'], $C['db_password']) or die(mysql_error());
-    @mysql_select_db($C['db_name']) or die(mysql_error());
+    $db_link = @mysqli_connect($C['db_hostname'], $C['db_username'], $C['db_password'], $C['db_name']);
+    if (!$db_link) {
+        die(mysqli_connect_error());
+    }
 
 
     if( !$C['using_cron'] )
     {
         // Check if it is time for a page rebuild
-        $result = @mysql_query("SELECT `value` FROM `tlx_stored_values` WHERE `name`='last_rebuild'") or die(mysql_error());
-        list($last_rebuild) = mysql_fetch_row($result);
-        mysql_free_result($result);
+        $result = @mysqli_query($db_link, "SELECT `value` FROM `tlx_stored_values` WHERE `name`='last_rebuild'") or die(mysqli_error($db_link));
+        list($last_rebuild) = mysqli_fetch_row($result);
+        mysqli_free_result($result);
 
         if( $last_rebuild <= $now - $C['rebuild_interval'] )
         {
@@ -69,10 +71,10 @@ if( $_SERVER['REQUEST_METHOD'] == 'GET' )
         }
 
         // Check if it is time for a daily or hourly update
-        $result = @mysql_query("SELECT `value` FROM `tlx_stored_values` WHERE `name`='last_updates'") or die(mysql_error());
-        list($last_updates) = mysql_fetch_row($result);
+        $result = @mysqli_query($db_link, "SELECT `value` FROM `tlx_stored_values` WHERE `name`='last_updates'") or die(mysqli_error($db_link));
+        list($last_updates) = mysqli_fetch_row($result);
         $last_updates = unserialize($last_updates);
-        mysql_free_result($result);
+        mysqli_free_result($result);
 
         if( $last_updates['daily'] != $today )
         {
@@ -89,13 +91,13 @@ if( $_SERVER['REQUEST_METHOD'] == 'GET' )
     // Get account from cookie
  if( isset($_GET['d']) )
     {
-        $result = @mysql_query(mysql_prepare('SELECT * FROM `tlx_accounts` WHERE `domain`=?', array($_GET['d']))) or die(mysql_error());
+        $result = @mysqli_query($db_link, mysqli_prepare($db_link, 'SELECT * FROM `tlx_accounts` WHERE `domain`=?', array($_GET['d']))) or die(mysqli_error($db_link));
     }
 
     // Get account by username
     else if( isset($_GET['id']) )
     {
-        $result = @mysql_query(mysql_prepare('SELECT * FROM `tlx_accounts` WHERE `username`=?', array($_GET['id']))) or die(mysql_error());
+        $result = @mysqli_query($db_link, mysqli_prepare($db_link, 'SELECT * FROM `tlx_accounts` WHERE `username`=?', array($_GET['id']))) or die(mysqli_error($db_link));
     }
 
     // Get account by HTTP_REFERER
@@ -111,7 +113,7 @@ if( $_SERVER['REQUEST_METHOD'] == 'GET' )
 
                 if( !empty($domain) )
                 {
-                    $result = @mysql_query(mysql_prepare('SELECT * FROM `tlx_accounts` WHERE `domain`=?', array($domain))) or die(mysql_error());
+                    $result = @mysqli_query($db_link, mysqli_prepare($db_link, 'SELECT * FROM `tlx_accounts` WHERE `domain`=?', array($domain))) or die(mysqli_error($db_link));
                 }
             }
             else
@@ -127,10 +129,10 @@ if( $_SERVER['REQUEST_METHOD'] == 'GET' )
         else
         {
             // Handle no referrer (bookmarker)
-            @mysql_query(mysql_prepare('UPDATE `tlx_bookmarker_stats` SET `visits`=`visits`+1 WHERE `date_stats`=?', array($today))) or die(mysql_error());
-            if( @mysql_affected_rows() == 0 )
+            @mysqli_query($db_link, mysqli_prepare($db_link, 'UPDATE `tlx_bookmarker_stats` SET `visits`=`visits`+1 WHERE `date_stats`=?', array($today))) or die(mysqli_error($db_link));
+            if( @mysqli_affected_rows($db_link) == 0 )
             {
-                @mysql_query(mysql_prepare('INSERT INTO `tlx_bookmarker_stats` VALUES (?,?)', array($today, 1))) or die(mysql_error());
+                @mysqli_query($db_link, mysqli_prepare($db_link, 'INSERT INTO `tlx_bookmarker_stats` VALUES (?,?)', array($today, 1))) or die(mysqli_error($db_link));
             }
 
             return;
@@ -140,7 +142,7 @@ if( $_SERVER['REQUEST_METHOD'] == 'GET' )
     $account = FALSE;
     if( $result )
     {
-        $account = @mysql_fetch_assoc($result);
+        $account = @mysqli_fetch_assoc($result);
     }
     else
     {
@@ -170,10 +172,10 @@ if( $_SERVER['REQUEST_METHOD'] == 'GET' )
         // GeoIP lookup
         $long_ip = sprintf('%u', ip2long($_SERVER['REMOTE_ADDR']));
         $geoip = array('country' => 'XX'); // Default country code
-        $result = @mysql_query(mysql_prepare('SELECT * FROM `tlx_ip2country` WHERE `ip_end` >= ?', array($long_ip))) or die(mysql_error());
+        $result = @mysqli_query($db_link, mysqli_prepare($db_link, 'SELECT * FROM `tlx_ip2country` WHERE `ip_end` >= ?', array($long_ip))) or die(mysqli_error($db_link));
         if( $result )
         {
-            $geoip_result = @mysql_fetch_assoc($result);
+            $geoip_result = @mysqli_fetch_assoc($result);
 
             if( $geoip_result )
             {
@@ -187,18 +189,18 @@ if( $_SERVER['REQUEST_METHOD'] == 'GET' )
 
         // Track referring URLs
         $_SERVER['HTTP_REFERER'] = empty($_SERVER['HTTP_REFERER']) ? '-' : $_SERVER['HTTP_REFERER'];
-        @mysql_query(mysql_prepare('UPDATE `tlx_account_referrer_stats` SET `raw_in`=`raw_in`+1 WHERE `username`=? AND `referrer`=?', array($account['username'], $_SERVER['HTTP_REFERER']))) or die(mysql_error());
-        if( @mysql_affected_rows() == 0 )
+        @mysqli_query($db_link, mysqli_prepare($db_link, 'UPDATE `tlx_account_referrer_stats` SET `raw_in`=`raw_in`+1 WHERE `username`=? AND `referrer`=?', array($account['username'], $_SERVER['HTTP_REFERER']))) or die(mysqli_error($db_link));
+        if( @mysqli_affected_rows($db_link) == 0 )
         {
-            @mysql_query(mysql_prepare('INSERT INTO `tlx_account_referrer_stats` VALUES (?,?,?)', array($account['username'], $_SERVER['HTTP_REFERER'], 1))) or die(mysql_error());
+            @mysqli_query($db_link, mysqli_prepare($db_link, 'INSERT INTO `tlx_account_referrer_stats` VALUES (?,?,?)', array($account['username'], $_SERVER['HTTP_REFERER'], 1))) or die(mysqli_error($db_link));
         }
 
 
         // Update the IP log
-        @mysql_query(mysql_prepare('UPDATE `tlx_ip_log_in` SET `raw_in`=`raw_in`+1,`last_visit`=NOW() WHERE `username`=? AND `ip_address`=?', array($account['username'], $long_ip))) or die(mysql_error());
-        if( @mysql_affected_rows() == 0 )
+        @mysqli_query($db_link, mysqli_prepare($db_link, 'UPDATE `tlx_ip_log_in` SET `raw_in`=`raw_in`+1,`last_visit`=NOW() WHERE `username`=? AND `ip_address`=?', array($account['username'], $long_ip))) or die(mysqli_error($db_link));
+        if( @mysqli_affected_rows($db_link) == 0 )
         {
-            @mysql_query(mysql_prepare('INSERT INTO `tlx_ip_log_in` VALUES (?,?,?,?,?,NOW())', array($account['username'], $long_ip, 1, $proxy, $robot))) or die(mysql_error());
+            @mysqli_query($db_link, mysqli_prepare($db_link, 'INSERT INTO `tlx_ip_log_in` VALUES (?,?,?,?,?,NOW())', array($account['username'], $long_ip, 1, $proxy, $robot))) or die(mysqli_error($db_link));
         }
         else
         {
@@ -208,41 +210,41 @@ if( $_SERVER['REQUEST_METHOD'] == 'GET' )
         // Update raw and unique click counts
         if( $raw_click )
         {
-            @mysql_query(mysql_prepare('UPDATE `tlx_account_hourly_stats` SET #=#+1,`raw_in_total`=`raw_in_total`+1 WHERE `username`=?',
-                                       array("raw_in_$this_hour", "raw_in_$this_hour", $account['username']))) or die(mysql_error());
+            @mysqli_query($db_link, mysqli_prepare($db_link, 'UPDATE `tlx_account_hourly_stats` SET #=#+1,`raw_in_total`=`raw_in_total`+1 WHERE `username`=?',
+                                       array("raw_in_$this_hour", "raw_in_$this_hour", $account['username']))) or die(mysqli_error($db_link));
 
-            @mysql_query(mysql_prepare('UPDATE `tlx_account_country_stats` SET `raw_in`=`raw_in`+1 WHERE `username`=? AND `country`=?',
-                                       array($account['username'], $geoip['country']))) or die(mysql_error());
+            @mysqli_query($db_link, mysqli_prepare($db_link, 'UPDATE `tlx_account_country_stats` SET `raw_in`=`raw_in`+1 WHERE `username`=? AND `country`=?',
+                                       array($account['username'], $geoip['country']))) or die(mysqli_error($db_link));
 
-            if( @mysql_affected_rows() == 0 )
+            if( @mysqli_affected_rows($db_link) == 0 )
             {
-                @mysql_query(mysql_prepare('INSERT INTO `tlx_account_country_stats` VALUES (?,?,?,?,?,?,?)', array($account['username'], $geoip['country'], 1, 1, 0, 0, 0))) or die(mysql_error());
+                @mysqli_query($db_link, mysqli_prepare($db_link, 'INSERT INTO `tlx_account_country_stats` VALUES (?,?,?,?,?,?,?)', array($account['username'], $geoip['country'], 1, 1, 0, 0, 0))) or die(mysqli_error($db_link));
             }
 
-            @mysql_query(mysql_prepare('UPDATE `tlx_country_stats` SET `raw_in`=`raw_in`+1 WHERE `country`=?', array($geoip['country']))) or die(mysql_error());
+            @mysqli_query($db_link, mysqli_prepare($db_link, 'UPDATE `tlx_country_stats` SET `raw_in`=`raw_in`+1 WHERE `country`=?', array($geoip['country']))) or die(mysqli_error($db_link));
         }
         else
         {
-            @mysql_query(mysql_prepare('UPDATE `tlx_account_hourly_stats` SET #=#+1,#=#+1,`raw_in_total`=`raw_in_total`+1,`unique_in_total`=`unique_in_total`+1 WHERE `username`=?',
-                                       array("raw_in_$this_hour", "raw_in_$this_hour", "unique_in_$this_hour", "unique_in_$this_hour", $account['username']))) or die(mysql_error());
+            @mysqli_query($db_link, mysqli_prepare($db_link, 'UPDATE `tlx_account_hourly_stats` SET #=#+1,#=#+1,`raw_in_total`=`raw_in_total`+1,`unique_in_total`=`unique_in_total`+1 WHERE `username`=?',
+                                       array("raw_in_$this_hour", "raw_in_$this_hour", "unique_in_$this_hour", "unique_in_$this_hour", $account['username']))) or die(mysqli_error($db_link));
 
-            @mysql_query(mysql_prepare('UPDATE `tlx_account_country_stats` SET `raw_in`=`raw_in`+1,`unique_in`=`unique_in`+1 WHERE `username`=? AND `country`=?',
-                                       array($account['username'], $geoip['country']))) or die(mysql_error());
+            @mysqli_query($db_link, mysqli_prepare($db_link, 'UPDATE `tlx_account_country_stats` SET `raw_in`=`raw_in`+1,`unique_in`=`unique_in`+1 WHERE `username`=? AND `country`=?',
+                                       array($account['username'], $geoip['country']))) or die(mysqli_error($db_link));
 
-            if( @mysql_affected_rows() == 0 )
+            if( @mysqli_affected_rows($db_link) == 0 )
             {
-                @mysql_query(mysql_prepare('INSERT INTO `tlx_account_country_stats` VALUES (?,?,?,?,?,?,?)', array($account['username'], $geoip['country'], 1, 1, 0, 0, 0))) or die(mysql_error());
+                @mysqli_query($db_link, mysqli_prepare($db_link, 'INSERT INTO `tlx_account_country_stats` VALUES (?,?,?,?,?,?,?)', array($account['username'], $geoip['country'], 1, 1, 0, 0, 0))) or die(mysqli_error($db_link));
             }
 
-            @mysql_query(mysql_prepare('UPDATE `tlx_country_stats` SET `raw_in`=`raw_in`+1,`unique_in`=`unique_in`+1 WHERE `country`=?', array($geoip['country']))) or die(mysql_error());
+            @mysqli_query($db_link, mysqli_prepare($db_link, 'UPDATE `tlx_country_stats` SET `raw_in`=`raw_in`+1,`unique_in`=`unique_in`+1 WHERE `country`=?', array($geoip['country']))) or die(mysqli_error($db_link));
         }
 
 
-        @mysql_query(mysql_prepare('UPDATE `tlx_accounts` SET `inactive`=0 WHERE `username`=?', array($account['username']))) or die(mysql_error());
+        @mysqli_query($db_link, mysqli_prepare($db_link, 'UPDATE `tlx_accounts` SET `inactive`=0 WHERE `username`=?', array($account['username']))) or die(mysqli_error($db_link));
         // TODO: Check maximum clicks from an IP address (maybe only hourly?)
         // TODO: Reject clicks from specified countries
 
-        mysql_close();
+        mysqli_close($db_link);
 
         if( $C['tracking_mode'] == 'embedded' )
         {
@@ -282,7 +284,7 @@ else
     return;
 }
 
-function mysql_prepare($query, $binds)
+function mysqli_prepare($db_link, $query, $binds)
 {
     $query_result = '';
     $index = 0;
@@ -297,7 +299,7 @@ function mysql_prepare($query, $binds)
             else if( is_numeric($binds[$index]) )
                 $query_result .= $binds[$index];
             else
-                $query_result .= "'" . mysql_real_escape_string($binds[$index]) . "'";
+                $query_result .= "'" . mysqli_real_escape_string($db_link, $binds[$index]) . "'";
 
             $index++;
         }
