@@ -86,15 +86,8 @@
   <td style="text-align: right;" class="last"  valign="top">
     <?php 
     if( $item['banner_url'] ): 
-        // Unescape HTML entities first, then escape for attribute context
-        $actual_url = html_entity_decode($item['banner_url_local'] ? $item['banner_url_local'] : $item['banner_url'], ENT_QUOTES, 'UTF-8');
-        $actual_width = html_entity_decode($item['banner_width'], ENT_QUOTES, 'UTF-8');
-        $actual_height = html_entity_decode($item['banner_height'], ENT_QUOTES, 'UTF-8');
-        // Escape single quotes for use in single-quoted JS string
-        $js_url = addslashes($actual_url);
-        $js_size = addslashes($actual_width . 'x' . $actual_height);
     ?>
-    <img src="images/banner.png" width="11" height="12" alt="Banner" title="Click to view banner" class="function click" onclick="showBanner(this,'<?php echo $js_url; ?>','<?php echo $js_size; ?>')">
+    <img src="images/banner.png" width="11" height="12" alt="Banner" title="Click to view banner" class="function click" onclick="showBanner(this,'<?php echo addslashes(html_entity_decode($item['banner_url_local'] ? $item['banner_url_local'] : $item['banner_url'])); ?>','<?php echo addslashes(html_entity_decode("{$item['banner_width']}x{$item['banner_height']}")); ?>')">
     <?php endif; ?>
     
     <?php if( $item['comments'] ): ?>
