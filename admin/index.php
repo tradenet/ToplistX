@@ -752,7 +752,7 @@ function tlxShPageEdit()
     $editing = TRUE;
 
     // First time, use database information
-    if( !$_REQUEST['editing'] || !empty($GLOBALS['added']) )
+    if( empty($_REQUEST['editing']) || !empty($GLOBALS['added']) )
     {
         $_REQUEST = $DB->Row('SELECT * FROM `tlx_pages` WHERE `page_id`=?', array($_REQUEST['page_id']));
     }
