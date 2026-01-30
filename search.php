@@ -30,7 +30,7 @@ if( !isset($_POST['c']) ) $_POST['c'] = '';
 $_POST['s'] = trim($_POST['s']);
 $page = !empty($_POST['p']) ? $_POST['p'] : 1;
 $per_page = !empty($_POST['pp']) ? $_POST['pp'] : 20;
-$too_short = strlen($_POST['s']) < 4;
+$too_short = ($_SERVER['REQUEST_METHOD'] == 'POST' && strlen($_POST['s']) < 4);
 $search_id = sha1("{$_POST['s']}-{$_POST['c']}-$page");
 
 $t = new Template();
