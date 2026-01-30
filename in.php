@@ -153,10 +153,10 @@ if( $_SERVER['REQUEST_METHOD'] == 'GET' )
         }
 
         // Proxy check
-        $proxy = detect_proxy();
+        $proxy = (int)detect_proxy();
 
         // Bot lookup
-        $robot = detect_robot();
+        $robot = (int)detect_robot();
 
         // GeoIP lookup
         $long_ip = sprintf('%u', ip2long($_SERVER['REMOTE_ADDR']));
