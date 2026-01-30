@@ -64,8 +64,8 @@
     ?>
     <div style="border: 1px solid #ffe7cb; background-color: #FFFFC8; padding: 3px; margin-left: 20px; margin-top: 8px;" class="edited_span">
     <div style="float: right;">
-    <img src="images/check.png" border="0" width="12" height="12" alt="Approve" title="Click to approve" class="click" onclick="return processEditSelected('<?php echo addslashes(html_entity_decode($item['username'])); ?>', 'approve')">    
-    <img src="images/x.png" border="0" width="12" height="12" alt="Reject" title="Click to reject" class="function click" onclick="return processEditSelected('<?php echo addslashes(html_entity_decode($item['username'])); ?>', 'reject')">
+    <img src="images/check.png" border="0" width="12" height="12" alt="Approve" title="Click to approve" class="click" onclick="return processEditSelected(<?php echo json_encode(html_entity_decode($item['username'])); ?>, 'approve')">    
+    <img src="images/x.png" border="0" width="12" height="12" alt="Reject" title="Click to reject" class="function click" onclick="return processEditSelected(<?php echo json_encode(html_entity_decode($item['username'])); ?>, 'reject')">
     </div>
     <b style="color: #ff9112;">Edited Data</b><br />
     <?php 
@@ -94,24 +94,24 @@
     <a href="index.php?r=tlxShComments&username=<?php echo urlencode($item['username']); ?>" class="function">
     <img src="images/comments.png" width="12" height="12" alt="Comments" title="Click to view comments"></a>
     <?php endif; if( $item['disabled'] ): ?>
-    <img src="images/disabled.png" width="12" height="12" alt="Unlocked" title="Click to enable account" onclick="return doToSelected('<?php echo addslashes(html_entity_decode($item['username'])); ?>', 'enable')" class="function click">
+    <img src="images/disabled.png" width="12" height="12" alt="Unlocked" title="Click to enable account" onclick="return doToSelected(<?php echo json_encode(html_entity_decode($item['username'])); ?>, 'enable')" class="function click">
     <?php else: ?>
-    <img src="images/enabled.png" width="12" height="12" alt="Unlocked" title="Click to disable account" onclick="return doToSelected('<?php echo addslashes(html_entity_decode($item['username'])); ?>', 'disable')" class="function click">
+    <img src="images/enabled.png" width="12" height="12" alt="Unlocked" title="Click to disable account" onclick="return doToSelected(<?php echo json_encode(html_entity_decode($item['username'])); ?>, 'disable')" class="function click">
     <?php endif; ?>
     
     <?php if( $item['locked'] ): ?>
-    <img src="images/locked.png" width="12" height="12" alt="Locked" title="Click to unlock account" class="function click" onclick="return doToSelected('<?php echo addslashes(html_entity_decode($item['username'])); ?>', 'unlock')">
+    <img src="images/locked.png" width="12" height="12" alt="Locked" title="Click to unlock account" class="function click" onclick="return doToSelected(<?php echo json_encode(html_entity_decode($item['username'])); ?>, 'unlock')">
     <?php else: ?>
-    <img src="images/unlocked.png" width="12" height="12" alt="Unlocked" title="Click to lock account" onclick="return doToSelected('<?php echo addslashes(html_entity_decode($item['username'])); ?>', 'lock')" class="function click">
+    <img src="images/unlocked.png" width="12" height="12" alt="Unlocked" title="Click to lock account" onclick="return doToSelected(<?php echo json_encode(html_entity_decode($item['username'])); ?>, 'lock')" class="function click">
     <?php endif; ?>
     
-    <img src="images/stats.png" width="12" height="12" alt="Stats" title="Stats" class="click-image function" onclick="openStats('<?php echo addslashes(html_entity_decode($item['username'])); ?>')">
-    <img src="images/search.png" width="12" height="12" alt="Scan" title="Scan" class="click-image function" onclick="openScan('<?php echo addslashes(html_entity_decode($item['username'])); ?>')">
+    <img src="images/stats.png" width="12" height="12" alt="Stats" title="Stats" class="click-image function" onclick="openStats(<?php echo json_encode(html_entity_decode($item['username'])); ?>)">
+    <img src="images/search.png" width="12" height="12" alt="Scan" title="Scan" class="click-image function" onclick="openScan(<?php echo json_encode(html_entity_decode($item['username'])); ?>)">
     <a href="index.php?r=tlxShAccountEdit&username=<?php echo urlencode(html_entity_decode($item['username'])); ?>" class="window function {title: 'Edit Account'}">
     <img src="images/edit.png" width="12" height="12" alt="Edit" title="Edit"></a>
     <a href="index.php?r=tlxShAccountMail&username[]=<?php echo urlencode(html_entity_decode($item['username'])); ?>" class="window function {title: 'E-mail Account'}">
     <img src="images/mail.png" width="12" height="12" alt="E-mail" title="E-mail"></a>
-    <a href="" onclick="return deleteSelected('<?php echo addslashes(html_entity_decode($item['username'])); ?>')" class="function">
+    <a href="" onclick="return deleteSelected(<?php echo json_encode(html_entity_decode($item['username'])); ?>)" class="function">
     <img src="images/trash.png" width="12" height="12" alt="Delete" title="Delete"></a>
     
     <?php if( $item['status'] == STATUS_PENDING ): ?>
@@ -119,8 +119,8 @@
     <br />
     <br />
     
-    <img src="images/check.png" border="0" width="12" height="12" alt="Approve" title="Click to approve" class="click" onclick="return processSelected('<?php echo addslashes(html_entity_decode($item['username'])); ?>', 'approve')">    
-    <img src="images/x.png" border="0" width="12" height="12" alt="Reject" title="Click to reject" class="function click" onclick="return processSelected('<?php echo addslashes(html_entity_decode($item['username'])); ?>', 'reject')">
+    <img src="images/check.png" border="0" width="12" height="12" alt="Approve" title="Click to approve" class="click" onclick="return processSelected(<?php echo json_encode(html_entity_decode($item['username'])); ?>, 'approve')">    
+    <img src="images/x.png" border="0" width="12" height="12" alt="Reject" title="Click to reject" class="function click" onclick="return processSelected(<?php echo json_encode(html_entity_decode($item['username'])); ?>, 'reject')">
 
     <select name="reject[<?php echo html_entity_decode($item['username']); ?>]" id="reject_<?php echo html_entity_decode($item['username']); ?>" class="reject" style="margin-left: 5px;">
       <option value="">None</option>
