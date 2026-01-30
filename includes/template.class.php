@@ -20,8 +20,8 @@ class Template
     private string $compile_dir;
     private string $cache_dir;
     private bool $force_compile = false;
-    private bool $caching = false;
-    private int $cache_lifetime = 3600;
+    public bool $caching = false;
+    public int $cache_lifetime = 3600;
     private bool $cache_modified_check = false;
     private string $compiler_file = 'compiler.class.php';
     private array $nocache;
