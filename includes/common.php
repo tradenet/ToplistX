@@ -341,7 +341,12 @@ function BuildPage($page)
     $t = new Template();
     $t->assign_by_ref('this_page', $page);
     $t->assign_by_ref('config', $C);
-    $t->assign_by_ref('page_category', $GLOBALS['CATEGORY_CACHE'][$page['category_id']]);
+    
+    // Handle null category_id for MIXED category pages
+    $page_category = isset($page['category_id']) && isset($GLOBALS['CATEGORY_CACHE'][$page['category_id']]) 
+                     ? $GLOBALS['CATEGORY_CACHE'][$page['category_id']] 
+                     : null;
+    $t->assign_by_ref('page_category', $page_category);
     $t->assign('total_accounts', $GLOBALS['_total_accounts']);
 
     // Use $_SERVER['DOCUMENT_ROOT'] if available, otherwise fall back to configured document_root
