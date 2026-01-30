@@ -1,17 +1,17 @@
-<tr id="<?php echo $item['username']; ?>" class="<?php echo $item['status']; ?>">
+<tr id="<?php echo str_replace('&quot;', '"', $item['username']); ?>" class="<?php echo $item['status']; ?>">
   <td valign="top">
-    <input type="checkbox" class="checkbox autocb" name="username[]" value="<?php echo $item['username']; ?>">
+    <input type="checkbox" class="checkbox autocb" name="username[]" value="<?php echo str_replace('&quot;', '"', $item['username']); ?>">
   </td>
   <td>
     <div style="float: right;"><b>Sorter:</b> <?php echo StringChopTooltip($item['sorter'], 50); ?></div>
-    <b style="color: #f9a239; font-size: 10pt;"><?php echo $item['username']; ?></b>
+    <b style="color: #f9a239; font-size: 10pt;"><?php echo str_replace('&quot;', '"', $item['username']); ?></b>
   
     <div class="fieldgroup">
-      <label class="lesspad">Site URL:</label>  <a href="<?php echo $item['site_url']; ?>" target="_blank"><?php echo StringChopTooltip($item['site_url'], 90); ?></a>
+      <label class="lesspad">Site URL:</label>  <a href="<?php echo str_replace('&quot;', '"', $item['site_url']); ?>" target="_blank"><?php echo StringChopTooltip($item['site_url'], 90); ?></a>
     </div>
     
     <div class="fieldgroup">
-      <label class="lesspad">E-mail:</label>  <a href="mailto:<?php echo $item['email']; ?>" target="_blank"><?php echo StringChopTooltip($item['email'], 90); ?></a>
+      <label class="lesspad">E-mail:</label>  <a href="mailto:<?php echo str_replace('&quot;', '"', $item['email']); ?>" target="_blank"><?php echo StringChopTooltip($item['email'], 90); ?></a>
     </div>
     
     <div class="fieldgroup">
