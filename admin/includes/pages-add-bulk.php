@@ -150,7 +150,8 @@ function categoryChange()
             <div style="float: left;">
               <select name="characters">
                 <?php
-                $characters = array('remove' => 'Remove all non-alphanumeric characters',
+                $characters = array('none' => 'No conversion',
+                                    'remove' => 'Remove all non-alphanumeric characters',
                                     'dash' => 'Replace all non-alphanumeric characters with a dash',
                                     'underscore' => 'Replace all non-alphanumeric characters with an underscore');
 

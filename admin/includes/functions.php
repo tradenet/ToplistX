@@ -140,8 +140,8 @@ function &GetBulkAddPages($base_url)
         
         default:
         {
-            $prefix = $DB->Count('SELECT `name` FROM `tlx_categories` WHERE `category_id`=?', array($_REQUEST['category_id']));
-            $prefix = CategoryToPageName($prefix, $_REQUEST['characters'], $_REQUEST['case']);
+            $category = $DB->Row('SELECT `name` FROM `tlx_categories` WHERE `category_id`=?', array($_REQUEST['category_id']));
+            $prefix = CategoryToPageName($category['name'], $_REQUEST['characters'], $_REQUEST['case']);
             
             foreach( range(1, $_REQUEST['num_pages']) as $index )
             {
@@ -163,20 +163,25 @@ function CategoryToPageName($name, $characters, $case)
     
     switch($characters)
     {
+        case 'none':
+            // No character conversion, return name as-is (after case conversion)
+            break;
+            
         case 'remove':
             $replacement = '';
+            $name = preg_replace('~[^a-z0-9]+~i', $replacement, $name);
             break;
                     
         case 'dash':
             $replacement = '-';
+            $name = preg_replace('~[^a-z0-9]+~i', $replacement, $name);
             break;
             
         case 'underscore':
             $replacement = '_';
+            $name = preg_replace('~[^a-z0-9]+~i', $replacement, $name);
             break;
     }
-    
-    $name = preg_replace('~[^a-z0-9]+~i', $replacement, $name);
     
     if( $case == 'lower' )
     {
