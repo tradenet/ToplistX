@@ -1287,7 +1287,7 @@ function PrepareCategoriesBuild()
                     array($category['category_id'],
                           $category['name'],
                           $accounts,
-                          $page['filename']));
+                          $page['filename'] ?? ''));
     }
     $DB->Free($result);
 }
