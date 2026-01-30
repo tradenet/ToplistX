@@ -35,6 +35,7 @@ $t = new Template();
 $t->caching = TRUE;
 $t->cache_lifetime = 3600;
 
+$t->assign('head_items', '');
 $t->assign('search_term', $_POST['s']);
 $t->assign('search_category', $_POST['c']);
 $t->assign('page', $page);
