@@ -18,7 +18,8 @@ $categories =& $DB->FetchAll('SELECT `name`,`category_id` FROM `tlx_categories` 
 
 if( !isset($_REQUEST['build_order']) )
 {
-    $_REQUEST['build_order'] = $DB->Count('SELECT MAX(`build_order`) FROM `tlx_pages`') + 1;
+    $max_order = $DB->Row('SELECT MAX(`build_order`) AS max_order FROM `tlx_pages`');
+    $_REQUEST['build_order'] = ($max_order['max_order'] ?? 0) + 1;
 }
 
 include_once('includes/header.php');
@@ -101,7 +102,7 @@ function categoryChange()
 
           <div class="fieldgroup">
             <label for="base_url">Base URL:</label>
-            <?php echo 'http://' . $_SERVER['HTTP_HOST'] . '/'; ?><input type="text" name="base_url" id="base_url" size="50" value="<?php echo $_REQUEST['base_url']; ?>" />
+            <?php echo ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https://' : 'http://') . $_SERVER['HTTP_HOST'] . '/'; ?><input type="text" name="base_url" id="base_url" size="50" value="<?php echo $_REQUEST['base_url']; ?>" />
           </div>
 
           <div class="fieldgroup">

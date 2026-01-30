@@ -807,7 +807,8 @@ function tlxPageAddBulk()
     }
 
     // Get starting build order
-    $build_order = $DB->Count('SELECT MAX(`build_order`) FROM `tlx_pages`') + 1;
+    $max_order = $DB->Row('SELECT MAX(`build_order`) AS max_order FROM `tlx_pages`');
+    $build_order = ($max_order['max_order'] ?? 0) + 1;
 
     // Load default template
     $template = file_get_contents("{$GLOBALS['BASE_DIR']}/templates/default-ranking.tpl");
