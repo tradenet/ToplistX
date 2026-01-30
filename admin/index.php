@@ -235,7 +235,7 @@ function tlxShAccountEdit()
     VerifyAdministrator();
 
     // First time or update, use database information
-    if( empty($_REQUEST['editing']) || $GLOBALS['added'] )
+    if( empty($_REQUEST['editing']) || !empty($GLOBALS['added']) )
     {
         // Get account data
         $_REQUEST = $DB->Row('SELECT * FROM `tlx_accounts` JOIN `tlx_account_fields` USING (`username`) JOIN `tlx_account_hourly_stats` USING (`username`) WHERE `tlx_accounts`.`username`=?', array($_REQUEST['username']));
@@ -627,7 +627,7 @@ function tlxShScannerConfigEdit()
     $editing = TRUE;
 
     // First time, use database information
-    if( !$_REQUEST['editing'] || $GLOBALS['added'] )
+    if( !$_REQUEST['editing'] || !empty($GLOBALS['added']) )
     {
         $_REQUEST = $DB->Row('SELECT * FROM `tlx_scanner_configs` WHERE `config_id`=?', array($_REQUEST['config_id']));
         $_REQUEST = array_merge(unserialize($_REQUEST['configuration']), $_REQUEST);
@@ -752,7 +752,7 @@ function tlxShPageEdit()
     $editing = TRUE;
 
     // First time, use database information
-    if( !$_REQUEST['editing'] || $GLOBALS['added'] )
+    if( !$_REQUEST['editing'] || !empty($GLOBALS['added']) )
     {
         $_REQUEST = $DB->Row('SELECT * FROM `tlx_pages` WHERE `page_id`=?', array($_REQUEST['page_id']));
     }
@@ -1327,7 +1327,7 @@ function tlxShCategoryEdit()
     if( !isset($_REQUEST['editing']) ) $_REQUEST['editing'] = '';
 
     // First time or update, use database information
-    if( !$_REQUEST['editing'] || $GLOBALS['added'] )
+    if( !$_REQUEST['editing'] || !empty($GLOBALS['added']) )
     {
         $_REQUEST = $DB->Row('SELECT * FROM `tlx_categories` WHERE `category_id`=?', array($_REQUEST['category_id']));
     }
@@ -1713,7 +1713,7 @@ function tlxShAccountFieldEdit()
     $editing = TRUE;
 
     // First time or update, use database information
-    if( !$_REQUEST['editing'] || $GLOBALS['added'] )
+    if( !$_REQUEST['editing'] || !empty($GLOBALS['added']) )
     {
         $_REQUEST = $DB->Row('SELECT * FROM `tlx_account_field_defs` WHERE `field_id`=?', array($_REQUEST['field_id']));
         $_REQUEST['old_name'] = $_REQUEST['name'];
@@ -1851,7 +1851,7 @@ function tlxShIconEdit()
     VerifyAdministrator();
 
     // First time or update, use database information
-    if( !$_REQUEST['editing'] || $GLOBALS['added'] )
+    if( !$_REQUEST['editing'] || !empty($GLOBALS['added']) )
     {
         $_REQUEST = $DB->Row('SELECT * FROM `tlx_icons` WHERE `icon_id`=?', array($_REQUEST['icon_id']));
     }
@@ -2071,7 +2071,7 @@ function tlxShRejectionTemplateEdit()
     $editing = TRUE;
 
     // First time or update, use database information
-    if( !$_REQUEST['editing'] || $GLOBALS['added'] )
+    if( !$_REQUEST['editing'] || !empty($GLOBALS['added']) )
     {
         $_REQUEST = $DB->Row('SELECT * FROM `tlx_rejections` WHERE `email_id`=?', array($_REQUEST['email_id']));
         IniParse($_REQUEST['plain'], FALSE, $_REQUEST);
@@ -2460,7 +2460,7 @@ function tlxShAdministratorEdit()
     $editing = TRUE;
 
     // First time, use database information
-    if( !$_REQUEST['editing'] || $GLOBALS['added'] )
+    if( !$_REQUEST['editing'] || !empty($GLOBALS['added']) )
     {
         $_REQUEST = $DB->Row('SELECT * FROM `tlx_administrators` WHERE `username`=?', array($_REQUEST['username']));
     }
