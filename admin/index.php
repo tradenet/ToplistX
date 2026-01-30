@@ -794,12 +794,17 @@ function tlxPageAddBulk()
 
     $v->Register($_REQUEST['base_url'], V_CONTAINS, 'For security purposes the Base URL may not contain the .. character sequence', '..');
 
-    // Normalize and resolve the path - base_url should be relative to ToplistX installation
+    // Normalize and resolve the path - base_url should be relative to web server document root
     $base_url_path = trim($_REQUEST['base_url'], '/');
-    $base_dir = $GLOBALS['BASE_DIR'];
+    
+    // Use $_SERVER['DOCUMENT_ROOT'] as the base, or fall back to configured document_root, or BASE_DIR
+    $doc_root = !empty($_SERVER['DOCUMENT_ROOT']) ? $_SERVER['DOCUMENT_ROOT'] : 
+                (!empty($C['document_root']) ? $C['document_root'] : $GLOBALS['BASE_DIR']);
+    
+    $base_dir = $doc_root;
     
     if (!empty($base_url_path)) {
-        $base_dir = ResolvePath($GLOBALS['BASE_DIR'] . '/' . $base_url_path);
+        $base_dir = ResolvePath($doc_root . '/' . $base_url_path);
     }
     
     // Use realpath to resolve the actual directory path
@@ -807,7 +812,7 @@ function tlxPageAddBulk()
     
     if (!$real_base_dir || !is_dir($real_base_dir))
     {
-        $v->SetError('The Base URL value must point to an already existing directory (Looking for: ' . $base_dir . ')');
+        $v->SetError('The Base URL value must point to an already existing directory (Looking for: ' . $base_dir . ' with document root: ' . $doc_root . ')');
     }
 
     if( !$v->Validate() )
