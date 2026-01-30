@@ -71,17 +71,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     }
 
     // SKIM MODE
-    if ($_GET['s'] || $_GET['f']) {
+    if (!empty($_GET['s']) || !empty($_GET['f'])) {
         // Set the first click cookie
         setcookie('tlxfirst', '1', time()+86400, '/', $C['cookie_domain']);
 
-        $_GET['s'] = !is_numeric($_GET['s']) ? 70 : $_GET['s'];
+        $_GET['s'] = !empty($_GET['s']) && is_numeric($_GET['s']) ? $_GET['s'] : 70;
 
         // Skim is set to 100 or this is a first click
-        if( $_GET['s'] == 100 || ($_GET['f'] && $first_click) )
+        if( $_GET['s'] == 100 || (!empty($_GET['f']) && $first_click) )
         {
             $send_to_trade = FALSE;
-            $send_to = $_GET['u'];
+            $send_to = $_GET['u'] ?? '';
         }
         else
         {
@@ -96,14 +96,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
             if( 100 - $_GET['s'] < $trade_percent )
             {
                 $send_to_trade = FALSE;
-                $send_to = $_GET['u'];
+                $send_to = $_GET['u'] ?? '';
             }
             else
             {
                 $sites_sent_to[$referrer_account] = 1;
 
                 // Select the click tracking mode
-                switch($_GET['m'])
+                switch($_GET['m'] ?? 'default')
                 {
                     default:
                         $owed = '(`clicks_total`-`unique_out_total`)*`return_percent`';
