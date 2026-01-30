@@ -32,6 +32,7 @@ header("Expires: Mon, 26 Jul 1990 05:00:00 GMT");
 header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
 header("Cache-Control: no-cache, must-revalidate");
 header("Pragma: no-cache");
+header('Content-Type: application/json; charset=UTF-8');
 
 SetupRequest();
 
@@ -484,6 +485,8 @@ function tlxAccountSearch()
     $GLOBALS['_categories_'] =& $DB->FetchAll('SELECT * FROM `tlx_categories`', [], 'category_id');
     $GLOBALS['_rejects_'] =& $DB->FetchAll('SELECT * FROM `tlx_rejections` ORDER BY `identifier`', [], 'email_id');
     $out =& GenericSearch('tlx_accounts', 'accounts-search-tr.php', 'AccountSearchSelect', 'AccountItemCallback');
+    $out['html'] = str_replace(array('&quot;', '&#039;'), array('"', "'"), $out['html']);
+    $out['pagelinks'] = str_replace(array('&quot;', '&#039;'), array('"', "'"), $out['pagelinks']);
     
     if( extension_loaded('zlib') && !ini_get('zlib.output_compression') )
     {
