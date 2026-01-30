@@ -98,6 +98,11 @@ function tlxShAccountLogin($errors = null)
         $t->assign('logged_out', FALSE);
     }
     
+    if( !isset($_REQUEST['login_username']) )
+    {
+        $_REQUEST['login_username'] = '';
+    }
+    
     $t->assign_by_ref('errors', $errors);
     $t->assign_by_ref('login', $_REQUEST);
 
