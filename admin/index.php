@@ -437,7 +437,7 @@ function tlxAccountEdit()
     $_REQUEST['password'] = IsEmptyString($_REQUEST['password']) ? $account['password'] : sha1($_REQUEST['password']);
 
     // Handling of banner_url_local
-    if( $_REQUEST['download_banner'] )
+    if( !empty($_REQUEST['download_banner']) )
     {
         $http = new Http();
 
