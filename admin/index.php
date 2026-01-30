@@ -405,6 +405,10 @@ function tlxAccountEdit()
 
     VerifyPrivileges(P_ACCOUNT_MODIFY);
 
+    // Initialize checkbox fields that may not be in POST data
+    if( !isset($_REQUEST['locked']) ) $_REQUEST['locked'] = 0;
+    if( !isset($_REQUEST['disabled']) ) $_REQUEST['disabled'] = 0;
+
     $_REQUEST['return_percent'] /= 100;
 
     // Get domain
