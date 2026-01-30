@@ -401,7 +401,7 @@ function tlxAccountAdd()
 
 function tlxAccountEdit()
 {
-    global $DB, $C, $IMAGE_EXTENSIONS;
+    global $DB, $C, $IMAGE_EXTENSIONS, $L;
 
     VerifyPrivileges(P_ACCOUNT_MODIFY);
 
