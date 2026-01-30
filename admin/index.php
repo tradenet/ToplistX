@@ -868,6 +868,11 @@ function tlxPageAddBulk()
         }
     }
 
+    // Initialize required global variables for BuildPage
+    $GLOBALS['ICON_CACHE'] =& $DB->FetchAll('SELECT * FROM `tlx_icons`', null, 'icon_id');
+    $GLOBALS['CATEGORY_CACHE'] =& $DB->FetchAll('SELECT * FROM `tlx_categories`', null, 'category_id');
+    $GLOBALS['_total_accounts'] = $DB->Count("SELECT COUNT(*) FROM `tlx_accounts` WHERE `status`='active' AND `disabled`=0");
+
     // Build the actual page files
     foreach ($added_pages as $page)
     {
