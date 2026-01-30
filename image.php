@@ -17,20 +17,9 @@
 if( !defined('E_STRICT') ) define('E_STRICT', 2048);
 error_reporting(E_ALL & ~E_NOTICE & ~E_STRICT);
 @set_time_limit(0);
-@set_magic_quotes_runtime(0);
 if( function_exists('date_default_timezone_set') )
 {
     date_default_timezone_set('America/Chicago');
-}
-
-
-// Prepare request data
-if( get_magic_quotes_gpc() == 1 )
-{
-    foreach($_GET as $key => $value)
-    {
-        $_GET[$key] = stripslashes($value);
-    }
 }
 
 // Load configuration settings
