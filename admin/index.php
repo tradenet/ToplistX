@@ -235,7 +235,7 @@ function tlxShAccountEdit()
     VerifyAdministrator();
 
     // First time or update, use database information
-    if( !$_REQUEST['editing'] || $GLOBALS['added'] )
+    if( empty($_REQUEST['editing']) || $GLOBALS['added'] )
     {
         // Get account data
         $_REQUEST = $DB->Row('SELECT * FROM `tlx_accounts` JOIN `tlx_account_fields` USING (`username`) JOIN `tlx_account_hourly_stats` USING (`username`) WHERE `tlx_accounts`.`username`=?', array($_REQUEST['username']));
