@@ -155,7 +155,7 @@ if( $_SERVER['REQUEST_METHOD'] == 'GET' )
     if( $account )
     {
         // Check the secret key
-        if( $C['tracking_mode'] == 'embedded' && $_GET['sk'] != $C['secret_key'] )
+        if( $C['tracking_mode'] == 'embedded' && (!isset($_GET['sk']) || $_GET['sk'] != $C['secret_key']) )
         {
             // TODO: Log this cheating attempt
             return;
@@ -169,14 +169,19 @@ if( $_SERVER['REQUEST_METHOD'] == 'GET' )
 
         // GeoIP lookup
         $long_ip = sprintf('%u', ip2long($_SERVER['REMOTE_ADDR']));
+        $geoip = array('country' => 'XX'); // Default country code
         $result = @mysql_query(mysql_prepare('SELECT * FROM `tlx_ip2country` WHERE `ip_end` >= ?', array($long_ip))) or die(mysql_error());
         if( $result )
         {
-            $geoip = @mysql_fetch_assoc($result);
+            $geoip_result = @mysql_fetch_assoc($result);
 
-            if( $geoip && $geoip['country'] == 'A1' )
+            if( $geoip_result )
             {
-                $proxy = TRUE;
+                $geoip = $geoip_result;
+                if( $geoip['country'] == 'A1' )
+                {
+                    $proxy = TRUE;
+                }
             }
         }
 
@@ -287,7 +292,7 @@ function mysql_prepare($query, $binds)
     {
         if( $piece == '?' )
         {
-            if( $binds[$index] === NULL )
+            if( !isset($binds[$index]) || $binds[$index] === NULL )
                 $query_result .= 'NULL';
             else if( is_numeric($binds[$index]) )
                 $query_result .= $binds[$index];
@@ -313,6 +318,9 @@ function mysql_prepare($query, $binds)
 
 function detect_robot()
 {
+    if (empty($_SERVER['HTTP_USER_AGENT'])) {
+        return FALSE;
+    }
     $agent = strtolower($_SERVER['HTTP_USER_AGENT']);
 
     // General filter for robots
@@ -330,7 +338,7 @@ function detect_robot()
     $robots = file('includes/robots.php');
     $start = unserialize($robots[2]);
 
-    if( isset($start[$agent[0]]) )
+    if( strlen($agent) > 0 && isset($start[$agent[0]]) )
     {
         foreach( range($start[$agent[0]]['s'], $start[$agent[0]]['e']) as $i )
         {
