@@ -39,7 +39,7 @@ class Compiler
     private string $nocache_token = '';
     private string $template_dir = '';
     private string $compile_dir = '';
-    private array $flags = [];
+    public array $flags = [];
 
     public function __construct()
     {
