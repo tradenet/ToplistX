@@ -1003,7 +1003,7 @@ function tlxRejectionTemplateSearch()
 function tlxRejectionTemplateItem(&$item)
 {
     $item['message'] = array();
-    IniParse(html_entity_decode($item['plain']), FALSE, $item['message']);
+    IniParse(html_entity_decode($item['plain']), $item['message'], FALSE);
 }
 
 function tlxRegexTest()

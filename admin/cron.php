@@ -115,7 +115,7 @@ function OptimizeDatabase()
     global $DB;
     
     $tables = array();
-    IniParse("{$GLOBALS['BASE_DIR']}/includes/tables.php", TRUE, $tables);
+    IniParse("{$GLOBALS['BASE_DIR']}/includes/tables.php", $tables, TRUE);
 
     foreach( array_keys($tables) as $table )
     {
@@ -136,7 +136,7 @@ function CommandLineBackup($filename)
     $filename = "{$GLOBALS['BASE_DIR']}/data/" . basename($filename);    
     
     $tables = array();
-    IniParse("{$GLOBALS['BASE_DIR']}/includes/tables.php", TRUE, $tables);
+    IniParse("{$GLOBALS['BASE_DIR']}/includes/tables.php", $tables, TRUE);
     
     if( !$C['safe_mode'] && $C['mysqldump'] )
     {

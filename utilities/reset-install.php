@@ -47,7 +47,7 @@ function ResetInstall()
 {
     global $DB, $C;
 
-    IniParse("{$GLOBALS['BASE_DIR']}/includes/tables.php", TRUE, $tables);
+    IniParse("{$GLOBALS['BASE_DIR']}/includes/tables.php", $tables, TRUE);
 
     foreach( $tables as $table => $create )
     {

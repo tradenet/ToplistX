@@ -1122,7 +1122,7 @@ function tlxPageTemplateWizard()
 
     $template = '';
     $replacements = array('%%RANKS%%' => "{$_REQUEST['ranks_start']}-{$_REQUEST['ranks_end']}", '%%RSSTIMEZONE%%' => RssTimezone());
-    IniParse("{$GLOBALS['BASE_DIR']}/admin/includes/pages-templates-wizard-code.php", TRUE, $code);
+    IniParse("{$GLOBALS['BASE_DIR']}/admin/includes/pages-templates-wizard-code.php", $code, TRUE);
 
     if( in_array('MIXED', $_REQUEST['categories']) )
     {
@@ -1610,7 +1610,7 @@ function tlxDatabaseOptimize()
     CheckAccessList();
 
     $tables = array();
-    IniParse("{$GLOBALS['BASE_DIR']}/includes/tables.php", TRUE, $tables);
+    IniParse("{$GLOBALS['BASE_DIR']}/includes/tables.php", $tables, TRUE);
 
     include_once('includes/header.php');
     include_once('includes/database-optimize.php');
@@ -1637,7 +1637,7 @@ function tlxDatabaseBackup()
     $filename = SafeFilename("{$GLOBALS['BASE_DIR']}/data/{$_REQUEST['filename']}", FALSE);
 
     $tables = array();
-    IniParse("{$GLOBALS['BASE_DIR']}/includes/tables.php", TRUE, $tables);
+    IniParse("{$GLOBALS['BASE_DIR']}/includes/tables.php", $tables, TRUE);
 
     $GLOBALS['message'] = 'Database backup is in progress, allow a few minutes to complete before downloading the backup file';
 
@@ -1686,7 +1686,7 @@ function tlxDatabaseRestore()
     $filename = SafeFilename("{$GLOBALS['BASE_DIR']}/data/{$_REQUEST['filename']}", FALSE);
 
     $tables = array();
-    IniParse("{$GLOBALS['BASE_DIR']}/includes/tables.php", TRUE, $tables);
+    IniParse("{$GLOBALS['BASE_DIR']}/includes/tables.php", $tables, TRUE);
 
     $GLOBALS['message'] = 'Database restore is in progress, allow a few minutes before using the software as normal';
 
@@ -1972,7 +1972,7 @@ function tlxEmailTemplateLoad()
     VerifyAdministrator();
 
     $template_file = SafeFilename("{$GLOBALS['BASE_DIR']}/templates/{$_REQUEST['template']}");
-    IniParse($template_file, TRUE, $_REQUEST);
+    IniParse($template_file, $_REQUEST, TRUE);
     $_REQUEST['loaded_template'] = $_REQUEST['template'];
 
     tlxShEmailTemplates();
@@ -2109,7 +2109,7 @@ function tlxShRejectionTemplateEdit()
     if( !$_REQUEST['editing'] || !empty($GLOBALS['added']) )
     {
         $_REQUEST = $DB->Row('SELECT * FROM `tlx_rejections` WHERE `email_id`=?', array($_REQUEST['email_id']));
-        IniParse($_REQUEST['plain'], FALSE, $_REQUEST);
+        IniParse($_REQUEST['plain'], $_REQUEST, FALSE);
     }
 
     ArrayHSC($_REQUEST);

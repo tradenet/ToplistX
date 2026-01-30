@@ -35,7 +35,7 @@ if( $DB->Count('SELECT COUNT(*) FROM `tlx_daily_stats` WHERE `date_stats`=?', ar
 
 
 // Load table data
-IniParse("{$GLOBALS['BASE_DIR']}/includes/tables.php", TRUE, $table_defs);
+IniParse("{$GLOBALS['BASE_DIR']}/includes/tables.php", $table_defs, TRUE);
 
 // Load existing tables
 $tables = $DB->GetTables();

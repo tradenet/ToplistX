@@ -238,7 +238,7 @@ function ConvertData()
     echo "Converting account icons...\n"; flush();
     $DB->Update('DELETE FROM `tlx_icons`');
     $DB->Update('ALTER TABLE `tlx_icons` AUTO_INCREMENT=0');
-    IniParse("{$_REQUEST['directory']}/data/icons", TRUE, $icons_ini);
+    IniParse("{$_REQUEST['directory']}/data/icons", $icons_ini, TRUE);
     $icons = array();
     foreach( $icons_ini as $key => $value )
     {

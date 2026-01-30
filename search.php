@@ -25,6 +25,8 @@ if( function_exists('date_default_timezone_set') )
     date_default_timezone_set('America/Chicago');
 }
 
+if( !isset($_POST['s']) ) $_POST['s'] = '';
+if( !isset($_POST['c']) ) $_POST['c'] = '';
 $_POST['s'] = trim($_POST['s']);
 $page = !empty($_POST['p']) ? $_POST['p'] : 1;
 $per_page = !empty($_POST['pp']) ? $_POST['pp'] : 20;

@@ -630,7 +630,7 @@ function SendMail($to, $template, &$t, $is_file = TRUE)
 
     $message_parts = array();
     $parsed_template = $t->parse($template);
-    IniParse($parsed_template, FALSE, $message_parts);
+    IniParse($parsed_template, $message_parts, FALSE);
 
     $m->subject = $message_parts['subject'];
     $m->text_body = $message_parts['plain'];
@@ -767,7 +767,7 @@ function IniWrite($filename, &$hash, $keys = null)
         return $data;
 }
 
-function IniParse($string, $isfile = TRUE, &$hash)
+function IniParse($string, &$hash, $isfile = TRUE)
 {
     if( $hash == null )
         $hash = array();
