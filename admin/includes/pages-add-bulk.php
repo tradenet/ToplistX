@@ -102,7 +102,14 @@ function categoryChange()
 
           <div class="fieldgroup">
             <label for="base_url">Base URL:</label>
-            <?php echo ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https://' : 'http://') . $_SERVER['HTTP_HOST'] . '/'; ?><input type="text" name="base_url" id="base_url" size="50" value="<?php echo $_REQUEST['base_url']; ?>" />
+            <?php 
+            // Detect HTTPS - check multiple server variables for proxy/load balancer support
+            $is_https = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') 
+                     || (!empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https')
+                     || (!empty($_SERVER['HTTP_X_FORWARDED_SSL']) && $_SERVER['HTTP_X_FORWARDED_SSL'] === 'on')
+                     || (isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == 443);
+            echo ($is_https ? 'https://' : 'http://') . $_SERVER['HTTP_HOST'] . '/'; 
+            ?><input type="text" name="base_url" id="base_url" size="50" value="<?php echo $_REQUEST['base_url']; ?>" />
           </div>
 
           <div class="fieldgroup">
