@@ -17,7 +17,7 @@
 $GLOBALS['VERSION'] = '1.0.0-SS';
 $GLOBALS['RELEASE'] = 'November 21, 2010 09:09';
 $GLOBALS['BASE_DIR'] = realpath(dirname(__FILE__) . '/..');
-$GLOBALS['ADMIN_DIR'] = "$BASE_DIR/admin";
+$GLOBALS['ADMIN_DIR'] = "{$GLOBALS['BASE_DIR']}/admin";
 $GLOBALS['FILE_PERMISSIONS'] = 0666;
 $GLOBALS['DEFAULT_PAGINATION'] = array('total' => 0, 'pages' => 0, 'page' => 1, 'limit' => 0, 'start' => 0, 'end' => 0, 'prev' => 0, 'next' => 0);
 $GLOBALS['L'] = array();

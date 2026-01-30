@@ -44,15 +44,15 @@ $t->assign_by_ref('config', $C);
 
 if( !$too_short && !$t->is_cached('search-results.tpl', $search_id) )
 {
-    $DB = new DB($C['db_hostname'], $C['db_username'], $C['db_password'], $C['db_name']);
-    $DB->Connect();
+    $GLOBALS['DB'] = new DB($C['db_hostname'], $C['db_username'], $C['db_password'], $C['db_name']);
+    $GLOBALS['DB']->Connect();
 
     $accounts = array();
-    $result = $DB->QueryWithPagination('SELECT * FROM `tlx_accounts` JOIN `tlx_account_hourly_stats` USING (`username`) WHERE ' .
+    $result = $GLOBALS['DB']->QueryWithPagination('SELECT * FROM `tlx_accounts` JOIN `tlx_account_hourly_stats` USING (`username`) WHERE ' .
                                        'MATCH(`title`,`description`,`keywords`) AGAINST(? IN BOOLEAN MODE) AND ' .
                                        '`status`=? AND ' .
                                        '`disabled`=0 ' .
-                                       (!empty($_POST['c']) && is_numeric($_POST['c']) ? ' AND `category_id`=' . $DB->Escape($_POST['c']) . ' ' : '') .
+                                       (!empty($_POST['c']) && is_numeric($_POST['c']) ? ' AND `category_id`=' . $GLOBALS['DB']->Escape($_POST['c']) . ' ' : '') .
                                        'ORDER BY `unique_in_total` DESC',
                                        array($_POST['s'], 'active'),
                                        $page,
@@ -60,16 +60,16 @@ if( !$too_short && !$t->is_cached('search-results.tpl', $search_id) )
 
     if( $result['result'] )
     {
-        while( $account = $DB->NextRow($result['result']) )
+        while( $account = $GLOBALS['DB']->NextRow($result['result']) )
         {
-            $accounts[] = array_merge($account, $DB->Row('SELECT * FROM `tlx_account_fields` WHERE `username`=?', array($account['username'])));
+            $accounts[] = array_merge($account, $GLOBALS['DB']->Row('SELECT * FROM `tlx_account_fields` WHERE `username`=?', array($account['username'])));
         }
 
-        $DB->Free($result['result']);
+        $GLOBALS['DB']->Free($result['result']);
         unset($result['result']);
     }
 
-    $categories = $DB->FetchAll('SELECT * FROM `tlx_categories` ORDER BY `name`');
+    $categories = $GLOBALS['DB']->FetchAll('SELECT * FROM `tlx_categories` ORDER BY `name`');
     if( !$categories )
     {
         $categories = array();
@@ -78,18 +78,20 @@ if( !$too_short && !$t->is_cached('search-results.tpl', $search_id) )
     $t->assign_by_ref('categories', $categories);
     $t->assign_by_ref('pagination', $result);
     $t->assign_by_ref('results', $accounts);
-
-    $DB->Disconnect();
 }
 else if( $too_short )
 {
-    $DB = new DB($C['db_hostname'], $C['db_username'], $C['db_password'], $C['db_name']);
-    $DB->Connect();
-    $t->assign_by_ref('categories', $DB->FetchAll('SELECT * FROM `tlx_categories` ORDER BY `name`'));
-    $DB->Disconnect();
+    $GLOBALS['DB'] = new DB($C['db_hostname'], $C['db_username'], $C['db_password'], $C['db_name']);
+    $GLOBALS['DB']->Connect();
+    $t->assign_by_ref('categories', $GLOBALS['DB']->FetchAll('SELECT * FROM `tlx_categories` ORDER BY `name`'));
 }
 
 $t->display('search-results.tpl', $search_id);
+
+if( !empty($GLOBALS['DB']) )
+{
+    $GLOBALS['DB']->Disconnect();
+}
 
 function thilite($string)
 {
