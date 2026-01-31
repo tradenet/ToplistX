@@ -162,7 +162,8 @@ function tlxShAccountMail()
     $usernames = Request('username', null);
     if( is_array($usernames) )
     {
-        $_REQUEST['to'] = $DB->Count('SELECT `email` FROM `tlx_accounts` WHERE `username`=?', array($usernames[0]));
+        $account = $DB->Row('SELECT `email` FROM `tlx_accounts` WHERE `username`=?', array($usernames[0]));
+        $_REQUEST['to'] = $account['email'] ?? '';
         $_REQUEST['to_list'] = $usernames[0];
     }
 
