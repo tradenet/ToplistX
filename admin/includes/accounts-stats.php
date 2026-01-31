@@ -201,7 +201,7 @@ body, html {
     ?>
     <div style="clear: both; margin-bottom: 5px;">
     <div style="float: left; width: 80px; text-align: right; padding-right: 10px">
-    <?php echo number_format($referrer['raw_in'], null, $C['dec_point'], $C['thousands_sep']); ?>
+    <?php echo number_format($referrer['raw_in'], 0, $C['dec_point'], $C['thousands_sep']); ?>
     </div>
     <?php if( $referrer['referrer'] == '-' ): ?>
     No Referrer
