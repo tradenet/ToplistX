@@ -1205,7 +1205,7 @@ function tlxPageTemplatesReplace()
             UnixFormat($page['template']);
 
             $page['template'] = preg_replace_callback("~$search~i",
-                                                      create_function('$matches', '$GLOBALS[\'_counter\']++; $GLOBALS[\'_replaced\'] = TRUE; return $_REQUEST[\'replace\'];'),
+                                                      function($matches) { $GLOBALS['_counter']++; $GLOBALS['_replaced'] = TRUE; return $_REQUEST['replace']; },
                                                       $page['template']);
 
             // Update and recompile template if replacements were made

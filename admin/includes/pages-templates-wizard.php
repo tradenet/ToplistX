@@ -124,8 +124,8 @@ $(function()
 
             $fields = array('raw_in_', 'unique_in_', 'raw_out_', 'unique_out_', 'clicks_');
             $periods = array_merge(array('this_hour', 'last_hour'),
-                                   array_map(create_function('$i', 'return "last_$i"."_hours";'), range(2,24)),
-                                   array_map(create_function('$i', 'return "last_$i"."_days";'), array(2,3,4,5,6,7,10,14,30,60,90,120,150,180,365)));
+                                   array_map(function($i) { return "last_$i"."_hours"; }, range(2,24)),
+                                   array_map(function($i) { return "last_$i"."_days"; }, array(2,3,4,5,6,7,10,14,30,60,90,120,150,180,365)));
 
             ?>
             <select name="order" id="order">
