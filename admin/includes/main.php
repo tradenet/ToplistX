@@ -131,18 +131,6 @@ legend {
         </fieldset>
       </td>
     </tr>
-    
-    <tr>
-      <td colspan="2">
-
-        <fieldset>
-          <legend>JMB Software News and Updates</legend>
-          
-          <iframe src="http://www.unofficialjmbsupport.com/iframenews.html" style="width: 95%; margin-left: 10px; margin-right: 10px;" frameborder="0"></iframe>
-        </fieldset>
-
-      </td>
-    </tr>
   </table>
     
     <div class="page-end" style="margin-top: 10px;"></div>
